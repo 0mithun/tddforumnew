@@ -22,6 +22,13 @@ class CreateThreadsTable extends Migration
             $table->unsignedInteger('visits')->default(0);
             $table->string('title');
             $table->text('body');
+            $table->text('summary')->nullable();
+            $table->string('source')->nullable();
+            $table->string('location')->nullable();
+            $table->string('main_subject')->nullable();
+            $table->boolean('is_famous')->default(false);
+            $table->string('image_path');
+            $table->boolean('image_pending')->default(false);
             $table->unsignedInteger('best_reply_id')->nullable();
             $table->boolean('locked')->default(false);
             $table->timestamps();
