@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Create a New Thread</div>
+                    <div class="panel-heading">Post a New Anecdote</div>
 
                     <div class="panel-body">
                         <form method="POST" action="/threads">
@@ -37,62 +37,61 @@
                             <div class="form-group">
                                 <label for="body">Body:</label>
 {{--                                <wysiwyg name="body"></wysiwyg>--}}
-                                <Editor api-key="config('tiny.api_key')"
-                                        :init="{
-                                             height: 200,
-                                             menubar: false,
-                                             plugins: [
-                                               'advlist autolink lists link image charmap print preview anchor',
-                                               'searchreplace visualblocks code fullscreen',
-                                               'insertdatetime media table paste code help wordcount'
-                                             ],
-                                             toolbar:
-                                               'undo redo | formatselect | bold italic backcolor | \
-                                               alignleft aligncenter alignright alignjustify code'
-                                           }"
+{{--                                <Editor api-key="config('tiny.api_key')"--}}
+{{--                                        :init="{--}}
+{{--                                             height: 200,--}}
+{{--                                             menubar: false,--}}
+{{--                                             plugins: [--}}
+{{--                                               'advlist autolink lists link image charmap print preview anchor',--}}
+{{--                                               'searchreplace visualblocks code fullscreen',--}}
+{{--                                               'insertdatetime media table paste code help wordcount'--}}
+{{--                                             ],--}}
+{{--                                             toolbar:--}}
+{{--                                               'undo redo | formatselect | bold italic backcolor | \--}}
+{{--                                               alignleft aligncenter alignright alignjustify code'--}}
+{{--                                           }"--}}
 
-                                ></Editor>
+{{--                                ></Editor>--}}
+                                <textarea name="body" id="tinyeditor" cols="30" rows="10"></textarea>
                             </div>
                             <div class="form-group">
-                                <label for="location" class="control-label">Location</label>
+                                <label for="location" class="control-label">Location:</label>
                                 <input type="text" name="location" id="location" class="form-control">
                             </div>
 
                             <div class="form-group">
-                                <label for="source" class="control-label">Source</label>
+                                <label for="source" class="control-label">Source:</label>
                                 <input type="text" name="source" id="source" class="form-control">
                             </div>
 
                             <div class="form-group">
-                                <label for="main_subject" class="control-label">Main Subject</label>
+                                <label for="main_subject" class="control-label">Main Subject:</label>
                                 <input type="text" name="main_subject" id="main_subject" class="form-control">
-                                <span class="help-block">Who is this story about?</span>
+                                <span class="help-block">Who is this story about</span>
                             </div>
 
                             <div class="form-group">
-                                <label for="main_subject" class="control-label">Category</label>
+                                <label for="main_subject" class="control-label">Category:</label>
                                 <div class="checkbox">
-                                    <label><input type="checkbox" value="" name="is_femous">Femous</label>
-                                    <span class="help-block">Check this box if the subject is famous?</span>
+                                    <label><input type="checkbox" value="" name="is_famous">Famous</label>
+                                    <span class="help-block">Check this box if the subject is Famous</span>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="main_subject" class="control-label">Image</label>
-                                <div class="checkbox">
-                                    <label><input type="checkbox" value="" name="">Upload an Image</label>
-                                </div>
+                                <label for="main_subject" class="control-label"> Upload an image </label>
 
-                                <input type="file" name="image_path" class="form-control">
 
                                 <div class="checkbox">
                                     <label><input type="checkbox" value="" name=""> Allow us to choose a Wikimedia Commons image</label>
                                 </div>
+
+                                <input type="file" name="image_path" class="form-control">
                             </div>
 
 
-                            <div class="form-group">
-                                <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site')  }}"></div>
+                            <div class="form-group ">
+                                <div class="g-recaptcha recaptcha" data-sitekey="{{ config('services.recaptcha.site')  }}"></div>
                             </div>
 
                             <div class="form-group">

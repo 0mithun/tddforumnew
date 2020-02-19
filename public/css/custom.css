@@ -3,3 +3,7 @@ img.avatar-photo{
     height:auto;
 
 }
+
+.g-recaptcha.recaptcha {
+    margin-bottom: 40px;
+}
