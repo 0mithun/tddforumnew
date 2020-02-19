@@ -20,6 +20,8 @@
 <script>
     import 'jquery.caret';
     import 'at.js';
+    
+    import Wysiwyg from './Wysiwyg';
 
     export default {
         data() {
@@ -27,6 +29,9 @@
                 body: '',
                 completed: false
             };
+        },
+        components:{
+            Wysiwyg
         },
 
         mounted() {

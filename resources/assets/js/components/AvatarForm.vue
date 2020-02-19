@@ -17,13 +17,13 @@
     import ImageUpload from './ImageUpload.vue';
 
     export default {
-        props: ['user'],
+        props: ['user','site_url'],
 
         components: { ImageUpload },
 
         data() {
             return {
-                avatar: this.user.avatar_path
+                avatar: this.site_url  + '/' +    this.user.avatar_path
             };
         },
 

@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="page-header">
-                    <avatar-form :user="{{ $profileUser }}"></avatar-form>
+                    <avatar-form :user="{{ $profileUser }}" site_url={{ url('/') }}></avatar-form>
                 </div>
 
                 @forelse ($activities as $date => $activity)

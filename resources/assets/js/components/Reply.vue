@@ -43,6 +43,7 @@
 <script>
     import Favorite from './Favorite.vue';
     import moment from 'moment';
+    import Wysiwyg from './Wysiwyg'
 
     export default {
         props: ['reply'],
@@ -60,7 +61,10 @@
 
         computed: {
             ago() {
-                return moment(this.reply.created_at).fromNow() + '...';
+                let reply_date = this.reply.created_at;
+                console.log(reply_date);
+                //return moment(reply_date,fromNow() )+ '...';
+                return  moment(this.reply.created_at, 'YYYY-MM-DD HH:mm:ss').fromNow() + '...';
             }
         },
 

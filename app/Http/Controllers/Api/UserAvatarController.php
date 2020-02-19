@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+
 
 class UserAvatarController extends Controller
 {
@@ -17,9 +21,27 @@ class UserAvatarController extends Controller
             'avatar' => ['required', 'image']
         ]);
 
-        auth()->user()->update([
-            'avatar_path' => request()->file('avatar')->store('avatars', 'public')
-        ]);
+        
+
+        if(request()->has('avatar')){
+           $avatar_path= auth()->user()->avatar_path;
+            $path = 'uploads/'.request()->avatar->store('avatars');
+
+
+            if(file_exists($avatar_path)){
+                unlink($avatar_path);
+
+                auth()->user()->update([
+                    'avatar_path' => $path
+                ]);
+            }else{
+                auth()->user()->update([
+                    'avatar_path' => $path
+                ]);
+            }
+
+        }
+
 
         return response([], 204);
     }

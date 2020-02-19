@@ -19,8 +19,9 @@
     import NewReply from './NewReply.vue';
     import collection from '../mixins/collection';
 
+    import Paginator from './Paginator';
     export default {
-        components: { Reply, NewReply },
+        components: { Reply, NewReply, Paginator },
 
         mixins: [collection],
 

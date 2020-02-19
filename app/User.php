@@ -122,10 +122,16 @@ class User extends Authenticatable
      * @param  string $avatar
      * @return string
      */
-    public function getAvatarPathAttribute($avatar)
-    {
+    // public function getAvatarPathAttribute($avatar)
+    // {
+    //    // return asset($avatar ?: 'images/avatars/default.png');
+    // }
+
+    public function getProfileAvatarPathAttribute($avatar){
         return asset($avatar ?: 'images/avatars/default.png');
+    
     }
+    
 
     /**
      * Get the cache key for when a user reads a thread.
