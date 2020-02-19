@@ -20,6 +20,9 @@ require('./bootstrap');
  import Wysiwyg from './components/Wysiwyg';
  import ThreadView from './pages/Thread.vue';
 
+import Editor from '@tinymce/tinymce-vue'
+
+
 // Vue.component('flash', require('./components/Flash.vue'));
 // Vue.component('paginator', require('./components/Paginator.vue'));
 // Vue.component('user-notifications', require('./components/UserNotifications.vue'));
@@ -36,6 +39,7 @@ const app = new Vue({
         UserNotifications,
         AvatarForm,
         Wysiwyg,
-        ThreadView
+        ThreadView,
+        Editor
     }
 });

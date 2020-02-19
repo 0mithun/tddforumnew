@@ -36,7 +36,22 @@
 
                             <div class="form-group">
                                 <label for="body">Body:</label>
-                                <wysiwyg name="body"></wysiwyg>
+{{--                                <wysiwyg name="body"></wysiwyg>--}}
+                                <Editor api-key="config('tiny.api_key')"
+                                        :init="{
+                                             height: 500,
+                                             menubar: false,
+                                             plugins: [
+                                               'advlist autolink lists link image charmap print preview anchor',
+                                               'searchreplace visualblocks code fullscreen',
+                                               'insertdatetime media table paste code help wordcount'
+                                             ],
+                                             toolbar:
+                                               'undo redo | formatselect | bold italic backcolor | \
+                                               alignleft aligncenter alignright alignjustify code'
+                                           }"
+
+                                ></Editor>
                             </div>
 
                             <div class="form-group">

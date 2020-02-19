@@ -122,10 +122,10 @@ class User extends Authenticatable
      * @param  string $avatar
      * @return string
      */
-    // public function getAvatarPathAttribute($avatar)
-    // {
-    //    // return asset($avatar ?: 'images/avatars/default.png');
-    // }
+     public function getAvatarPathAttribute($avatar)
+     {
+         return $avatar ?: 'images/avatars/default.png';
+     }
 
     public function getProfileAvatarPathAttribute($avatar){
         return asset($avatar ?: 'images/avatars/default.png');

@@ -38,6 +38,9 @@ return [
     'recaptcha' => [
         'secret' => env('RECAPTCHA_SECRET'),
         'site'  =>  env('RECAPTCHA_SITE')
+    ],
+    'tiny'=>[
+        'key'   => env('TINY_API_KEY')
     ]
 
 ];
