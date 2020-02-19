@@ -10983,6 +10983,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Favorite_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Favorite.vue */ "./resources/assets/js/components/Favorite.vue");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Wysiwyg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Wysiwyg */ "./resources/assets/js/components/Wysiwyg.vue");
 //
 //
 //
@@ -11025,6 +11026,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -11203,13 +11205,16 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Replies_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Replies.vue */ "./resources/assets/js/components/Replies.vue");
 /* harmony import */ var _components_SubscribeButton_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/SubscribeButton.vue */ "./resources/assets/js/components/SubscribeButton.vue");
+/* harmony import */ var _components_Wysiwyg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Wysiwyg */ "./resources/assets/js/components/Wysiwyg.vue");
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['thread'],
   components: {
     Replies: _components_Replies_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    SubscribeButton: _components_SubscribeButton_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    SubscribeButton: _components_SubscribeButton_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    Wysiwyg: _components_Wysiwyg__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   data: function data() {
     return {
@@ -91953,8 +91958,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/mithun/Documents/projects/test project/Lets-Build-a-Forum-in-Laravel-master/resources/assets/js/app.js */"./resources/assets/js/app.js");
-module.exports = __webpack_require__(/*! /home/mithun/Documents/projects/test project/Lets-Build-a-Forum-in-Laravel-master/resources/assets/sass/app.scss */"./resources/assets/sass/app.scss");
+__webpack_require__(/*! I:\laragon\www\tddforum\resources\assets\js\app.js */"./resources/assets/js/app.js");
+module.exports = __webpack_require__(/*! I:\laragon\www\tddforum\resources\assets\sass\app.scss */"./resources/assets/sass/app.scss");
 
 
 /***/ }),

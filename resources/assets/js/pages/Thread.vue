@@ -1,11 +1,12 @@
 <script>
     import Replies from '../components/Replies.vue';
     import SubscribeButton from '../components/SubscribeButton.vue';
+    import Wysiwyg from '../components/Wysiwyg'
 
     export default {
         props: ['thread'],
 
-        components: {Replies, SubscribeButton},
+        components: {Replies, SubscribeButton, Wysiwyg },
 
         data () {
             return {
