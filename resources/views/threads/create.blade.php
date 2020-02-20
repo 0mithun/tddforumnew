@@ -6,6 +6,7 @@
 @endsection
 
 @section('content')
+
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -17,7 +18,10 @@
                             {{ csrf_field() }}
 
                             <div class="form-group {{ $errors->has('channel_id') ? ' has-error' : '' }}" >
-                                <Typhaed></Typhaed>
+{{--                                <Typhaed></Typhaed>--}}
+                                <label for="search_channel">Channel: </label>
+                                <input type="text" name="channel" id="channel" id="search_channel" class="form-control " autocomplete="off" placeholder="Type Channel Name" />
+                                <input type="hidden" name="channel_id" value="" id="channel_id" class="form-control">
                                 @if ($errors->has('channel_id'))
                                     <span class="help-block ">
                                         <strong class="">{{ $errors->first('channel_id') }}</strong>
@@ -108,6 +112,7 @@
 @endsection
 
 @section('footer_script')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
 
     <script>
         tinymce.init({
@@ -134,4 +139,37 @@
             });
         })(jQuery);
     </script>
+    <script>
+        $(document).ready(function(){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $('#channel').typeahead({
+                afterSelect(item){
+                    console.log(item.id)
+                    $('#channel_id').val(item.id);
+                },
+                source: function(query, result)
+                {
+                    $.ajax({
+                        url: "{{ route('chanel.search')  }}",
+                        method:"POST",
+                        data:{
+                            query:query
+                        },
+                        dataType:"json",
+                        success:function(data)
+                        {
+                            result($.map(data, function(item){
+                                return item;
+                            }));
+                        }
+                    })
+                }
+            });
+        });
+    </script>
+
 @endsection

@@ -11694,8 +11694,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_SubscribeButton_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/SubscribeButton.vue */ "./resources/assets/js/components/SubscribeButton.vue");
 /* harmony import */ var _components_Wysiwyg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Wysiwyg */ "./resources/assets/js/components/Wysiwyg.vue");
 /* harmony import */ var _tinymce_tinymce_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @tinymce/tinymce-vue */ "./node_modules/@tinymce/tinymce-vue/lib/es2015/main/ts/index.js");
-/* harmony import */ var _components_Typehead_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/Typehead.vue */ "./resources/assets/js/components/Typehead.vue");
-
 
 
 
@@ -11706,8 +11704,7 @@ __webpack_require__.r(__webpack_exports__);
     Replies: _components_Replies_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     SubscribeButton: _components_SubscribeButton_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     Wysiwyg: _components_Wysiwyg__WEBPACK_IMPORTED_MODULE_2__["default"],
-    Editor: _tinymce_tinymce_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    Typhaed: _components_Typehead_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+    Editor: _tinymce_tinymce_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   data: function data() {
     return {
@@ -11734,9 +11731,6 @@ __webpack_require__.r(__webpack_exports__);
     this.channelTypeHead();
   },
   methods: {
-    changeChannel: function changeChannel(id) {
-      console.log(id);
-    },
     channelTypeHead: function channelTypeHead() {
       var _this = this;
 
@@ -11748,8 +11742,6 @@ __webpack_require__.r(__webpack_exports__);
           _this.states.push(channel);
         });
       });
-      var channel = $('#channel_id').attr('data-channel-id');
-      console.log(channel);
     },
     toggleLock: function toggleLock() {
       var uri = "/locked-threads/".concat(this.thread.slug);

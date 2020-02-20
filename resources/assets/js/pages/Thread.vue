@@ -3,12 +3,11 @@
     import SubscribeButton from '../components/SubscribeButton.vue';
     import Wysiwyg from '../components/Wysiwyg'
     import Editor from '@tinymce/tinymce-vue'
-    import Typhaed from '../components/Typehead.vue';
 
     export default {
         props: ['thread'],
 
-        components: {Replies, SubscribeButton, Wysiwyg, Editor, Typhaed },
+        components: {Replies, SubscribeButton, Wysiwyg, Editor,  },
 
         data () {
             return {
@@ -41,9 +40,6 @@
 
 
         methods: {
-            changeChannel(id){
-              console.log(id);
-            },
             channelTypeHead(){
                 this.states = [];
                 axios.post('/channel/search', {
@@ -53,8 +49,6 @@
                         this.states.push(channel)
                     })
                 });
-               let channel  = $('#channel_id').attr('data-channel-id');
-                console.log(channel)
             },
             toggleLock () {
                 let uri = `/locked-threads/${this.thread.slug}`;

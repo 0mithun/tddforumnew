@@ -28,7 +28,7 @@ li.list-group-item{
 
 
 .dropdown-menu {
-    width: 100%;
+    /*width: 100%;*/
 }
 .dropdown-menu li a:hover{
     background: #3097d1;
