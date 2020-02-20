@@ -2,26 +2,6 @@
 
 @section ('head')
     <script src='https://www.google.com/recaptcha/api.js'></script>
-    @php
-            $tinyapikey = config('services.tiny.key');
-            $url = "https://cdn.tiny.cloud/1/".$tinyapikey."/tinymce/5/tinymce.min.js";
-    @endphp
-    <script src="{{ $url  }}" referrerpolicy="origin"></script>
-    </head>
-    <body>
-  <textarea>
-    Welcome to your TinyMCE premium trial!
-  </textarea>
-  <script>
-      tinymce.init({
-          selector: 'textarea',
-          plugins: 'a11ychecker advcode casechange formatpainter linkchecker lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
-          toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
-          toolbar_drawer: 'floating',
-          tinycomments_mode: 'embedded',
-          tinycomments_author: 'Author name',
-      });
-  </script>
 
 @endsection
 
@@ -33,12 +13,12 @@
                     <div class="panel-heading">Post a New Anecdote</div>
 
                     <div class="panel-body">
-                        <form method="POST" action="/threads">
+                        <form method="POST" action="/threads" enctype="multipart/form-data">
                             {{ csrf_field() }}
 
-                            <div class="form-group">
+                            <div class="form-group {{ $errors->has('channel_id') ? ' has-error' : '' }}" >
                                 <label for="channel_id">Choose a Channel:</label>
-                                <select name="channel_id" id="channel_id" class="form-control" required>
+                                <select name="channel_id" id="channel_id" class="form-control" >
                                     <option value="">Choose One...</option>
 
                                     @foreach ($channels as $channel)
@@ -47,33 +27,33 @@
                                         </option>
                                     @endforeach
                                 </select>
+                                @if ($errors->has('channel_id'))
+                                    <span class="help-block ">
+                                        <strong class="">{{ $errors->first('channel_id') }}</strong>
+                                    </span>
+                                @endif
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group  {{ $errors->has('title') ? ' has-error' : '' }}">
                                 <label for="title">Title:</label>
                                 <input type="text" class="form-control" id="title" name="title"
-                                       value="{{ old('title') }}" required>
+                                       value="{{ old('title') }}" >
+                                @if ($errors->has('title'))
+                                    <span class="help-block ">
+                                        <strong class="">{{ $errors->first('title') }}</strong>
+                                    </span>
+                                @endif
                             </div>
 
-                            <div class="form-group">
-                                <label for="body">Body:</label>
+                            <div class="form-group  {{ $errors->has('body') ? ' has-error' : '' }}">
+                                <label for="body ">Body:</label>
 {{--                                <wysiwyg name="body"></wysiwyg>--}}
-{{--                                <Editor api-key="config('tiny.api_key')"--}}
-{{--                                        :init="{--}}
-{{--                                             height: 200,--}}
-{{--                                             menubar: false,--}}
-{{--                                             plugins: [--}}
-{{--                                               'advlist autolink lists link image charmap print preview anchor',--}}
-{{--                                               'searchreplace visualblocks code fullscreen',--}}
-{{--                                               'insertdatetime media table paste code help wordcount'--}}
-{{--                                             ],--}}
-{{--                                             toolbar:--}}
-{{--                                               'undo redo | formatselect | bold italic backcolor | \--}}
-{{--                                               alignleft aligncenter alignright alignjustify code'--}}
-{{--                                           }"--}}
-
-{{--                                ></Editor>--}}
                                 <textarea name="body" id="tinyeditor" cols="30" rows="10"></textarea>
+                                @if ($errors->has('body'))
+                                    <span class="help-block ">
+                                        <strong class="">{{ $errors->first('body') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                             <div class="form-group">
                                 <label for="location" class="control-label">Location:</label>
@@ -94,38 +74,38 @@
                             <div class="form-group">
                                 <label for="main_subject" class="control-label">Category:</label>
                                 <div class="checkbox">
-                                    <label><input type="checkbox" value="" name="is_famous">Famous</label>
+                                    <label><input type="checkbox" value="1" name="is_famous">Famous</label>
                                     <span class="help-block">Check this box if the subject is Famous</span>
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group ">
                                 <label for="main_subject" class="control-label"> Upload an image </label>
 
+                                <input type="file" name="image_path" class="form-control" id="image_path">
 
                                 <div class="checkbox">
-                                    <label><input type="checkbox" value="" name=""> Allow us to choose a Wikimedia Commons image</label>
+                                    <label><input type="checkbox" value="1" name="allow_image" id="allow_image"> Allow us to choose a Wikimedia Commons image</label>
                                 </div>
 
-                                <input type="file" name="image_path" class="form-control">
+
                             </div>
 
 
-                            <div class="form-group ">
-                                <div class="g-recaptcha recaptcha" data-sitekey="{{ config('services.recaptcha.site')  }}"></div>
+                            <div class="form-group  {{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }} recaptcha" style="margin-bottom: 40px">
+                                <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site')  }}">
+
+                                </div>
+                                @if ($errors->has('g-recaptcha-response'))
+                                    <span class="help-block ">
+                                        <strong class="">{{ $errors->first('g-recaptcha-response') }}</strong>
+                                    </span>
+                                @endif
                             </div>
 
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Publish</button>
                             </div>
-
-                            @if (count($errors))
-                                <ul class="alert alert-danger">
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            @endif
                         </form>
 
                     </div>
@@ -133,4 +113,30 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('footer_script')
+    <script>
+        tinymce.init({
+            selector: '#tinyeditor',
+            plugins: 'a11ychecker advcode casechange formatpainter linkchecker lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+            toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
+            toolbar_drawer: 'floating',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
+        });
+    </script>
+
+
+    <script type="text/javascript">
+        (function($) {
+            $(document).ready(function () {
+                $("#image_path").change(function (){
+                    var fileName = $(this).val();
+                    console.log('file Selected');
+                    $('#allow_image').attr('disabled', true);
+                });
+            });
+        })(jQuery);
+    </script>
 @endsection

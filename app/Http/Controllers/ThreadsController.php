@@ -58,20 +58,52 @@ class ThreadsController extends Controller
      */
     public function store(Recaptcha $recaptcha)
     {
+        if(request()->hasFile('image_path')){
+            $rule = 'image|max:1024';
+        }else{
+            $rule = '';
+        }
+
+
         request()->validate([
             'title' => 'required|spamfree',
             'body' => 'required|spamfree',
             'channel_id' => 'required|exists:channels,id',
-            'g-recaptcha-response' => ['required', $recaptcha]
-        ]);
+            'g-recaptcha-response' => ['required', $recaptcha],
+            'image_path'    => $rule
 
+        ],[
+            'channel_id.required'    => 'The channel field is required.',
+            'channel_id.exists'    => 'Invalid channel',
+            'g-recaptcha-response.required' =>  'Please solve the captcha'
+        ]);
         $thread = Thread::create([
             'user_id' => auth()->id(),
             'channel_id' => request('channel_id'),
             'title' => request('title'),
             'body' => request('body'),
-            'image_path' => 'test' //for testing purpose
+            'location'  =>  request('location'),
+            'source'  =>  request('source'),
+            'main_subject'  =>  request('main_subject'),
+            'is_famous'  =>  request('is_famous'),
+
         ]);
+
+        $file_path = '';
+        if (request()->hasFile('image_path')) {
+            $extension = request()->file('image_path')->getClientOriginalExtension();
+            $file_name = $thread->id.".".$extension;
+            $file_path = request()->image_path->storeAs('threads', $file_name);
+
+        }else{
+            $file_path = 'baler image ';
+        }
+
+        $thread->image_path= 'uploads/'. $file_path;
+        $thread->save();
+
+        $thread = $thread->fresh();
+
 
         if (request()->wantsJson()) {
             return response($thread, 201);

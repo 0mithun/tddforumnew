@@ -48,6 +48,17 @@
 
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
+@php
+    $tinyapikey = config('services.tiny.key');
+    $url = "https://cdn.tiny.cloud/1/".$tinyapikey."/tinymce/5/tinymce.min.js";
+@endphp
+<script src="{{ $url  }}" referrerpolicy="origin"></script>
+
+
+
 @yield('scripts')
+
+@yield('footer_script')
+
 </body>
 </html>

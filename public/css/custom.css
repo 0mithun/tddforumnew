@@ -4,6 +4,6 @@ img.avatar-photo{
 
 }
 
-.g-recaptcha.recaptcha {
-    margin-bottom: 40px;
+.recaptcha {
+    margin-bottom: 40px!important;
 }

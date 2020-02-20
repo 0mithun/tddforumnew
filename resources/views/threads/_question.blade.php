@@ -1,4 +1,5 @@
 {{-- Editing the question. --}}
+
 <div class="panel panel-default" v-if="editing">
     <div class="panel-heading">
         <div class="level">
@@ -7,9 +8,47 @@
     </div>
 
     <div class="panel-body">
+
         <div class="form-group">
-            <wysiwyg v-model="form.body"></wysiwyg>
+            <textarea name="body" id="thread_body_edit" cols="30" rows="10" v-model="form.body"></textarea>
+{{--            <wysiwyg v-model="form.body"></wysiwyg>--}}
         </div>
+
+        <div class="form-group">
+            <label for="location" class="control-label">Location:</label>
+            <input type="text" name="location" id="location" class="form-control" v-model="form.location">
+        </div>
+
+        <div class="form-group">
+            <label for="source" class="control-label">Source:</label>
+            <input type="text" name="source" id="source" class="form-control" v-model="form.source">
+        </div>
+
+        <div class="form-group">
+            <label for="main_subject" class="control-label">Main Subject:</label>
+            <input type="text" name="main_subject" id="main_subject" class="form-control" v-model="form.main_subject">
+            <span class="help-block">Who is this story about</span>
+        </div>
+
+        <div class="form-group">
+            <label for="main_subject" class="control-label">Category:</label>
+            <div class="checkbox">
+                <label><input type="checkbox" value="1" name="is_famous" :checked="checked()" @change="updateChecked()">Famous</label>
+                <span class="help-block">Check this box if the subject is Famous</span>
+            </div>
+        </div>
+        <div class="form-group ">
+            <label for="main_subject" class="control-label"> Upload an image </label>
+
+            <input type="file" name="image_path" class="form-control" id="image_path">
+
+            <div class="checkbox">
+                <label><input type="checkbox" value="1" name="allow_image" id="allow_image"> Allow us to choose a Wikimedia Commons image</label>
+            </div>
+
+
+        </div>
+
     </div>
 
     <div class="panel-footer">
