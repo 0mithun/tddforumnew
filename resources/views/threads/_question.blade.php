@@ -10,7 +10,20 @@
     <div class="panel-body">
 
         <div class="form-group">
-            <textarea name="body" id="thread_body_edit" cols="30" rows="10" v-model="form.body"></textarea>
+            <editor
+                    v-model="form.body"
+
+                    api-key="{{  config('services.tiny.key')  }}}"
+                    :init="{
+       selector: '#tinyeditor',
+            plugins: 'a11ychecker advcode casechange formatpainter linkchecker lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+            toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
+            toolbar_drawer: 'floating',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name'
+       }"
+            />
+
 {{--            <wysiwyg v-model="form.body"></wysiwyg>--}}
         </div>
 
@@ -40,13 +53,11 @@
         <div class="form-group ">
             <label for="main_subject" class="control-label"> Upload an image </label>
 
-            <input type="file" name="image_path" class="form-control" id="image_path">
+            <input type="file" name="image_path" class="form-control" id="image_path" @change="onFileSelected">
 
             <div class="checkbox">
                 <label><input type="checkbox" value="1" name="allow_image" id="allow_image"> Allow us to choose a Wikimedia Commons image</label>
             </div>
-
-
         </div>
 
     </div>

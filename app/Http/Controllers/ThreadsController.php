@@ -144,10 +144,35 @@ class ThreadsController extends Controller
     {
         $this->authorize('update', $thread);
 
-        $thread->update(request()->validate([
+       if(request()->hasFile('image_path')){
+            $rule = 'image|max:1024';
+        }else{
+            $rule = '';
+        }
+        request()->validate([
             'title' => 'required',
-            'body' => 'required'
-        ]));
+            'body' => 'required',
+            'image_path'    => $rule
+
+        ]);
+
+        $data = [
+            'title' => request('title'),
+            'body' => request('body'),
+            'location'  =>  request('location'),
+            'source'  =>  request('source'),
+            'main_subject'  =>  request('main_subject'),
+            'is_famous'  =>  (request('is_famous') == 'true')  ? 1 : 0,
+        ];
+
+        if (request()->hasFile('image_path')) {
+            $extension = request()->file('image_path')->getClientOriginalExtension();
+            $file_name = $thread->id.".".$extension;
+            $file_path = request()->image_path->storeAs('threads', $file_name);
+            $data['image_path']  = $file_path;
+        }
+
+        $thread->update($data);
 
         return $thread;
     }
