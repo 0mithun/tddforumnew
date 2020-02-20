@@ -28,6 +28,8 @@ require('./bootstrap');
 
 // Vue.component('thread-view', require('./pages/Thread.vue'));
 
+
+
 const app = new Vue({
     el: '#app',
     components:{

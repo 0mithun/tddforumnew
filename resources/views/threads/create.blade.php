@@ -2,6 +2,27 @@
 
 @section ('head')
     <script src='https://www.google.com/recaptcha/api.js'></script>
+    @php
+            $tinyapikey = config('services.tiny.key');
+            $url = "https://cdn.tiny.cloud/1/".$tinyapikey."/tinymce/5/tinymce.min.js";
+    @endphp
+    <script src="{{ $url  }}" referrerpolicy="origin"></script>
+    </head>
+    <body>
+  <textarea>
+    Welcome to your TinyMCE premium trial!
+  </textarea>
+  <script>
+      tinymce.init({
+          selector: 'textarea',
+          plugins: 'a11ychecker advcode casechange formatpainter linkchecker lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+          toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
+          toolbar_drawer: 'floating',
+          tinycomments_mode: 'embedded',
+          tinycomments_author: 'Author name',
+      });
+  </script>
+
 @endsection
 
 @section('content')
