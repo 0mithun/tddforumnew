@@ -3,13 +3,29 @@
 <div class="panel panel-default" v-if="editing">
     <div class="panel-heading">
         <div class="level">
-            <input type="text" class="form-control" v-model="form.title">
+            <h3 class="flex">Edit Thread:  <span  v-text="title"></span> </h3>
         </div>
     </div>
 
     <div class="panel-body">
+        <section>
+            <h3 id="test">Hello</h3>
+            <label for="input">Choose a channel:</label>
+            <input  id="input"  class="form-control" type="text" placeholder="Type to search..." >
+            <typeahead v-model="model" target="#input" :data="states" item-key="name"/>
+            <alert v-show="model">You selected @{{model.id}}</alert>
 
+            <input type="text" name="channel_id" id="channel_id"  v-model="form.channel_id" :data-channel-id="model.id" @change="changeChannel(model.id)">
+
+
+
+        </section>
         <div class="form-group">
+            <label for="title" class="control-label">Title:</label>
+            <input type="text" id="title" class="form-control" v-model="form.title">
+        </div>
+        <div class="form-group">
+            <label for="body" class="control-label">Body:</label>
             <editor
                     v-model="form.body"
 

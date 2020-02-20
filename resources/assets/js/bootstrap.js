@@ -23,6 +23,10 @@ window.Vue = require('vue');
 
 Vue.use(InstantSearch);
 
+import * as uiv from 'uiv'
+Vue.use(uiv)
+
+
 let authorizations = require('./authorizations');
 
 Vue.prototype.authorize = function (...params) {
@@ -44,6 +48,8 @@ Vue.prototype.signedIn = window.App.signedIn;
  */
 
 window.axios = require('axios');
+
+
 
 window.axios.defaults.headers.common = {
     'X-CSRF-TOKEN': window.App.csrfToken,

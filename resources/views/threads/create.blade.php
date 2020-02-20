@@ -17,22 +17,14 @@
                             {{ csrf_field() }}
 
                             <div class="form-group {{ $errors->has('channel_id') ? ' has-error' : '' }}" >
-                                <label for="channel_id">Choose a Channel:</label>
-                                <select name="channel_id" id="channel_id" class="form-control" >
-                                    <option value="">Choose One...</option>
-
-                                    @foreach ($channels as $channel)
-                                        <option value="{{ $channel->id }}" {{ old('channel_id') == $channel->id ? 'selected' : '' }}>
-                                            {{ $channel->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                <Typhaed></Typhaed>
                                 @if ($errors->has('channel_id'))
                                     <span class="help-block ">
                                         <strong class="">{{ $errors->first('channel_id') }}</strong>
                                     </span>
                                 @endif
                             </div>
+
 
                             <div class="form-group  {{ $errors->has('title') ? ' has-error' : '' }}">
                                 <label for="title">Title:</label>
@@ -116,6 +108,7 @@
 @endsection
 
 @section('footer_script')
+
     <script>
         tinymce.init({
             selector: '#tinyeditor',
@@ -136,6 +129,8 @@
                     console.log('file Selected');
                     $('#allow_image').attr('disabled', true);
                 });
+
+
             });
         })(jQuery);
     </script>

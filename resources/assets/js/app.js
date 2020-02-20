@@ -20,14 +20,11 @@ require('./bootstrap');
  import Wysiwyg from './components/Wysiwyg';
  import ThreadView from './pages/Thread.vue';
 
-// Vue.component('flash', require('./components/Flash.vue'));
-// Vue.component('paginator', require('./components/Paginator.vue'));
-// Vue.component('user-notifications', require('./components/UserNotifications.vue'));
-// Vue.component('avatar-form', require('./components/AvatarForm.vue'));
-// Vue.component('wysiwyg', require('./components/Wysiwyg.vue'));
+import Typhaed from './components/Typehead.vue';
 
-// Vue.component('thread-view', require('./pages/Thread.vue'));
 
+
+window.tinekey = 'l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g';
 
 
 const app = new Vue({
@@ -38,6 +35,7 @@ const app = new Vue({
         UserNotifications,
         AvatarForm,
         Wysiwyg,
-        ThreadView
+        ThreadView,
+        Typhaed
     }
 });

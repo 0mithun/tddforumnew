@@ -3,6 +3,7 @@
         <div v-if="signedIn">
             <div class="form-group">
                 <wysiwyg name="body" v-model="body" placeholder="Have something to say?" :shouldClear="completed"></wysiwyg>
+                <TinyEditor :model="body"></TinyEditor>
             </div>
 
             <button type="submit"
@@ -23,6 +24,7 @@
     
     import Wysiwyg from './Wysiwyg';
 
+    import  TinyEditor from './TinyEditor'
     export default {
         data() {
             return {
@@ -31,7 +33,8 @@
             };
         },
         components:{
-            Wysiwyg
+            Wysiwyg,
+            TinyEditor
         },
 
         mounted() {

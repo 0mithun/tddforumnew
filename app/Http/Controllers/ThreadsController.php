@@ -158,6 +158,7 @@ class ThreadsController extends Controller
 
         $data = [
             'title' => request('title'),
+            'channel_id'    => request('channel_id'),
             'body' => request('body'),
             'location'  =>  request('location'),
             'source'  =>  request('source'),

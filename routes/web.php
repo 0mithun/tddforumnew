@@ -51,3 +51,6 @@ Route::get('/register/confirm', 'Auth\RegisterConfirmationController@index')->na
 
 Route::get('api/users', 'Api\UsersController@index');
 Route::post('api/users/{user}/avatar', 'Api\UserAvatarController@store')->middleware('auth')->name('avatar');
+
+
+Route::post('/channel/search', 'ChannelController@search');

@@ -18,7 +18,7 @@
             <div v-if="editing">
                 <form @submit="update">
                     <div class="form-group">
-                        <wysiwyg v-model="body"></wysiwyg>
+                        <TinyEditor :model="body"></TinyEditor>
                     </div>
 
                     <button class="btn btn-xs btn-primary">Update</button>
@@ -44,11 +44,11 @@
     import Favorite from './Favorite.vue';
     import moment from 'moment';
     import Wysiwyg from './Wysiwyg'
-
+    import  TinyEditor from './TinyEditor'
     export default {
         props: ['reply'],
 
-        components: { Favorite },
+        components: { Favorite, Wysiwyg, TinyEditor },
 
         data() {
             return {
@@ -59,11 +59,9 @@
             };
         },
 
+
         computed: {
             ago() {
-                let reply_date = this.reply.created_at;
-                console.log(reply_date);
-                //return moment(reply_date,fromNow() )+ '...';
                 return  moment(this.reply.created_at, 'YYYY-MM-DD HH:mm:ss').fromNow() + '...';
             }
         },

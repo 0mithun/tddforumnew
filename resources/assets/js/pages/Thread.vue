@@ -3,17 +3,20 @@
     import SubscribeButton from '../components/SubscribeButton.vue';
     import Wysiwyg from '../components/Wysiwyg'
     import Editor from '@tinymce/tinymce-vue'
+    import Typhaed from '../components/Typehead.vue';
 
     export default {
         props: ['thread'],
 
-        components: {Replies, SubscribeButton, Wysiwyg, Editor },
+        components: {Replies, SubscribeButton, Wysiwyg, Editor, Typhaed },
 
         data () {
             return {
                 repliesCount: this.thread.replies_count,
                 locked: this.thread.locked,
+                channel_id : this.thread.channel_id,
                 title: this.thread.title,
+
                 body: this.thread.body,
                 location: this.thread.location,
                 is_famous:this.thread.is_famous,
@@ -23,15 +26,36 @@
                 selectFile: null,
                 formData: new FormData,
                 form: {},
-                editing: false
+                editing: false,
+
+                model: '',
+                states: [],
+
             };
         },
 
         created () {
             this.resetForm();
+            this.channelTypeHead();
         },
 
+
         methods: {
+            changeChannel(id){
+              console.log(id);
+            },
+            channelTypeHead(){
+                this.states = [];
+                axios.post('/channel/search', {
+                    channel_name: this.channel_name
+                }).then((res)=>{
+                    res.data.forEach((channel)=>{
+                        this.states.push(channel)
+                    })
+                });
+               let channel  = $('#channel_id').attr('data-channel-id');
+                console.log(channel)
+            },
             toggleLock () {
                 let uri = `/locked-threads/${this.thread.slug}`;
 
@@ -54,7 +78,7 @@
             },
             appendData(){
                 this.formData.append('title', this.form.title);
-                this.formData.append('title', this.form.title);
+                this.formData.append('channel_id', this.form.channel_id);
                 this.formData.append('body', this.form.body);
                 this.formData.append('is_famous', this.form.is_famous);
                 this.formData.append('source', this.form.source);
@@ -68,6 +92,7 @@
 
                 axios.post(uri, this.formData).then(() => {
                     this.editing = false;
+                    this.channel_id = this.form.channel_id,
                     this.title = this.form.title;
                     this.body = this.form.body;
                     this.is_famous = this.form.source;
@@ -87,6 +112,7 @@
                 this.form = {
                     title: this.thread.title,
                     body: this.thread.body,
+                    channel_id: this.thread.channel_id,
                     location: this.thread.location,
                     source: this.thread.source,
                     is_famous: this.thread.is_famous,
