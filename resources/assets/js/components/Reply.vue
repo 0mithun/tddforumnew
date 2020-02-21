@@ -18,7 +18,30 @@
             <div v-if="editing">
                 <form @submit="update">
                     <div class="form-group">
-                        <TinyEditor :model="body"></TinyEditor>
+<!--                        <TinyEditor :model="body"></TinyEditor>-->
+<!--                        <tinymce id="d1"-->
+<!--                                 :other_options="tinyOptions"-->
+<!--                                 v-model="body"-->
+<!--                        ></tinymce>-->
+
+                        <select name="body" cllass="form-control" id="tinyeditor">hello</select>
+
+                        <editor
+                                v-model="body"
+
+                                api-key="l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g"
+                                :init="{
+                                   selector: '#tinyeditor',
+                                        plugins: 'code',
+                                        toolbar: 'formatselect fontsizeselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | code',
+                                         menubar: 'tools',
+                                        toolbar_drawer: 'floating',
+                                        tinycomments_mode: 'embedded',
+                                        tinycomments_author: 'Author name'
+                                   }"
+                        />
+
+
                     </div>
 
                     <button class="btn btn-xs btn-primary">Update</button>
@@ -43,12 +66,11 @@
 <script>
     import Favorite from './Favorite.vue';
     import moment from 'moment';
-    import Wysiwyg from './Wysiwyg'
-    import  TinyEditor from './TinyEditor'
+    import Editor from '@tinymce/tinymce-vue'
     export default {
         props: ['reply'],
 
-        components: { Favorite, Wysiwyg, TinyEditor },
+        components: { Favorite, Editor },
 
         data() {
             return {

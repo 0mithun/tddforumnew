@@ -2,9 +2,15 @@
     <div>
         <div v-if="signedIn">
             <div class="form-group">
-                <wysiwyg name="body" v-model="body" placeholder="Have something to say?" :shouldClear="completed"></wysiwyg>
-                <TinyEditor :model="body"></TinyEditor>
+<!--                <wysiwyg name="body" v-model="body" placeholder="Have something to say?" :shouldClear="completed"></wysiwyg>-->
+<!--                <TinyEditor :model="reply_body"></TinyEditor>-->
+<!--                <textarea name="body" id="tinyeditor" cols="30" rows="10"></textarea>-->
+                <tinymce id="d1"
+                         :other_options="tinyOptions"
+                         v-model="body"
+                ></tinymce>
             </div>
+
 
             <button type="submit"
                     class="btn btn-default"
@@ -21,20 +27,33 @@
 <script>
     import 'jquery.caret';
     import 'at.js';
-    
+    import Editor from '@tinymce/tinymce-vue'
+
     import Wysiwyg from './Wysiwyg';
 
     import  TinyEditor from './TinyEditor'
+    import tinymce from 'vue-tinymce-editor'
+
     export default {
         data() {
             return {
                 body: '',
-                completed: false
+                completed: false,
+                tinyOptions:{
+                    plugins: 'codesample code',
+                    codesample_languages: [
+                        {text: 'HTML/XML', value: 'markup'},
+                        {text: 'CSS', value: 'css'},
+                    ],
+                    toolbar: 'codesample code',
+                }
             };
         },
         components:{
             Wysiwyg,
-            TinyEditor
+            TinyEditor,
+            Editor,
+            tinymce
         },
 
         mounted() {

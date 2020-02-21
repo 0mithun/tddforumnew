@@ -1,13 +1,12 @@
 <script>
     import Replies from '../components/Replies.vue';
     import SubscribeButton from '../components/SubscribeButton.vue';
-    import Wysiwyg from '../components/Wysiwyg'
     import Editor from '@tinymce/tinymce-vue'
 
     export default {
         props: ['thread'],
 
-        components: {Replies, SubscribeButton, Wysiwyg, Editor,  },
+        components: {Replies, SubscribeButton, Editor,  },
 
         data () {
             return {

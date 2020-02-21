@@ -22,6 +22,8 @@ require('./bootstrap');
 
 import Typhaed from './components/Typehead.vue';
 
+import TinyMCE from 'tinymce-vue-2';
+Vue.component('tiny-mce', TinyMCE);
 
 
 window.tinekey = 'l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g';

@@ -87,7 +87,6 @@
 
                             </div>
 
-
                             <div class="form-group  {{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }} recaptcha" style="margin-bottom: 40px">
                                 <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site')  }}">
 
