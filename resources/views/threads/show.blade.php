@@ -29,11 +29,3 @@
 
 @endsection
 
-@section('footer_script')
-    <script>
-        tinymce.init({
-            selector: '#body'
-        });
-    </script>
-@endsection
-

@@ -58,6 +58,8 @@ class ThreadsController extends Controller
      */
     public function store(Recaptcha $recaptcha)
     {
+
+
         if(request()->hasFile('image_path')){
             $rule = 'image|max:1024';
         }else{
@@ -142,6 +144,9 @@ class ThreadsController extends Controller
      */
     public function update($channel, Thread $thread)
     {
+        dd(request()->all());
+
+        exit;
         $this->authorize('update', $thread);
 
        if(request()->hasFile('image_path')){
