@@ -59,6 +59,9 @@
 @yield('scripts')
 
 @yield('footer_script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
+<script src="https://cdn.tiny.cloud/1/l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g/5/tinymce.min.js" referrerpolicy="origin"></script>
+
 
 </body>
 </html>

@@ -43,12 +43,11 @@
 <script>
     import Favorite from './Favorite.vue';
     import moment from 'moment';
-    import Wysiwyg from './Wysiwyg'
     import  TinyEditor from './TinyEditor'
     export default {
         props: ['reply'],
 
-        components: { Favorite, Wysiwyg, TinyEditor },
+        components: { Favorite, TinyEditor },
 
         data() {
             return {

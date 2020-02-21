@@ -22,6 +22,7 @@ require('./bootstrap');
 
 import Typhaed from './components/Typehead.vue';
 
+import  TineEditor from './components/TinyEditor'
 
 
 window.tinekey = 'l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g';
@@ -36,6 +37,7 @@ const app = new Vue({
         AvatarForm,
         Wysiwyg,
         ThreadView,
-        Typhaed
+        Typhaed,
+        TineEditor
     }
 });

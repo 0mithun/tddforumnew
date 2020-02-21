@@ -1,13 +1,12 @@
 <script>
     import Replies from '../components/Replies.vue';
     import SubscribeButton from '../components/SubscribeButton.vue';
-    import Wysiwyg from '../components/Wysiwyg'
     import Editor from '@tinymce/tinymce-vue'
-
+    import Typhaed from '../components/Typehead.vue';
     export default {
         props: ['thread'],
 
-        components: {Replies, SubscribeButton, Wysiwyg, Editor,  },
+        components: {Replies, SubscribeButton,  Editor, Typhaed },
 
         data () {
             return {
@@ -26,30 +25,19 @@
                 formData: new FormData,
                 form: {},
                 editing: false,
-
-                model: '',
-                states: [],
-
             };
         },
 
         created () {
             this.resetForm();
-            this.channelTypeHead();
+
         },
+        mounted(){
 
 
+
+        },
         methods: {
-            channelTypeHead(){
-                this.states = [];
-                axios.post('/channel/search', {
-                    channel_name: this.channel_name
-                }).then((res)=>{
-                    res.data.forEach((channel)=>{
-                        this.states.push(channel)
-                    })
-                });
-            },
             toggleLock () {
                 let uri = `/locked-threads/${this.thread.slug}`;
 

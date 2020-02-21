@@ -11161,8 +11161,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery_caret__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery_caret__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var at_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! at.js */ "./node_modules/at.js/dist/js/jquery.atwho.js");
 /* harmony import */ var at_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(at_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _Wysiwyg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Wysiwyg */ "./resources/assets/js/components/Wysiwyg.vue");
-/* harmony import */ var _TinyEditor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TinyEditor */ "./resources/assets/js/components/TinyEditor.vue");
+/* harmony import */ var _TinyEditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TinyEditor */ "./resources/assets/js/components/TinyEditor.vue");
 //
 //
 //
@@ -11183,7 +11182,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -11195,8 +11204,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   components: {
-    Wysiwyg: _Wysiwyg__WEBPACK_IMPORTED_MODULE_2__["default"],
-    TinyEditor: _TinyEditor__WEBPACK_IMPORTED_MODULE_3__["default"]
+    TinyEditor: _TinyEditor__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   mounted: function mounted() {
     $('#body').atwho({
@@ -11378,8 +11386,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Favorite_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Favorite.vue */ "./resources/assets/js/components/Favorite.vue");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _Wysiwyg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Wysiwyg */ "./resources/assets/js/components/Wysiwyg.vue");
-/* harmony import */ var _TinyEditor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TinyEditor */ "./resources/assets/js/components/TinyEditor.vue");
+/* harmony import */ var _TinyEditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TinyEditor */ "./resources/assets/js/components/TinyEditor.vue");
 //
 //
 //
@@ -11422,7 +11429,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 
 
 
@@ -11430,8 +11436,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['reply'],
   components: {
     Favorite: _Favorite_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    Wysiwyg: _Wysiwyg__WEBPACK_IMPORTED_MODULE_2__["default"],
-    TinyEditor: _TinyEditor__WEBPACK_IMPORTED_MODULE_3__["default"]
+    TinyEditor: _TinyEditor__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   data: function data() {
     return {
@@ -11692,8 +11697,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Replies_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Replies.vue */ "./resources/assets/js/components/Replies.vue");
 /* harmony import */ var _components_SubscribeButton_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/SubscribeButton.vue */ "./resources/assets/js/components/SubscribeButton.vue");
-/* harmony import */ var _components_Wysiwyg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Wysiwyg */ "./resources/assets/js/components/Wysiwyg.vue");
-/* harmony import */ var _tinymce_tinymce_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @tinymce/tinymce-vue */ "./node_modules/@tinymce/tinymce-vue/lib/es2015/main/ts/index.js");
+/* harmony import */ var _tinymce_tinymce_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @tinymce/tinymce-vue */ "./node_modules/@tinymce/tinymce-vue/lib/es2015/main/ts/index.js");
+/* harmony import */ var _components_Typehead_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/Typehead.vue */ "./resources/assets/js/components/Typehead.vue");
 
 
 
@@ -11703,8 +11708,8 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     Replies: _components_Replies_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     SubscribeButton: _components_SubscribeButton_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    Wysiwyg: _components_Wysiwyg__WEBPACK_IMPORTED_MODULE_2__["default"],
-    Editor: _tinymce_tinymce_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+    Editor: _tinymce_tinymce_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    Typhaed: _components_Typehead_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   data: function data() {
     return {
@@ -11721,28 +11726,14 @@ __webpack_require__.r(__webpack_exports__);
       selectFile: null,
       formData: new FormData(),
       form: {},
-      editing: false,
-      model: '',
-      states: []
+      editing: false
     };
   },
   created: function created() {
     this.resetForm();
-    this.channelTypeHead();
   },
+  mounted: function mounted() {},
   methods: {
-    channelTypeHead: function channelTypeHead() {
-      var _this = this;
-
-      this.states = [];
-      axios.post('/channel/search', {
-        channel_name: this.channel_name
-      }).then(function (res) {
-        res.data.forEach(function (channel) {
-          _this.states.push(channel);
-        });
-      });
-    },
     toggleLock: function toggleLock() {
       var uri = "/locked-threads/".concat(this.thread.slug);
       axios[this.locked ? 'delete' : 'post'](uri);
@@ -11769,21 +11760,21 @@ __webpack_require__.r(__webpack_exports__);
       this.formData.append('main_subject', this.form.main_subject);
     },
     update: function update() {
-      var _this2 = this;
+      var _this = this;
 
       this.appendData();
       var uri = "/threads/".concat(this.thread.channel.slug, "/").concat(this.thread.slug);
       axios.post(uri, this.formData).then(function () {
-        _this2.editing = false;
-        _this2.channel_id = _this2.form.channel_id, _this2.title = _this2.form.title;
-        _this2.body = _this2.form.body;
-        _this2.is_famous = _this2.form.source;
-        _this2.location = _this2.form.location;
-        _this2.is_famous = _this2.form.is_famous;
-        _this2.main_subject = _this2.form.main_subject;
-        _this2.source = _this2.form.source;
-        _this2.image_path = _this2.form.image_path;
-        _this2.allow_image = _this2.form.allow_image;
+        _this.editing = false;
+        _this.channel_id = _this.form.channel_id, _this.title = _this.form.title;
+        _this.body = _this.form.body;
+        _this.is_famous = _this.form.source;
+        _this.location = _this.form.location;
+        _this.is_famous = _this.form.is_famous;
+        _this.main_subject = _this.form.main_subject;
+        _this.source = _this.form.source;
+        _this.image_path = _this.form.image_path;
+        _this.allow_image = _this.form.allow_image;
         flash('Your thread has been updated.');
       });
     },
@@ -83841,11 +83832,19 @@ var render = function() {
             "div",
             { staticClass: "form-group" },
             [
-              _c("wysiwyg", {
+              _c("editor", {
                 attrs: {
-                  name: "body",
-                  placeholder: "Have something to say?",
-                  shouldClear: _vm.completed
+                  "api-key": "l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g",
+                  init: {
+                    selector: "#tinyeditor",
+                    plugins:
+                      "a11ychecker advcode casechange formatpainter linkchecker lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker",
+                    toolbar:
+                      "a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table",
+                    toolbar_drawer: "floating",
+                    tinycomments_mode: "embedded",
+                    tinycomments_author: "Author name"
+                  }
                 },
                 model: {
                   value: _vm.body,
@@ -83854,9 +83853,7 @@ var render = function() {
                   },
                   expression: "body"
                 }
-              }),
-              _vm._v(" "),
-              _c("TinyEditor", { attrs: { model: _vm.body } })
+              })
             ],
             1
           ),
@@ -96599,6 +96596,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Wysiwyg__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Wysiwyg */ "./resources/assets/js/components/Wysiwyg.vue");
 /* harmony import */ var _pages_Thread_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./pages/Thread.vue */ "./resources/assets/js/pages/Thread.vue");
 /* harmony import */ var _components_Typehead_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Typehead.vue */ "./resources/assets/js/components/Typehead.vue");
+/* harmony import */ var _components_TinyEditor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/TinyEditor */ "./resources/assets/js/components/TinyEditor.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -96619,6 +96617,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/assets/js/bootstrap.js");
 
 
 
+
 window.tinekey = 'l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g';
 var app = new Vue({
   el: '#app',
@@ -96629,7 +96628,8 @@ var app = new Vue({
     AvatarForm: _components_AvatarForm__WEBPACK_IMPORTED_MODULE_3__["default"],
     Wysiwyg: _components_Wysiwyg__WEBPACK_IMPORTED_MODULE_4__["default"],
     ThreadView: _pages_Thread_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
-    Typhaed: _components_Typehead_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
+    Typhaed: _components_Typehead_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
+    TineEditor: _components_TinyEditor__WEBPACK_IMPORTED_MODULE_7__["default"]
   }
 });
 
