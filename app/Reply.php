@@ -4,10 +4,11 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class Reply extends Model
 {
-    use Favoritable, RecordsActivity;
+    use Favoritable, RecordsActivity, Notifiable;
 
     /**
      * Don't auto-apply mass assignment protection.

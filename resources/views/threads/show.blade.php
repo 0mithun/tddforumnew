@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-md-8" v-cloak>
                     @include ('threads._question')
-
+                    <hr>
                     <replies @added="repliesCount++" @removed="repliesCount--"></replies>
                 </div>
 

@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreatePostRequest;
+use App\Notifications\ReplywasReported;
+use App\Notifications\ThreadWasUpdated;
 use App\Reply;
 use App\Thread;
+use App\User;
+use Illuminate\Support\Facades\App;
 
 class RepliesController extends Controller
 {
@@ -76,5 +80,13 @@ class RepliesController extends Controller
         }
 
         return back();
+    }
+
+    public function report(Reply $reply){
+//        return $reply->body;
+        $user = User::find(5);
+        $user->notify(new ReplywasReported($reply));
+
+        return 'Thread Succssfully reported';
     }
 }

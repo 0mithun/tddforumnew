@@ -9,7 +9,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
                     <div class="panel-heading">Post a New Anecdote</div>
 
@@ -116,8 +116,11 @@
     <script>
         tinymce.init({
             selector: '#tinyeditor',
-            plugins: 'a11ychecker advcode casechange formatpainter linkchecker lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
-            toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
+            plugins: 'code',
+            toolbar: 'formatselect fontsizeselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | code',
+            menubar: 'tools',
+
+
             toolbar_drawer: 'floating',
             tinycomments_mode: 'embedded',
             tinycomments_author: 'Author name',

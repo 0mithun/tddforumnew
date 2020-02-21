@@ -1,14 +1,21 @@
 <template>
     <div>
-        <div v-if="signedIn">
+        <div v-if="signedIn" style="border-top:1px solid #333">
+            <h3>Add New Reply</h3>
             <div class="form-group">
-<!--                <wysiwyg name="body" v-model="body" placeholder="Have something to say?" :shouldClear="completed"></wysiwyg>-->
-<!--                <TinyEditor :model="reply_body"></TinyEditor>-->
-<!--                <textarea name="body" id="tinyeditor" cols="30" rows="10"></textarea>-->
-                <tinymce id="d1"
-                         :other_options="tinyOptions"
-                         v-model="body"
-                ></tinymce>
+                <editor
+                        v-model="body"
+                        api-key="l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g"
+                        :init="{
+                               selector: '#tinyeditor',
+                                    plugins: 'code',
+                                    toolbar: 'formatselect fontsizeselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | code',
+                                     menubar: 'tools',
+                                    toolbar_drawer: 'floating',
+                                    tinycomments_mode: 'embedded',
+                                    tinycomments_author: 'Author name'
+                               }"
+                />
             </div>
 
 
@@ -29,11 +36,6 @@
     import 'at.js';
     import Editor from '@tinymce/tinymce-vue'
 
-    import Wysiwyg from './Wysiwyg';
-
-    import  TinyEditor from './TinyEditor'
-    import tinymce from 'vue-tinymce-editor'
-
     export default {
         data() {
             return {
@@ -50,10 +52,7 @@
             };
         },
         components:{
-            Wysiwyg,
-            TinyEditor,
             Editor,
-            tinymce
         },
 
         mounted() {

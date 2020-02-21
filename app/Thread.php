@@ -6,11 +6,12 @@ use App\Events\ThreadReceivedNewReply;
 use App\Filters\ThreadFilters;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Scout\Searchable;
 
 class Thread extends Model
 {
-    use RecordsActivity, Searchable;
+    use RecordsActivity, Searchable, Notifiable;
 
     /**
      * Don't auto-apply mass assignment protection.

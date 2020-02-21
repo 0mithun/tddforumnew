@@ -9,9 +9,6 @@
 
     <div class="panel-body">
 
-
-
-
         <div class="form-group">
             <label for="title" class="control-label">Title:</label>
             <input type="text" id="title" class="form-control" v-model="form.title">
