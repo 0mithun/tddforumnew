@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreatePostRequest;
 use App\Notifications\ReplywasReported;
 use App\Notifications\ThreadWasUpdated;
+use App\Notifications\YouWereMentioned;
 use App\Reply;
 use App\Thread;
 use App\User;
@@ -45,10 +46,35 @@ class RepliesController extends Controller
             return response('Thread is locked', 422);
         }
 
-        return $thread->addReply([
+
+
+        $reply = $thread->addReply([
             'body' => request('body'),
             'user_id' => auth()->id()
-        ])->load('owner');
+        ]);
+
+        //return $reply->body;
+
+        preg_match_all('/\@([^\s\.]+)/', $reply->body, $matchs);
+
+        dd($matchs);
+
+        $names = $matchs[1];
+
+
+        foreach ($names as $name){
+            $user = User::whereUsername($name)->first();
+
+            if($user){
+                $user->notify( new YouWereMentioned($reply));
+            }
+        }
+
+        return $reply->load('owner');
+//        return $thread->addReply([
+//            'body' => request('body'),
+//            'user_id' => auth()->id()
+//        ])->load('owner');
     }
 
     /**

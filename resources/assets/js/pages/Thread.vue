@@ -33,6 +33,11 @@
 
             };
         },
+        computed:{
+            signedIn(){
+                return  (window.App.user)? true : false;
+            },
+        },
 
         created () {
             this.resetForm();
@@ -49,9 +54,10 @@
                     id: this.thread.id,
                     reason:this.report_reason,
                 }).then((res=>{
-
+                    flash('Your have successfully report to this Thread','success')
                     this.report =false;
                     this.thread.isReportd = true;
+
                 }));
             },
             channelTypeHead(){

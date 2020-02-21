@@ -89,7 +89,8 @@
 
             </div>
 
-            <div  class="col-md-12" v-if="!authorize('owns', reply)">
+<!--            <div  class="col-md-12" v-if="!authorize('owns', reply)">-->
+            <div  class="col-md-12" v-if=signedIn>
                 <button class="btn btn-xs btn-danger ml-a red-bg pull-right" @click="reportReply" v-if="!report" :disabled=reply.isReported >
                     <span class="glyphicon glyphicon-flag"></span>
                 </button>
@@ -133,7 +134,10 @@
         computed: {
             ago() {
                 return  moment(this.reply.created_at, 'YYYY-MM-DD HH:mm:ss').fromNow() + '...';
-            }
+            },
+            signedIn(){
+                return  (window.App.user)? true : false;
+            },
         },
 
         created () {
@@ -143,6 +147,7 @@
         },
 
         methods: {
+
             reportReply(){
                 this.report = true;
             },
@@ -151,6 +156,7 @@
                     reason:this.report_reason
                 }).then((res=>{
                     this.report = false;
+                    flash('Your have successfully report to this reply','success')
                 }));
             },
             reportUser(){
@@ -158,7 +164,7 @@
                 axios.post('/api/users/report',{
                     user_id: this.reply.owner.id
                 }).then((res=>{
-                    console.log(res);
+                    flash('Your have successfully report to this user','success')
                 }));
             },
 

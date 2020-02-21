@@ -153,9 +153,12 @@
                 <button class="btn btn-xs" @click="editing = true">Edit</button>
             </div>
             <div class="col-md-12" v-else>
-                <button class="btn btn-xs btn-danger ml-a red-bg pull-right" @click="reportReply" v-if="!report" :disabled=thread.isReported >
-                    <span class="glyphicon glyphicon-ban-circle"></span>
-                </button>
+                <div v-if=signedIn >
+                    <button class="btn btn-xs btn-danger ml-a red-bg pull-right" @click="reportReply" v-if="!report" :disabled=thread.isReported >
+                        <span class="glyphicon glyphicon-ban-circle"></span>
+                    </button>
+                </div>
+
             </div>
         </div>
     </div>

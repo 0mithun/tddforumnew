@@ -43,4 +43,13 @@ class CreatePostRequest extends FormRequest
             'body' => 'required|spamfree'
         ];
     }
+
+
+    public function messages()
+    {
+        return [
+            'body.required' => 'Reply body is required',
+            'body.spamfree'  => 'Reply body are spam',
+        ];
+    }
 }

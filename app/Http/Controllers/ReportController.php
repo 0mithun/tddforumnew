@@ -22,6 +22,9 @@ class ReportController extends Controller
 
     public function reply(Reply $reply){
 //
+        request()->validate([
+            'reason'    =>  'required'
+        ]);
         $user = User::find(5);
 
         DB::table('reports')->insert([
@@ -54,6 +57,11 @@ class ReportController extends Controller
 
 
     public function thread(){
+
+        request()->validate([
+            'reason'    =>  'required'
+        ]);
+
         $id = \request('id');
         $reason = \request('reason');
         $thread = Thread::findOrFail($id);

@@ -11511,6 +11511,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -11536,6 +11537,9 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     ago: function ago() {
       return moment__WEBPACK_IMPORTED_MODULE_2___default()(this.reply.created_at, 'YYYY-MM-DD HH:mm:ss').fromNow() + '...';
+    },
+    signedIn: function signedIn() {
+      return window.App.user ? true : false;
     }
   },
   created: function created() {
@@ -11556,6 +11560,7 @@ __webpack_require__.r(__webpack_exports__);
         reason: this.report_reason
       }).then(function (res) {
         _this2.report = false;
+        flash('Your have successfully report to this reply', 'success');
       });
     },
     reportUser: function reportUser() {
@@ -11563,7 +11568,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/api/users/report', {
         user_id: this.reply.owner.id
       }).then(function (res) {
-        console.log(res);
+        flash('Your have successfully report to this user', 'success');
       });
     },
     update: function update() {
@@ -11860,6 +11865,11 @@ __webpack_require__.r(__webpack_exports__);
       report_reason: ''
     };
   },
+  computed: {
+    signedIn: function signedIn() {
+      return window.App.user ? true : false;
+    }
+  },
   created: function created() {
     this.resetForm();
     this.channelTypeHead();
@@ -11875,6 +11885,7 @@ __webpack_require__.r(__webpack_exports__);
         id: this.thread.id,
         reason: this.report_reason
       }).then(function (res) {
+        flash('Your have successfully report to this Thread', 'success');
         _this.report = false;
         _this.thread.isReportd = true;
       });
@@ -84623,7 +84634,7 @@ var render = function() {
             ])
           : _vm._e(),
         _vm._v(" "),
-        !_vm.authorize("owns", _vm.reply)
+        _vm.signedIn
           ? _c("div", { staticClass: "col-md-12" }, [
               !_vm.report
                 ? _c(
