@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Channel;
 use App\Filters\ThreadFilters;
+use App\Notifications\ThreadWasReported;
 use App\Rules\Recaptcha;
 use App\Thread;
 use App\Trending;
+use function GuzzleHttp\Promise\all;
+use http\Env\Request;
 
 class ThreadsController extends Controller
 {
@@ -214,5 +217,15 @@ class ThreadsController extends Controller
         }
 
         return $threads->paginate(25);
+    }
+
+    public function report(){
+        $id = \request('id');
+        $reason = \request('reason');
+        $thread = Thread::findOrFail($id);
+
+        $thread->notify(new ThreadWasReported($thread, $reason));
+//        $thread = Thread::where('id', $id)->get();
+        return $thread;
     }
 }

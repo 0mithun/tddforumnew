@@ -7,20 +7,24 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ReplywasReported extends Notification
+/**
+ * Class ThreadWasReported
+ * @package App\Notifications
+ */
+class ThreadWasReported extends Notification
 {
     use Queueable;
 
-    protected $reply;
-    protected $reason;
+    protected  $thread;
+    protected  $reason;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($reply, $reason)
+    public function __construct($thread, $reason)
     {
-        $this->reply = $reply;
+        $this->thread = $thread;
         $this->reason = $reason;
     }
 
@@ -59,9 +63,7 @@ class ReplywasReported extends Notification
     {
         $user = auth()->user();
         return [
-            //'reply_id'  =>  $this->reply->id,
-            'data' => "User " .$user->username .  " reported a reply by " . $this->reply->owner->username.' because: '.$this->reason
-
+            'data' => "User " . $user->username . " ".  " reported thread with id = " . $this->thread->id . " because: " . $this->reason,
         ];
     }
 }

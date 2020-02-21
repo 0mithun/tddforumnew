@@ -85,7 +85,8 @@ class RepliesController extends Controller
     public function report(Reply $reply){
 //        return $reply->body;
         $user = User::find(5);
-        $user->notify(new ReplywasReported($reply));
+        $reason = request('reason');
+        $user->notify(new ReplywasReported($reply, $reason));
 
         return 'Thread Succssfully reported';
     }

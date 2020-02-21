@@ -11493,6 +11493,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -11511,7 +11529,8 @@ __webpack_require__.r(__webpack_exports__);
       body: this.reply.body,
       isBest: this.reply.isBest,
       report: false,
-      report_reason: ''
+      report_reason: '',
+      report_user_reason: ''
     };
   },
   computed: {
@@ -11531,7 +11550,19 @@ __webpack_require__.r(__webpack_exports__);
       this.report = true;
     },
     makeReport: function makeReport() {
-      axios.post('/replies/' + this.id + '/report').then(function (res) {
+      var _this2 = this;
+
+      axios.post('/replies/' + this.id + '/report', {
+        reason: this.report_reason
+      }).then(function (res) {
+        _this2.report = false;
+      });
+    },
+    reportUser: function reportUser() {
+      //this.userReport = true;
+      axios.post('/api/users/report', {
+        user_id: this.reply.owner.id
+      }).then(function (res) {
         console.log(res);
       });
     },
@@ -11824,7 +11855,9 @@ __webpack_require__.r(__webpack_exports__);
       form: {},
       editing: false,
       model: '',
-      states: []
+      states: [],
+      report: false,
+      report_reason: ''
     };
   },
   created: function created() {
@@ -11832,15 +11865,29 @@ __webpack_require__.r(__webpack_exports__);
     this.channelTypeHead();
   },
   methods: {
-    channelTypeHead: function channelTypeHead() {
+    reportReply: function reportReply() {
+      this.report = true;
+    },
+    makeReport: function makeReport() {
       var _this = this;
+
+      axios.post('/threads/report', {
+        id: this.thread.id,
+        reason: this.report_reason
+      }).then(function (res) {
+        _this.report = false;
+        _this.thread.isReportd = true;
+      });
+    },
+    channelTypeHead: function channelTypeHead() {
+      var _this2 = this;
 
       this.states = [];
       axios.post('/channel/search', {
         channel_name: this.channel_name
       }).then(function (res) {
         res.data.forEach(function (channel) {
-          _this.states.push(channel);
+          _this2.states.push(channel);
         });
       });
     },
@@ -11870,21 +11917,21 @@ __webpack_require__.r(__webpack_exports__);
       this.formData.append('main_subject', this.form.main_subject);
     },
     update: function update() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.appendData();
       var uri = "/threads/".concat(this.thread.channel.slug, "/").concat(this.thread.slug);
       axios.post(uri, this.formData).then(function () {
-        _this2.editing = false;
-        _this2.channel_id = _this2.form.channel_id, _this2.title = _this2.form.title;
-        _this2.body = _this2.form.body;
-        _this2.is_famous = _this2.form.source;
-        _this2.location = _this2.form.location;
-        _this2.is_famous = _this2.form.is_famous;
-        _this2.main_subject = _this2.form.main_subject;
-        _this2.source = _this2.form.source;
-        _this2.image_path = _this2.form.image_path;
-        _this2.allow_image = _this2.form.allow_image;
+        _this3.editing = false;
+        _this3.channel_id = _this3.form.channel_id, _this3.title = _this3.form.title;
+        _this3.body = _this3.form.body;
+        _this3.is_famous = _this3.form.source;
+        _this3.location = _this3.form.location;
+        _this3.is_famous = _this3.form.is_famous;
+        _this3.main_subject = _this3.form.main_subject;
+        _this3.source = _this3.form.source;
+        _this3.image_path = _this3.form.image_path;
+        _this3.allow_image = _this3.form.allow_image;
         flash('Your thread has been updated.');
       });
     },
@@ -84348,15 +84395,64 @@ var render = function() {
         _c("div", { staticClass: "level" }, [
           _c("h5", { staticClass: "flex" }, [
             _c("a", {
-              attrs: { href: "/profiles/" + _vm.reply.owner.name },
+              attrs: { href: "/profiles/" + _vm.reply.owner.username },
               domProps: { textContent: _vm._s(_vm.reply.owner.name) }
             }),
-            _vm._v(" said "),
+            _vm._v("\n                    said "),
             _c("span", { domProps: { textContent: _vm._s(_vm.ago) } })
           ]),
           _vm._v(" "),
           _vm.signedIn
-            ? _c("div", [_c("favorite", { attrs: { reply: _vm.reply } })], 1)
+            ? _c("div", { staticClass: "col-md-2" }, [
+                !_vm.authorize("owns", _vm.reply)
+                  ? _c("div", { staticClass: "pull-left" }, [
+                      _c("div", { staticClass: "dropdown" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-light  dropdown-toggle",
+                            attrs: {
+                              type: "button",
+                              "data-toggle": "dropdown",
+                              disabled: _vm.reply.owner.isReported
+                            }
+                          },
+                          [_c("span", { staticClass: "caret" })]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "ul",
+                          { staticClass: "dropdown-menu dropdown-menu-right" },
+                          [
+                            _c("li", [
+                              _c(
+                                "a",
+                                {
+                                  attrs: { href: "#" },
+                                  on: { click: _vm.reportUser }
+                                },
+                                [
+                                  _vm._v("Report User  "),
+                                  _c("span", {
+                                    staticClass:
+                                      "text-danger glyphicon glyphicon-flag"
+                                  })
+                                ]
+                              )
+                            ])
+                          ]
+                        )
+                      ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "pull-right" },
+                  [_c("favorite", { attrs: { reply: _vm.reply } })],
+                  1
+                )
+              ])
             : _vm._e()
         ])
       ]),
@@ -84429,8 +84525,6 @@ var render = function() {
             ])
           : _c("div", { domProps: { innerHTML: _vm._s(_vm.body) } }),
         _vm._v(" "),
-        _c("hr"),
-        _vm._v(" "),
         _vm.report
           ? _c("div", [
               _c(
@@ -84438,7 +84532,7 @@ var render = function() {
                 { staticClass: "form-group" },
                 [
                   _c("label", { attrs: { for: "report_reason" } }, [
-                    _vm._v("Reason for report:")
+                    _vm._v("Reason for report the reply:")
                   ]),
                   _vm._v(" "),
                   _c("editor", {
@@ -84495,53 +84589,57 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _vm.authorize("owns", _vm.reply) ||
-      _vm.authorize("owns", _vm.reply.thread)
-        ? _c("div", { staticClass: "panel-footer level" }, [
-            _vm.authorize("owns", _vm.reply)
-              ? _c("div", [
-                  !_vm.editing
-                    ? _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-xs mr-1",
-                          on: {
-                            click: function($event) {
-                              _vm.editing = true
+      _c("div", { staticClass: "panel-footer level" }, [
+        _vm.authorize("owns", _vm.reply) ||
+        _vm.authorize("owns", _vm.reply.thread)
+          ? _c("div", { staticClass: "col-md-12" }, [
+              _vm.authorize("owns", _vm.reply)
+                ? _c("div", [
+                    !_vm.editing
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-xs mr-1",
+                            on: {
+                              click: function($event) {
+                                _vm.editing = true
+                              }
                             }
-                          }
-                        },
-                        [_vm._v("Edit")]
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _c(
+                          },
+                          [_vm._v("Edit")]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-xs btn-danger red-bg mr-1",
+                        on: { click: _vm.destroy }
+                      },
+                      [_vm._v("Delete")]
+                    )
+                  ])
+                : _vm._e()
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        !_vm.authorize("owns", _vm.reply)
+          ? _c("div", { staticClass: "col-md-12" }, [
+              !_vm.report
+                ? _c(
                     "button",
                     {
-                      staticClass: "btn btn-xs btn-danger red-bg mr-1",
-                      on: { click: _vm.destroy }
+                      staticClass:
+                        "btn btn-xs btn-danger ml-a red-bg pull-right",
+                      attrs: { disabled: _vm.reply.isReported },
+                      on: { click: _vm.reportReply }
                     },
-                    [_vm._v("Delete")]
+                    [_c("span", { staticClass: "glyphicon glyphicon-flag" })]
                   )
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            !_vm.report
-              ? _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-xs btn-danger ml-a red-bg",
-                    on: { click: _vm.reportReply }
-                  },
-                  [
-                    _c("span", {
-                      staticClass: "glyphicon glyphicon-ban-circle\n"
-                    })
-                  ]
-                )
-              : _vm._e()
-          ])
-        : _vm._e()
+                : _vm._e()
+            ])
+          : _vm._e()
+      ])
     ]
   )
 }

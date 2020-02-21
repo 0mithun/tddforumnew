@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Scout\Searchable;
 
+use DB;
+
 class Thread extends Model
 {
     use RecordsActivity, Searchable, Notifiable;
@@ -32,7 +34,7 @@ class Thread extends Model
      *
      * @var array
      */
-    protected $appends = ['isSubscribedTo'];
+    protected $appends = ['isSubscribedTo','isReported'];
 
     /**
      * The attributes that should be cast to native types.
@@ -241,5 +243,22 @@ class Thread extends Model
     public function toSearchableArray()
     {
         return $this->toArray() + ['path' => $this->path()];
+    }
+
+
+    public function getIsReportedAttribute()
+    {
+        $report = DB::table('reports')
+            ->where('user_id', auth()->id())
+            ->where('reported_id', $this->id)
+            ->where('reported_type','App\Thread')
+            ->first();
+        ;
+        if($report){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 }

@@ -3,13 +3,24 @@
         <div class="panel-heading">
             <div class="level">
                 <h5 class="flex">
-                    <a :href="'/profiles/' + reply.owner.name"
+                    <a :href="'/profiles/' + reply.owner.username"
                         v-text="reply.owner.name">
-                    </a> said <span v-text="ago"></span>
+                    </a>
+                    said <span v-text="ago"></span>
                 </h5>
 
-                <div v-if="signedIn">
-                    <favorite :reply="reply"></favorite>
+                <div v-if="signedIn" class="col-md-2">
+                    <div class="pull-left" v-if="!authorize('owns', reply)">
+                        <div class="dropdown">
+                            <button class="btn btn-light  dropdown-toggle" type="button" data-toggle="dropdown" :disabled=reply.owner.isReported><span class="caret"></span></button>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li><a href="#" @click="reportUser" >Report User  <span class="text-danger glyphicon glyphicon-flag"></span> </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="pull-right">
+                        <favorite :reply="reply"></favorite>
+                    </div>
 <!--                    <report :reply="reply"></report>-->
                 </div>
             </div>
@@ -35,10 +46,7 @@
                                         tinycomments_author: 'Author name'
                                    }"
                         />
-
-
                     </div>
-
                     <button class="btn btn-xs btn-primary">Update</button>
                     <button class="btn btn-xs btn-link" @click="editing = false" type="button">Cancel</button>
                 </form>
@@ -46,10 +54,9 @@
 
             <div v-else v-html="body"></div>
 
-            <hr>
             <div v-if="report">
                 <div class="form-group">
-                    <label for="report_reason">Reason for report:</label>
+                    <label for="report_reason">Reason for report the reply:</label>
 
                     <editor
                             v-model="report_reason"
@@ -70,22 +77,33 @@
                     <button class="btn btn-xs btn-primary mr-1" @click="makeReport">Make Report</button>
                     <button class="btn btn-xs btn-danger mr-1 red-bg" @click="report = false">Cancel</button>
                 </div>
-
             </div>
         </div>
 
-        <div class="panel-footer level" v-if="authorize('owns', reply) || authorize('owns', reply.thread)">
-            <div v-if="authorize('owns', reply)">
-                <button class="btn btn-xs mr-1" @click="editing = true" v-if="! editing">Edit</button>
-                <button class="btn btn-xs btn-danger red-bg mr-1" @click="destroy">Delete</button>
+        <div class="panel-footer level" >
+            <div class="col-md-12" v-if="authorize('owns', reply) || authorize('owns', reply.thread)">
+                <div v-if="authorize('owns', reply)">
+                    <button class="btn btn-xs mr-1" @click="editing = true" v-if="! editing">Edit</button>
+                    <button class="btn btn-xs btn-danger red-bg mr-1" @click="destroy">Delete</button>
+                </div>
+
             </div>
 
-            <button class="btn btn-xs btn-danger ml-a red-bg" @click="reportReply" v-if="!report">
-                <span class="glyphicon glyphicon-ban-circle
-"></span>
-            </button>
+            <div  class="col-md-12" v-if="!authorize('owns', reply)">
+                <button class="btn btn-xs btn-danger ml-a red-bg pull-right" @click="reportReply" v-if="!report" :disabled=reply.isReported >
+                    <span class="glyphicon glyphicon-flag"></span>
+                </button>
+            </div>
+
 <!--            <button class="btn btn-xs btn-default ml-a" @click="markBestReply" v-if="authorize('owns', reply.thread)">Best Reply?</button>-->
         </div>
+
+
+
+
+
+
+
     </div>
 </template>
 
@@ -106,7 +124,8 @@
                 body: this.reply.body,
                 isBest: this.reply.isBest,
                 report: false,
-                report_reason: ''
+                report_reason: '',
+                report_user_reason: ''
             };
         },
 
@@ -128,10 +147,21 @@
                 this.report = true;
             },
             makeReport(){
-                axios.post('/replies/' + this.id + '/report').then((res=>{
+                axios.post('/replies/' + this.id + '/report',{
+                    reason:this.report_reason
+                }).then((res=>{
+                    this.report = false;
+                }));
+            },
+            reportUser(){
+              //this.userReport = true;
+                axios.post('/api/users/report',{
+                    user_id: this.reply.owner.id
+                }).then((res=>{
                     console.log(res);
                 }));
             },
+
             update() {
                 axios.patch(
                     '/replies/' + this.id, {

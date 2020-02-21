@@ -9,6 +9,9 @@
 
     <div class="panel-body">
 
+
+
+
         <div class="form-group">
             <label for="title" class="control-label">Title:</label>
             <input type="text" id="title" class="form-control" v-model="form.title">
@@ -21,8 +24,9 @@
                     api-key="{{  config('services.tiny.key')  }}}"
                     :init="{
        selector: '#tinyeditor',
-            plugins: 'a11ychecker advcode casechange formatpainter linkchecker lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
-            toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
+             plugins: 'code',
+            toolbar: 'formatselect fontsizeselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | code',
+             menubar: 'tools',
             toolbar_drawer: 'floating',
             tinycomments_mode: 'embedded',
             tinycomments_author: 'Author name'
@@ -104,7 +108,7 @@
             </div>
             <div class="media-body">
                 <h4 class="media-heading">
-                    Posted by: <a href="{{ route('profile', $thread->creator) }}">{{ $thread->creator->name }}</a>
+                    Posted by: <a href="{{ route('profile', $thread->creator->username) }}">{{ $thread->creator->name }}</a>
                     {{ $thread->created_at->diffForHumans()  }}
                 </h4>
 
@@ -114,8 +118,46 @@
 
     <div class="panel-body" v-html="body"></div>
 
-    <div class="panel-footer" v-if="authorize('owns', thread)">
-        <button class="btn btn-xs" @click="editing = true">Edit</button>
+
+    <hr>
+    <div v-if="report" class="panel-body">
+        <div class="form-group">
+            <label for="report_reason">Reason for report the thread:</label>
+
+            <editor
+                    v-model="report_reason"
+                    api-key="l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g"
+                    :init="{
+                                   selector: '#report_reason',
+                                        plugins: 'code',
+                                        toolbar: 'formatselect fontsizeselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | code',
+                                         menubar: 'tools',
+                                        toolbar_drawer: 'floating',
+                                        tinycomments_mode: 'embedded',
+                                        tinycomments_author: 'Author name'
+                                   }"
+            />
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-xs btn-primary mr-1" @click="makeReport">Make Report</button>
+            <button class="btn btn-xs btn-danger mr-1 red-bg" @click="report = false">Cancel</button>
+        </div>
+    </div>
+
+
+    <div class="panel-footer">
+
+        <div class="row">
+            <div class=" col-md-12"  v-if="authorize('owns', thread)">
+                <button class="btn btn-xs" @click="editing = true">Edit</button>
+            </div>
+            <div class="col-md-12" v-else>
+                <button class="btn btn-xs btn-danger ml-a red-bg pull-right" @click="reportReply" v-if="!report" :disabled=thread.isReported >
+                    <span class="glyphicon glyphicon-ban-circle"></span>
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 

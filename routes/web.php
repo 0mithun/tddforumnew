@@ -44,8 +44,15 @@ Route::post('/replies/{reply}/favorites', 'FavoritesController@store');
 Route::delete('/replies/{reply}/favorites', 'FavoritesController@destroy');
 
 
-Route::post('/replies/{reply}/report', 'RepliesController@report');
+//Route::post('/replies/{reply}/report', 'RepliesController@report');
+Route::post('/replies/{reply}/report', 'ReportController@reply');
 
+//Route::post('/threads/report','ThreadsController@report');
+Route::post('/threads/report','ReportController@thread');
+
+//Route::post('api/users/report','Api\UsersController@report');
+Route::post('api/users/report','ReportController@user');
+//Route::post('/users/report', '')
 
 
 
@@ -59,6 +66,7 @@ Route::get('/register/confirm', 'Auth\RegisterConfirmationController@index')->na
 
 Route::get('api/users', 'Api\UsersController@index');
 Route::post('api/users/{user}/avatar', 'Api\UserAvatarController@store')->middleware('auth')->name('avatar');
+
 
 
 Route::post('/channel/search', 'ChannelController@search')->name('chanel.search');

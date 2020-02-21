@@ -29,7 +29,7 @@
                 </div>
                 <div class="media-body">
                     <h4 class="media-heading">
-                        <a href="{{ route('profile', $thread->creator) }}">{{ $thread->creator->name }}</a>
+                        <a href="{{ route('profile', $thread->creator->username) }}">{{ $thread->creator->name }}</a>
                          <small> Posted: {{ $thread->created_at->diffForHumans()  }}</small>
                     </h4>
 

@@ -7,21 +7,20 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ReplywasReported extends Notification
+class UserWasReported extends Notification
 {
     use Queueable;
 
-    protected $reply;
-    protected $reason;
+    protected  $reported_user;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($reply, $reason)
+    public function __construct($reported_user)
     {
-        $this->reply = $reply;
-        $this->reason = $reason;
+        $this->reported_user = $reported_user;
     }
 
     /**
@@ -59,9 +58,7 @@ class ReplywasReported extends Notification
     {
         $user = auth()->user();
         return [
-            //'reply_id'  =>  $this->reply->id,
-            'data' => "User " .$user->username .  " reported a reply by " . $this->reply->owner->username.' because: '.$this->reason
-
+           'data' => "User " . $user->username . " ". " reported user " . $this->reported_user->username
         ];
     }
 }

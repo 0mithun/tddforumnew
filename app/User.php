@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use DB;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -41,6 +43,8 @@ class User extends Authenticatable
     protected $casts = [
         'confirmed' => 'boolean'
     ];
+
+    protected $appends = ['isReported'];
 
     /**
      * Get the route key name for Laravel.
@@ -142,5 +146,22 @@ class User extends Authenticatable
     public function visitedThreadCacheKey($thread)
     {
         return sprintf("users.%s.visits.%s", $this->id, $thread->id);
+    }
+
+
+    public function getIsReportedAttribute()
+    {
+        $report = DB::table('reports')
+            ->where('user_id', auth()->id())
+            ->where('reported_id', $this->id)
+            ->where('reported_type','App\User')
+            ->first();
+        ;
+        if($report){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 }

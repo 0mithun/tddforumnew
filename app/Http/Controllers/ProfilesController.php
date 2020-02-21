@@ -13,11 +13,12 @@ class ProfilesController extends Controller
      * @param  User $user
      * @return \Response
      */
-    public function show(User $user)
+    public function show($user)
     {
+        $usredata = User::where('username', $user)->first();
         return view('profiles.show', [
-            'profileUser' => $user,
-            'activities' => Activity::feed($user)
+            'profileUser' => $usredata,
+            'activities' => Activity::feed($usredata)
         ]);
     }
 }

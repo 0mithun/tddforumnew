@@ -28,6 +28,8 @@
 
                 model: '',
                 states: [],
+                report: false,
+                report_reason: ''
 
             };
         },
@@ -39,6 +41,19 @@
 
 
         methods: {
+            reportReply(){
+                this.report = true;
+            },
+            makeReport(){
+                axios.post('/threads/report',{
+                    id: this.thread.id,
+                    reason:this.report_reason,
+                }).then((res=>{
+
+                    this.report =false;
+                    this.thread.isReportd = true;
+                }));
+            },
             channelTypeHead(){
                 this.states = [];
                 axios.post('/channel/search', {
