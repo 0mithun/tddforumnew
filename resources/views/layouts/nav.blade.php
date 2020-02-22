@@ -68,13 +68,13 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                            aria-expanded="false">
-                            {{ Auth::user()->name }} <span class="caret"></span>
+                            {{ Auth::user()->name  }} <span class="caret"></span>
                         </a>
 
                         <ul class="dropdown-menu" role="menu">
                             <li>
                                 <a href="{{ route('profile', Auth::user()->username) }}">My Profile</a>
-                                <a href="{{ route('profile.settnigs.page', Auth::user()->username) }}">Settings</a>
+                                <a href="{{ route('user.settnigs', Auth::user()->username) }}">Settings</a>
                             </li>
 
                             <li>

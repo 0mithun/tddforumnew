@@ -21,7 +21,7 @@
                             <div class="col-md-3">
                                 <ul class="nav nav-pills nav-stacked">
                                     <li role="presentation" class="active"><a href="{{ route('profile.avatar.page', auth()->user()->username)  }}">Avatar</a></li>
-                                    <li role="presentation"><a href="{{ route('profile.settnigs.page', auth()->user()->username)  }}">Settings</a></li>
+                                    <li role="presentation"><a href="">Settings</a></li>
                                 </ul>
                             </div>
                         </div>

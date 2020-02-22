@@ -66,7 +66,16 @@ Route::get('/profiles/{user}/avatar','ProfilesController@avatar')->name('profile
 Route::post('/profiles/{user}/avatar/change','ProfilesController@avatarChange')->name('profile.avatar.change');
 
 
-Route::get('/profiles/{user}/settings','ProfilesController@settings')->name('profile.settnigs.page');
+Route::get('/profiles/{user}/edit', 'ProfilesController@edit')->name('profile.user.edit');
+Route::post('/profiles/{user}/update', 'ProfilesController@update')->name('profile.user.update');
+
+
+Route::get('/profiles/{user}/settings','UserSettingsController@index')->name('user.settnigs');
+Route::get('/profiles/{user}/settings/notifications','UserSettingsController@notifications')->name('user.settnigs.notifications');
+Route::get('/profiles/{user}/settings/subscriptions','UserSettingsController@subscriptions')->name('user.settnigs.subscriptions');
+
+Route::get('/user/confirm-new-email','ProfilesController@confirmNewEmail')->name('conform.new.email');
+
 
 
 
@@ -83,7 +92,6 @@ Route::post('api/users/{user}/avatar', 'Api\UserAvatarController@store')->middle
 
 
 Route::post('/channel/search', 'ChannelController@search')->name('chanel.search');
-
 
 
 Route::get('/contact','FrontendController@contact')->name('contact');

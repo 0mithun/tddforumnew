@@ -23,13 +23,8 @@
                             <hr>
                             <div class="row" style="margin-top: 50px;">
                                 <div class="col-md-3">
-                                    <a class="list-group-item" href="{{ route('profile', auth()->user()->username)  }}">Profile</a>
-                                    <a class="list-group-item" href="{{ route('profile.avatar.page', auth()->user()->username)  }}">Avatar</a>
-                                    <a class="list-group-item" href="{{ route('profile.settnigs.page', auth()->user()->username)  }}">My Subscriptions</a>
-                                    <a class="list-group-item" href="{{ route('profile.settnigs.page', auth()->user()->username)  }}">My Favorites</a>
-                                    <a class="list-group-item" href="{{ route('profile.settnigs.page', auth()->user()->username)  }}">My Likes</a>
-                                    <a class="list-group-item" href="{{ route('profile.settnigs.page', auth()->user()->username)  }}">My Threads</a>
-                                    <a class="list-group-item active" href="{{ route('profile.settnigs.page', auth()->user()->username)  }}">Settings</a>
+                                    <a class="list-group-item" href="{{ route('user.settnigs.notifications', auth()->user()->username)  }}">Notifications</a>
+                                    <a class="list-group-item active" href="{{ route('user.settnigs.subscriptions', auth()->user()->username)  }}">Subscriptions</a>
                                 </div>
                                 <div class="col-md-9">
                                     <div class="row">

@@ -61,6 +61,10 @@
             padding: 0px 10px;
             color: #ffffff;
         }
+
+        .navbar {
+            margin-bottom: 5px;
+        }
     </style>
 
     @yield('head')

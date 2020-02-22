@@ -25,11 +25,9 @@
                                 <div class="col-md-3">
                                         <a class="list-group-item" href="{{ route('profile', auth()->user()->username)  }}">Profile</a>
                                         <a class="list-group-item active" href="{{ route('profile.avatar.page', auth()->user()->username)  }}">Avatar</a>
-                                        <a class="list-group-item" href="{{ route('profile.settnigs.page', auth()->user()->username)  }}">My Subscriptions</a>
-                                        <a class="list-group-item" href="{{ route('profile.settnigs.page', auth()->user()->username)  }}">My Favorites</a>
-                                        <a class="list-group-item" href="{{ route('profile.settnigs.page', auth()->user()->username)  }}">My Likes</a>
-                                        <a class="list-group-item" href="{{ route('profile.settnigs.page', auth()->user()->username)  }}">My Threads</a>
-                                        <a class="list-group-item" href="{{ route('profile.settnigs.page', auth()->user()->username)  }}">Settings</a>
+                                        <a class="list-group-item" href="">My Favorites</a>
+                                        <a class="list-group-item" href="">My Likes</a>
+                                        <a class="list-group-item" href="">My Threads</a>
 
                                 </div>
                                 <div class="col-md-9">

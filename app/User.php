@@ -18,10 +18,15 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
-        'avatar_path'
+        'date_of_birth',
+        'avatar_path',
+        'city',
+        'country',
+        'about'
     ];
 
     /**
@@ -53,7 +58,7 @@ class User extends Authenticatable
      */
     public function getRouteKeyName()
     {
-        return 'name';
+        return 'username';
     }
 
     /**
@@ -106,6 +111,11 @@ class User extends Authenticatable
     {
         return in_array($this->name, ['JohnDoe', 'JaneDoe']);
     }
+
+    public function getNameAttribute(){
+        return ucfirst($this->first_name) ." ".ucfirst($this->last_name);
+    }
+
 
     /**
      * Record that the user has read the given thread.
