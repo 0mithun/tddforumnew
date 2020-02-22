@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/','WelcomeController@index');
+Route::get('/','ThreadsController@index');
 
 Auth::routes();
 
@@ -62,6 +62,19 @@ Route::get('/profiles/{user}', 'ProfilesController@show')->name('profile');
 Route::get('/profiles/{user}/notifications', 'UserNotificationsController@index');
 Route::delete('/profiles/{user}/notifications/{notification}', 'UserNotificationsController@destroy');
 
+Route::get('/profiles/{user}/avatar','ProfilesController@avatar')->name('profile.avatar.page');
+Route::post('/profiles/{user}/avatar/change','ProfilesController@avatarChange')->name('profile.avatar.change');
+
+
+Route::get('/profiles/{user}/settings','ProfilesController@settings')->name('profile.settnigs.page');
+
+
+
+
+
+
+
+
 Route::get('/register/confirm', 'Auth\RegisterConfirmationController@index')->name('register.confirm');
 
 Route::get('api/users', 'Api\UsersController@index');
@@ -70,3 +83,14 @@ Route::post('api/users/{user}/avatar', 'Api\UserAvatarController@store')->middle
 
 
 Route::post('/channel/search', 'ChannelController@search')->name('chanel.search');
+
+
+
+Route::get('/contact','FrontendController@contact')->name('contact');
+Route::get('/privacy-policy','FrontendController@privacyPolicy')->name('privacypolicy');
+Route::get('/tos','FrontendController@tos')->name('tos');
+Route::get('/faq','FrontendController@faq')->name('faq');
+
+
+Route::post('contact','FrontendController@contactAdmin')->name('contactadmin');
+

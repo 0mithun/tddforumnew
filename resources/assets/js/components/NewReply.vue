@@ -3,15 +3,15 @@
         <div v-if="signedIn" style="border-top:1px solid #333">
             <h3>Add New Reply</h3>
             <div class="form-group">
-                <textarea name="nameeee" id="boddd" cols="30" rows="10">
-                    hello world
-                </textarea>
+                <textarea name="nameeee" id="boddd" cols="30" rows="10" class="form-control"></textarea>
                 <editor
+                        @onKeyUp="typeReply"
                         class="at-who"
                         v-model="body"
                         api-key="l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g"
                         :init="{
                                selector: '#tinyeditor',
+
                                     plugins: 'code',
                                     toolbar: 'formatselect fontsizeselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | code',
                                      menubar: 'tools',
@@ -76,6 +76,9 @@
         },
 
         methods: {
+            typeReply(e){
+                console.log(e)
+            },
             addReply() {
                 axios.post(location.pathname + '/replies', { body: this.body })
                     .catch(error => {

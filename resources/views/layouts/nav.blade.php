@@ -55,6 +55,10 @@
             <!-- Right Side Of Navbar -->
             <ul class="nav navbar-nav navbar-right">
                 <!-- Authentication Links -->
+                <li><a href="{{ route('contact') }}">Contact</a></li>
+                <li><a href="{{ route('privacypolicy') }}">Privacy Policy</a></li>
+                <li><a href="{{ route('tos') }}">Terms of Service</a></li>
+                <li><a href="{{ route('faq') }}">Faq</a></li>
                 @if (Auth::guest())
                     <li><a href="{{ route('login') }}">Login</a></li>
                     <li><a href="{{ route('register') }}">Register</a></li>
@@ -70,6 +74,7 @@
                         <ul class="dropdown-menu" role="menu">
                             <li>
                                 <a href="{{ route('profile', Auth::user()->username) }}">My Profile</a>
+                                <a href="{{ route('profile.settnigs.page', Auth::user()->username) }}">Settings</a>
                             </li>
 
                             <li>

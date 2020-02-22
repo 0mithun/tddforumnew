@@ -25,6 +25,7 @@
     "at.js": "1.5.3",
     "jquery.caret": "0.3.1",
     "moment": "^2.24.0",
+    "textarea-caret": "^3.1.0",
     "tinymce-vue-2": "0.0.5",
     "trix": "0.11.1",
     "typeahead": "^0.2.2",

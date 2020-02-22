@@ -33,6 +33,34 @@
         .ml-a { margin-left: auto; }
         [v-cloak] { display: none; }
         .ais-highlight > em { background: yellow; font-style: normal; }
+        #footer{
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #484848;
+            color: #ffffff;
+            height: 50px;
+            padding: 15px;
+        }
+        
+        .footer-content{
+
+        }
+        .footer-menu{
+            margin: 0px;
+            padding: 0px;
+            list-style:none;
+        }
+        .footer-menu li{
+            float: left;
+            display: inline-block;
+        }
+        .footer-menu li a{
+            display: block;
+            padding: 0px 10px;
+            color: #ffffff;
+        }
     </style>
 
     @yield('head')
@@ -42,7 +70,7 @@
     @include ('layouts.nav')
 
     @yield('content')
-
+    @include('layouts.footer')
     <flash message="{{ session('flash') }}"></flash>
 </div>
 

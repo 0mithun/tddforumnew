@@ -11241,6 +11241,9 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    typeReply: function typeReply(e) {
+      console.log(e);
+    },
     addReply: function addReply() {
       var _this = this;
 
@@ -84188,18 +84191,10 @@ var render = function() {
             "div",
             { staticClass: "form-group" },
             [
-              _c(
-                "textarea",
-                {
-                  attrs: {
-                    name: "nameeee",
-                    id: "boddd",
-                    cols: "30",
-                    rows: "10"
-                  }
-                },
-                [_vm._v("                hello world\n            ")]
-              ),
+              _c("textarea", {
+                staticClass: "form-control",
+                attrs: { name: "nameeee", id: "boddd", cols: "30", rows: "10" }
+              }),
               _vm._v(" "),
               _c("editor", {
                 staticClass: "at-who",
@@ -84207,6 +84202,7 @@ var render = function() {
                   "api-key": "l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g",
                   init: {
                     selector: "#tinyeditor",
+
                     plugins: "code",
                     toolbar:
                       "formatselect fontsizeselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | code",
@@ -84216,6 +84212,7 @@ var render = function() {
                     tinycomments_author: "Author name"
                   }
                 },
+                on: { onKeyUp: _vm.typeReply },
                 model: {
                   value: _vm.body,
                   callback: function($$v) {
