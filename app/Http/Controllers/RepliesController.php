@@ -48,33 +48,14 @@ class RepliesController extends Controller
 
 
 
-        $reply = $thread->addReply([
+
+
+        return $thread->addReply([
             'body' => request('body'),
             'user_id' => auth()->id()
-        ]);
-
-        //return $reply->body;
-
-        preg_match_all('/\@([^\s\.]+)/', $reply->body, $matchs);
-
-        dd($matchs);
-
-        $names = $matchs[1];
+        ])->load('owner');
 
 
-        foreach ($names as $name){
-            $user = User::whereUsername($name)->first();
-
-            if($user){
-                $user->notify( new YouWereMentioned($reply));
-            }
-        }
-
-        return $reply->load('owner');
-//        return $thread->addReply([
-//            'body' => request('body'),
-//            'user_id' => auth()->id()
-//        ])->load('owner');
     }
 
     /**
