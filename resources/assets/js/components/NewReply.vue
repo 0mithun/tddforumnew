@@ -3,7 +3,11 @@
         <div v-if="signedIn" style="border-top:1px solid #333">
             <h3>Add New Reply</h3>
             <div class="form-group">
+                <textarea name="nameeee" id="boddd" cols="30" rows="10">
+                    hello world
+                </textarea>
                 <editor
+                        class="at-who"
                         v-model="body"
                         api-key="l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g"
                         :init="{
@@ -56,7 +60,9 @@
         },
 
         mounted() {
-            $('#body').atwho({
+            let body =$('.mce-content-body ').text()
+            console.log(body)
+            $('#boddd').atwho({
                 at: "@",
                 delay: 750,
                 callbacks: {

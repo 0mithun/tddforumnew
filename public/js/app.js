@@ -11195,6 +11195,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -11220,7 +11224,9 @@ __webpack_require__.r(__webpack_exports__);
     Editor: _tinymce_tinymce_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   mounted: function mounted() {
-    $('#body').atwho({
+    var body = $('.mce-content-body ').text();
+    console.log(body);
+    $('#boddd').atwho({
       at: "@",
       delay: 750,
       callbacks: {
@@ -84182,7 +84188,21 @@ var render = function() {
             "div",
             { staticClass: "form-group" },
             [
+              _c(
+                "textarea",
+                {
+                  attrs: {
+                    name: "nameeee",
+                    id: "boddd",
+                    cols: "30",
+                    rows: "10"
+                  }
+                },
+                [_vm._v("                hello world\n            ")]
+              ),
+              _vm._v(" "),
               _c("editor", {
+                staticClass: "at-who",
                 attrs: {
                   "api-key": "l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g",
                   init: {

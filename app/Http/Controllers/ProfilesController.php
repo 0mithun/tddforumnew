@@ -16,7 +16,7 @@ class ProfilesController extends Controller
     public function show($user)
     {
         $usredata = User::where('username', $user)->first();
-        return view('profiles.show', [
+           return view('profiles.show', [
             'profileUser' => $usredata,
             'activities' => Activity::feed($usredata)
         ]);
