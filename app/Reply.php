@@ -108,11 +108,33 @@ class Reply extends Model
      */
     public function setBodyAttribute($body)
     {
-        $this->attributes['body'] = preg_replace(
+        $line = preg_replace_callback(
             '/@([\w\-]+)/',
-            '<a href="/profiles/$1">$0</a>',
+            function ($matches) {
+//                return strtolower($matches[0]);
+                $user = User::where( 'name', $matches[1])->first();
+                if($user){
+                    return "<a href=\"/profiles/".$user->username."\">".$matches[0]."</a>";
+                }else{
+                    return $matches[0];
+                }
+
+
+            },
             $body
         );
+
+        $this->attributes['body'] = $line;
+
+        //Currently Working
+
+//        $replace =
+//            preg_replace(
+//            '/@([\w\-]+)/',
+//            '<a href="/profiles/$1">$0</a>',
+//            $body
+//        );
+//        $this->attributes['body'] = $replace;
     }
 
     /**
