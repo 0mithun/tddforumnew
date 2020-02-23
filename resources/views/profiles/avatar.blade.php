@@ -23,12 +23,12 @@
                             <hr>
                             <div class="row" style="margin-top: 50px;">
                                 <div class="col-md-3">
-                                        <a class="list-group-item" href="{{ route('profile', auth()->user()->username)  }}">Profile</a>
-                                        <a class="list-group-item active" href="{{ route('profile.avatar.page', auth()->user()->username)  }}">Avatar</a>
-                                        <a class="list-group-item" href="">My Favorites</a>
-                                        <a class="list-group-item" href="">My Likes</a>
-                                        <a class="list-group-item" href="">My Threads</a>
-
+                                    <a class="list-group-item active"  href="{{ route('profile', auth()->user()->username)  }}">Profile</a>
+                                    <a class="list-group-item " href="{{ route('profile.avatar.page', auth()->user()->username)  }}">Avatar</a>
+                                    <a class="list-group-item" href="{{ route('profile.subscriptions', auth()->user()->username)  }}">My Subscriptions </a>
+                                    <a class="list-group-item" href="{{ route('profile.favorites', auth()->user()->username)  }}">My Favorites</a>
+                                    <a class="list-group-item" href="{{ route('profile.threads', auth()->user()->username)  }}">My Threads</a>
+                                    <a class="list-group-item" href="{{ route('user.edit.password')  }}">Change Password</a>
                                 </div>
                                 <div class="col-md-9">
                                     <div class="row">

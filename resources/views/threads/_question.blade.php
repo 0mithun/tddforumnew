@@ -94,7 +94,7 @@
 {{-- Viewing the question. --}}
 <div class="panel panel-default" v-else>
     <div class="panel-heading">
-        <div class="panel-heading"><h3 class="flex" v-text="title"></h3></div>
+        <div class="panel-heading" style="display: block;overflow: hidden;"> <div class="pull-left"><h4  v-text="title"></h4> </div> <div class="pull-right"><favorite-thread :thread="{{ $thread }}" v-if="!authorize('owns', thread) && signedIn "></favorite-thread></div> </div>
         <div class="media">
             <div class="media-left">
 
@@ -107,10 +107,12 @@
                 </a>
             </div>
             <div class="media-body">
-                <h4 class="media-heading">
+                <h4 class="media-heading thread-info">
                     Posted by: <a href="{{ route('profile', $thread->creator->username) }}">{{ $thread->creator->name }}</a>
                     {{ $thread->created_at->diffForHumans()  }}
                 </h4>
+
+
 
             </div>
         </div>

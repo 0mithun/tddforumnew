@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Activity;
 use App\Mail\ConfirmNewEmail;
+use App\Thread;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -178,5 +179,36 @@ class ProfilesController extends Controller
         }
         return response()->json(['status'=>'success', 'message'=>'Avatar Change Successfully', 'avatar_path'=>asset($path)]);
 
+    }
+
+    public function mySubscriptionsShow(){
+
+        $subscriptions = DB::table('thread_subscriptions')
+                ->where('user_id', auth()->user()->id)
+                ->get()
+
+            ;
+
+        return view('profiles.subscriptions', compact('subscriptions'));
+    }
+
+    public  function myFavoritesShow(){
+        $user = auth()->user();
+
+        $favorites = DB::table('favorites')
+                ->where('user_id', $user->id)
+                ->where('favorited_type','App\Thread')
+                ->get()
+
+            ;
+
+//        dd($favorite);
+        return view('profiles.favorites', compact('favorites'));
+    }
+
+    public function myThreadsShow(){
+        $threads =Thread::where('user_id', auth()->user()->id)->get();
+
+        return view('profiles.threads', compact('threads'));
     }
 }

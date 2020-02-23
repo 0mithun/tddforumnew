@@ -44,6 +44,12 @@ Route::post('/replies/{reply}/favorites', 'FavoritesController@store');
 Route::delete('/replies/{reply}/favorites', 'FavoritesController@destroy');
 
 
+Route::post('/thread/{thread}/favorites', 'FavoritesController@threadStore');
+Route::delete('/thread/{thread}/favorites', 'FavoritesController@thraeadDestroy');
+
+
+
+
 //Route::post('/replies/{reply}/report', 'RepliesController@report');
 Route::post('/replies/{reply}/report', 'ReportController@reply');
 
@@ -68,6 +74,11 @@ Route::post('/profiles/{user}/avatar/change','ProfilesController@avatarChange')-
 
 Route::get('/profiles/{user}/edit', 'ProfilesController@edit')->name('profile.user.edit');
 Route::post('/profiles/{user}/update', 'ProfilesController@update')->name('profile.user.update');
+
+
+Route::get('/profiles/{user}/my-subscriptions','ProfilesController@mySubscriptionsShow')->name('profile.subscriptions');
+Route::get('/profiles/{user}/my-favorites','ProfilesController@myFavoritesShow')->name('profile.favorites');
+Route::get('/profiles/{user}/my-threads','ProfilesController@myThreadsShow')->name('profile.threads');
 
 
 Route::get('/profiles/{user}/settings','UserSettingsController@index')->name('user.settnigs');

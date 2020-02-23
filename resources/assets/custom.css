@@ -37,6 +37,21 @@ li.list-group-item{
 .red-bg{
     background:#bf1d1d;
 }
+.favorite-icon{
+    font-size: 25px;
+    cursor: pointer;
+}
+.red-icon{
+    color:red;
+}
+.grey-icon{
+    color:grey;
+}
+
+.thread-info {
+    margin-top: 10px;
+    /* margin-bottom: 5px; */
+}
 
 
 

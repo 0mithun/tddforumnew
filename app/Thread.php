@@ -13,7 +13,7 @@ use DB;
 
 class Thread extends Model
 {
-    use RecordsActivity, Searchable, Notifiable;
+    use RecordsActivity, Searchable, Notifiable, Favoritable;
 
     /**
      * Don't auto-apply mass assignment protection.
@@ -34,7 +34,7 @@ class Thread extends Model
      *
      * @var array
      */
-    protected $appends = ['isSubscribedTo','isReported'];
+    protected $appends = ['isSubscribedTo','isReported','isFavorited'];
 
     /**
      * The attributes that should be cast to native types.
@@ -261,4 +261,8 @@ class Thread extends Model
         }
 
     }
+
+//    public  function favorite(){
+//        return $this->morphOne(Favorite::class,'favorited');
+//    }
 }
