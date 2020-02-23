@@ -76,7 +76,8 @@ Route::get('/profiles/{user}/settings/subscriptions','UserSettingsController@sub
 
 Route::get('/user/confirm-new-email','ProfilesController@confirmNewEmail')->name('conform.new.email');
 
-
+Route::get('/users/change-password','ProfilesController@editPassword')->name('user.edit.password');
+Route::post('/user/update-password','ProfilesController@updatePassword')->name('user.update.password');
 
 
 

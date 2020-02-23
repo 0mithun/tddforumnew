@@ -53,7 +53,7 @@
             </div>
 
             <div v-else v-html="body"></div>
-
+            <NestedReply v-if="addNested"></NestedReply>
             <div v-if="report">
                 <div class="form-group">
                     <label for="report_reason">Reason for report the reply:</label>
@@ -88,6 +88,12 @@
                 </div>
 
             </div>
+            <div class="col-md-12" v-else>
+                <div v-if="signedIn">
+                    <button class="btn btn-xs mr-1 btn-default" @click="addNestedReply" v-if="!addNested">Reply</button>
+                </div>
+
+            </div>
 
 <!--            <div  class="col-md-12" v-if="!authorize('owns', reply)">-->
             <div  class="col-md-12" v-if=signedIn>
@@ -98,13 +104,6 @@
 
 <!--            <button class="btn btn-xs btn-default ml-a" @click="markBestReply" v-if="authorize('owns', reply.thread)">Best Reply?</button>-->
         </div>
-
-
-
-
-
-
-
     </div>
 </template>
 
@@ -113,10 +112,11 @@
     import Report from './Report'
     import moment from 'moment';
     import Editor from '@tinymce/tinymce-vue'
+    import NestedReply from './NestedReply'
     export default {
         props: ['reply'],
 
-        components: { Favorite, Editor, Report },
+        components: { Favorite, Editor, Report, NestedReply},
 
         data() {
             return {
@@ -126,7 +126,8 @@
                 isBest: this.reply.isBest,
                 report: false,
                 report_reason: '',
-                report_user_reason: ''
+                report_user_reason: '',
+                addNested: false
             };
         },
 
@@ -144,10 +145,15 @@
             window.events.$on('best-reply-selected', id => {
                 this.isBest = (id === this.id);
             });
+            window.events.$on('cancelNested',()=>{
+                this.addNested = false;
+            });
         },
 
         methods: {
-
+            addNestedReply(){
+                this.addNested = true;
+            },
             reportReply(){
                 this.report = true;
             },

@@ -25,6 +25,7 @@
                                     <a class="list-group-item" href="">My Favorites</a>
                                     <a class="list-group-item" href="">My Likes</a>
                                     <a class="list-group-item" href="">My Threads</a>
+                                    <a class="list-group-item" href="{{ route('user.edit.password')  }}">Change Password</a>
                                 </div>
                             </div>
                             <div class="col-md-9">

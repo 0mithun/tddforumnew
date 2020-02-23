@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 use DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 class ProfilesController extends Controller
@@ -99,6 +100,45 @@ class ProfilesController extends Controller
             session()->flash('Invalid Token');
             return redirect('/');
         }
+
+    }
+
+    public function editPassword(){
+        return view('profiles.changepassword');
+    }
+
+    public function updatePassword(Request $request){
+
+        $request->validate([
+            'old_password' => 'required',
+            'password' => 'required|min:6|confirmed',
+            'password_confirmation' => 'required|min:6',
+        ],[
+            'password.required' =>  'The mew password field is required.',
+            'password.min' =>  'The mew password must be at least 6 characters.',
+        ]);
+
+        $data = [];
+
+        $user = auth()->user();
+
+        $auth_user = DB::table('users')->where('id', $user->id)->first();
+
+
+        if (Hash::check($request->old_password, $auth_user->password)) {
+            $user->update([
+                'password'  =>  bcrypt($request->password)
+            ]);
+            session()->flash('successmessage','Your password change successfully.');
+            return redirect()->back();
+
+        }else{
+            session()->flash('errormessage','Your current password dose not match.');
+            return redirect()->back();
+        }
+
+
+
 
     }
 

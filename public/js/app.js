@@ -11148,6 +11148,127 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/NestedReply.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/NestedReply.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var jquery_caret__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery.caret */ "./node_modules/jquery.caret/dist/jquery.caret.js");
+/* harmony import */ var jquery_caret__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery_caret__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var at_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! at.js */ "./node_modules/at.js/dist/js/jquery.atwho.js");
+/* harmony import */ var at_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(at_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _tinymce_tinymce_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @tinymce/tinymce-vue */ "./node_modules/@tinymce/tinymce-vue/lib/es2015/main/ts/index.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      body: '',
+      completed: false,
+      tinyOptions: {
+        plugins: 'codesample code',
+        codesample_languages: [{
+          text: 'HTML/XML',
+          value: 'markup'
+        }, {
+          text: 'CSS',
+          value: 'css'
+        }],
+        toolbar: 'codesample code'
+      }
+    };
+  },
+  components: {
+    Editor: _tinymce_tinymce_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  mounted: function mounted() {
+    var body = $('.mce-content-body ').text();
+    console.log(body);
+    $('#boddd').atwho({
+      at: "@",
+      delay: 750,
+      callbacks: {
+        remoteFilter: function remoteFilter(query, callback) {
+          $.getJSON("/api/users", {
+            name: query
+          }, function (usernames) {
+            callback(usernames);
+          });
+        }
+      }
+    });
+  },
+  methods: {
+    cancel: function cancel() {
+      window.events.$emit('cancelNested');
+    },
+    typeReply: function typeReply(e) {
+      console.log(e);
+    },
+    addReply: function addReply() {
+      var _this = this;
+
+      axios.post(location.pathname + '/replies', {
+        body: this.body
+      })["catch"](function (error) {
+        flash(error.response.data, 'danger');
+      }).then(function (_ref) {
+        var data = _ref.data;
+        _this.body = '';
+        _this.completed = true;
+        flash('Your reply has been posted.');
+
+        _this.$emit('created', data);
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/NewReply.vue?vue&type=script&lang=js&":
 /*!**************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/NewReply.vue?vue&type=script&lang=js& ***!
@@ -11411,6 +11532,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _tinymce_tinymce_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @tinymce/tinymce-vue */ "./node_modules/@tinymce/tinymce-vue/lib/es2015/main/ts/index.js");
+/* harmony import */ var _NestedReply__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./NestedReply */ "./resources/assets/js/components/NestedReply.vue");
 //
 //
 //
@@ -11520,7 +11642,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
+
 
 
 
@@ -11530,7 +11652,8 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     Favorite: _Favorite_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     Editor: _tinymce_tinymce_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    Report: _Report__WEBPACK_IMPORTED_MODULE_1__["default"]
+    Report: _Report__WEBPACK_IMPORTED_MODULE_1__["default"],
+    NestedReply: _NestedReply__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   data: function data() {
     return {
@@ -11540,7 +11663,8 @@ __webpack_require__.r(__webpack_exports__);
       isBest: this.reply.isBest,
       report: false,
       report_reason: '',
-      report_user_reason: ''
+      report_user_reason: '',
+      addNested: false
     };
   },
   computed: {
@@ -11557,8 +11681,14 @@ __webpack_require__.r(__webpack_exports__);
     window.events.$on('best-reply-selected', function (id) {
       _this.isBest = id === _this.id;
     });
+    window.events.$on('cancelNested', function () {
+      _this.addNested = false;
+    });
   },
   methods: {
+    addNestedReply: function addNestedReply() {
+      this.addNested = true;
+    },
     reportReply: function reportReply() {
       this.report = true;
     },
@@ -84167,6 +84297,89 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/NestedReply.vue?vue&type=template&id=6f29e64c&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/NestedReply.vue?vue&type=template&id=6f29e64c& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.signedIn
+      ? _c("div", { staticStyle: { "border-top": "1px solid #333" } }, [
+          _c("h3", [_vm._v("Add Reply")]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "form-group" },
+            [
+              _c("editor", {
+                staticClass: "at-who",
+                attrs: {
+                  "api-key": "l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g",
+                  init: {
+                    selector: "#tinyeditor",
+
+                    plugins: "code",
+                    toolbar:
+                      "formatselect fontsizeselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | code",
+                    menubar: "tools",
+                    toolbar_drawer: "floating",
+                    tinycomments_mode: "embedded",
+                    tinycomments_author: "Author name"
+                  }
+                },
+                on: { onKeyUp: _vm.typeReply },
+                model: {
+                  value: _vm.body,
+                  callback: function($$v) {
+                    _vm.body = $$v
+                  },
+                  expression: "body"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-default",
+              attrs: { type: "submit" },
+              on: { click: _vm.addReply }
+            },
+            [_vm._v("Post")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            { staticClass: "btn btn-danger", on: { click: _vm.cancel } },
+            [_vm._v("Cancel")]
+          )
+        ])
+      : _c("p", { staticClass: "text-center" }, [
+          _vm._v("\n            Please "),
+          _c("a", { attrs: { href: "/login" } }, [_vm._v("sign in")]),
+          _vm._v(" to participate in this\n            discussion.\n        ")
+        ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/NewReply.vue?vue&type=template&id=3c5f5d3e&":
 /*!******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/NewReply.vue?vue&type=template&id=3c5f5d3e& ***!
@@ -84191,11 +84404,6 @@ var render = function() {
             "div",
             { staticClass: "form-group" },
             [
-              _c("textarea", {
-                staticClass: "form-control",
-                attrs: { name: "nameeee", id: "boddd", cols: "30", rows: "10" }
-              }),
-              _vm._v(" "),
               _c("editor", {
                 staticClass: "at-who",
                 attrs: {
@@ -84236,9 +84444,9 @@ var render = function() {
           )
         ])
       : _c("p", { staticClass: "text-center" }, [
-          _vm._v("\n        Please "),
+          _vm._v("\n            Please "),
           _c("a", { attrs: { href: "/login" } }, [_vm._v("sign in")]),
-          _vm._v(" to participate in this\n        discussion.\n    ")
+          _vm._v(" to participate in this\n            discussion.\n        ")
         ])
   ])
 }
@@ -84485,32 +84693,95 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "panel-body" }, [
-        _vm.editing
-          ? _c("div", [
-              _c("form", { on: { submit: _vm.update } }, [
+      _c(
+        "div",
+        { staticClass: "panel-body" },
+        [
+          _vm.editing
+            ? _c("div", [
+                _c("form", { on: { submit: _vm.update } }, [
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c(
+                        "select",
+                        {
+                          attrs: {
+                            name: "body",
+                            cllass: "form-control",
+                            id: "tinyeditor"
+                          }
+                        },
+                        [_vm._v("hello")]
+                      ),
+                      _vm._v(" "),
+                      _c("editor", {
+                        attrs: {
+                          "api-key":
+                            "l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g",
+                          init: {
+                            selector: "#tinyeditor",
+                            plugins: "code",
+                            toolbar:
+                              "formatselect fontsizeselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | code",
+                            menubar: "tools",
+                            toolbar_drawer: "floating",
+                            tinycomments_mode: "embedded",
+                            tinycomments_author: "Author name"
+                          }
+                        },
+                        model: {
+                          value: _vm.body,
+                          callback: function($$v) {
+                            _vm.body = $$v
+                          },
+                          expression: "body"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("button", { staticClass: "btn btn-xs btn-primary" }, [
+                    _vm._v("Update")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-xs btn-link",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          _vm.editing = false
+                        }
+                      }
+                    },
+                    [_vm._v("Cancel")]
+                  )
+                ])
+              ])
+            : _c("div", { domProps: { innerHTML: _vm._s(_vm.body) } }),
+          _vm._v(" "),
+          _vm.addNested ? _c("NestedReply") : _vm._e(),
+          _vm._v(" "),
+          _vm.report
+            ? _c("div", [
                 _c(
                   "div",
                   { staticClass: "form-group" },
                   [
-                    _c(
-                      "select",
-                      {
-                        attrs: {
-                          name: "body",
-                          cllass: "form-control",
-                          id: "tinyeditor"
-                        }
-                      },
-                      [_vm._v("hello")]
-                    ),
+                    _c("label", { attrs: { for: "report_reason" } }, [
+                      _vm._v("Reason for report the reply:")
+                    ]),
                     _vm._v(" "),
                     _c("editor", {
                       attrs: {
                         "api-key":
                           "l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g",
                         init: {
-                          selector: "#tinyeditor",
+                          selector: "#report_reason",
                           plugins: "code",
                           toolbar:
                             "formatselect fontsizeselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | code",
@@ -84521,101 +84792,45 @@ var render = function() {
                         }
                       },
                       model: {
-                        value: _vm.body,
+                        value: _vm.report_reason,
                         callback: function($$v) {
-                          _vm.body = $$v
+                          _vm.report_reason = $$v
                         },
-                        expression: "body"
+                        expression: "report_reason"
                       }
                     })
                   ],
                   1
                 ),
                 _vm._v(" "),
-                _c("button", { staticClass: "btn btn-xs btn-primary" }, [
-                  _vm._v("Update")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-xs btn-link",
-                    attrs: { type: "button" },
-                    on: {
-                      click: function($event) {
-                        _vm.editing = false
-                      }
-                    }
-                  },
-                  [_vm._v("Cancel")]
-                )
-              ])
-            ])
-          : _c("div", { domProps: { innerHTML: _vm._s(_vm.body) } }),
-        _vm._v(" "),
-        _vm.report
-          ? _c("div", [
-              _c(
-                "div",
-                { staticClass: "form-group" },
-                [
-                  _c("label", { attrs: { for: "report_reason" } }, [
-                    _vm._v("Reason for report the reply:")
-                  ]),
+                _c("div", { staticClass: "form-group" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-xs btn-primary mr-1",
+                      on: { click: _vm.makeReport }
+                    },
+                    [_vm._v("Make Report")]
+                  ),
                   _vm._v(" "),
-                  _c("editor", {
-                    attrs: {
-                      "api-key":
-                        "l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g",
-                      init: {
-                        selector: "#report_reason",
-                        plugins: "code",
-                        toolbar:
-                          "formatselect fontsizeselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | code",
-                        menubar: "tools",
-                        toolbar_drawer: "floating",
-                        tinycomments_mode: "embedded",
-                        tinycomments_author: "Author name"
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-xs btn-danger mr-1 red-bg",
+                      on: {
+                        click: function($event) {
+                          _vm.report = false
+                        }
                       }
                     },
-                    model: {
-                      value: _vm.report_reason,
-                      callback: function($$v) {
-                        _vm.report_reason = $$v
-                      },
-                      expression: "report_reason"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-xs btn-primary mr-1",
-                    on: { click: _vm.makeReport }
-                  },
-                  [_vm._v("Make Report")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-xs btn-danger mr-1 red-bg",
-                    on: {
-                      click: function($event) {
-                        _vm.report = false
-                      }
-                    }
-                  },
-                  [_vm._v("Cancel")]
-                )
+                    [_vm._v("Cancel")]
+                  )
+                ])
               ])
-            ])
-          : _vm._e()
-      ]),
+            : _vm._e()
+        ],
+        1
+      ),
       _vm._v(" "),
       _c("div", { staticClass: "panel-footer level" }, [
         _vm.authorize("owns", _vm.reply) ||
@@ -84649,7 +84864,22 @@ var render = function() {
                   ])
                 : _vm._e()
             ])
-          : _vm._e(),
+          : _c("div", { staticClass: "col-md-12" }, [
+              _vm.signedIn
+                ? _c("div", [
+                    !_vm.addNested
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-xs mr-1 btn-default",
+                            on: { click: _vm.addNestedReply }
+                          },
+                          [_vm._v("Reply")]
+                        )
+                      : _vm._e()
+                  ])
+                : _vm._e()
+            ]),
         _vm._v(" "),
         _vm.signedIn
           ? _c("div", { staticClass: "col-md-12" }, [
@@ -97532,6 +97762,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ImageUpload_vue_vue_type_template_id_319f68d5___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ImageUpload_vue_vue_type_template_id_319f68d5___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/NestedReply.vue":
+/*!********************************************************!*\
+  !*** ./resources/assets/js/components/NestedReply.vue ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _NestedReply_vue_vue_type_template_id_6f29e64c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NestedReply.vue?vue&type=template&id=6f29e64c& */ "./resources/assets/js/components/NestedReply.vue?vue&type=template&id=6f29e64c&");
+/* harmony import */ var _NestedReply_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NestedReply.vue?vue&type=script&lang=js& */ "./resources/assets/js/components/NestedReply.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _NestedReply_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _NestedReply_vue_vue_type_template_id_6f29e64c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _NestedReply_vue_vue_type_template_id_6f29e64c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/assets/js/components/NestedReply.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/NestedReply.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/assets/js/components/NestedReply.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_NestedReply_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./NestedReply.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/NestedReply.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_NestedReply_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/NestedReply.vue?vue&type=template&id=6f29e64c&":
+/*!***************************************************************************************!*\
+  !*** ./resources/assets/js/components/NestedReply.vue?vue&type=template&id=6f29e64c& ***!
+  \***************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_NestedReply_vue_vue_type_template_id_6f29e64c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./NestedReply.vue?vue&type=template&id=6f29e64c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/NestedReply.vue?vue&type=template&id=6f29e64c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_NestedReply_vue_vue_type_template_id_6f29e64c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_NestedReply_vue_vue_type_template_id_6f29e64c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

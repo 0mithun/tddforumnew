@@ -14,11 +14,14 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
-
+    $first_name = $faker->word;
+    $last_name = $faker->word;
     return [
-        'name' => $faker->name,
+        'name' => $first_name." ".$last_name,
+        'first_name' => $first_name,
+        'last_name' => $last_name,
         'email' => $faker->unique()->safeEmail,
-        'username'  =>  $faker->unique()->name,
+        'username'  =>  $faker->unique()->word,
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
         'confirmed' => true
@@ -33,8 +36,12 @@ $factory->state(App\User::class, 'unconfirmed', function () {
 });
 
 $factory->state(App\User::class, 'administrator', function () {
+    $first_name = 'john';
+    $last_name = 'Doe';
     return [
-        'name' => 'JohnDoe'
+        'name' => $first_name. " ".$last_name,
+        'first_name' => $first_name,
+        'last_name'     =>  $last_name
     ];
 });
 

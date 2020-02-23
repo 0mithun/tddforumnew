@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class CreateRepliesTable extends Migration
+class CreateNestedRepliesTables extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateRepliesTable extends Migration
      */
     public function up()
     {
-        Schema::create('replies', function (Blueprint $table) {
+        Schema::create('nested_replies_tables', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('thread_id')->unsigned();
+            $table->integer('reply_id')->unsigned();
             $table->integer('user_id')->unsigned();
-            $table->unsignedInteger('parent_id')->nullable();
             $table->text('body');
             $table->timestamps();
         });
@@ -30,6 +29,6 @@ class CreateRepliesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('replies');
+        Schema::dropIfExists('nested_replies_tables');
     }
 }

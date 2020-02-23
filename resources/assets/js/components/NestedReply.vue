@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="signedIn" style="border-top:1px solid #333">
-            <h3>Add New Reply</h3>
+            <h3>Add Reply</h3>
             <div class="form-group">
 <!--                <textarea name="nameeee" id="boddd" cols="30" rows="10" class="form-control"></textarea>-->
                 <editor
@@ -26,6 +26,7 @@
             <button type="submit"
                     class="btn btn-default"
                     @click="addReply">Post</button>
+            <button class="btn btn-danger" @click="cancel">Cancel</button>
         </div>
 
         <p class="text-center" v-else>
@@ -76,6 +77,9 @@
         },
 
         methods: {
+            cancel(){
+                window.events.$emit('cancelNested');
+            },
             typeReply(e){
                 console.log(e)
             },
