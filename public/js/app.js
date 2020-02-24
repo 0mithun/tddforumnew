@@ -11227,8 +11227,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      active: this.thread.isLiked //isLiked:false
-
+      active: this.thread.isLiked,
+      likesCount: this.thread.likesCount,
+      dislikesCount: this.thread.dislikesCount
     };
   },
   computed: {
@@ -11249,7 +11250,8 @@ __webpack_require__.r(__webpack_exports__);
       axios.post(this.endpoint).then(function (res) {
         console.log(res);
         _this.active = true;
-        flash('You are successfully favorite this thread', 'success'); //this.count++;
+        flash('You are successfully favorite this thread', 'success');
+        _this.count++;
       });
     },
     destroy: function destroy() {
@@ -11258,7 +11260,8 @@ __webpack_require__.r(__webpack_exports__);
       axios["delete"](this.endpoint).then(function (res) {
         console.log(res);
         _this2.active = false;
-        flash('You are successfully un favorite this thread', 'success'); //this.count--;
+        flash('You are successfully un favorite this thread', 'success');
+        _this2.count--;
       });
     }
   }
@@ -84515,7 +84518,7 @@ var render = function() {
               staticClass: "glyphicon glyphicon-thumbs-up like-icon",
               class: _vm.classes
             },
-            [_vm._v(" 300")]
+            [_vm._v(" " + _vm._s(_vm.likesCount))]
           )
         ]
       ),

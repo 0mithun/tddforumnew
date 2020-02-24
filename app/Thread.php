@@ -34,7 +34,7 @@ class Thread extends Model
      *
      * @var array
      */
-    protected $appends = ['isSubscribedTo','isReported','isFavorited','isLiked'];
+    protected $appends = ['isSubscribedTo','isReported','isFavorited','isLiked','likesCount'];
 
     /**
      * The attributes that should be cast to native types.
@@ -260,33 +260,6 @@ class Thread extends Model
             return false;
         }
 
-    }
-
-    public function likes()
-    {
-        return $this->morphMany(Likes::class, 'likeable');
-    }
-
-    public function isLiked()
-    {
-        return !!$this->likes->where('user_id', auth()->id())->count();
-    }
-
-    public function getIsLikedAttribute()
-    {
-        return $this->isLiked();
-    }
-
-    public function like()
-    {
-        $attributes = [
-            'user_id' => auth()->id(),
-            'up'    =>  1
-        ];
-
-        if (! $this->likes()->where($attributes)->exists()) {
-            return $this->likes()->create($attributes);
-        }
     }
 
 

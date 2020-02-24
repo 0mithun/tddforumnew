@@ -1,7 +1,7 @@
 <template>
     <div class="btn-group btn-group-xs pull-right" role="group" >
         <button class="btn btn-xs btn-default ml-a  " @click="toggle"  >
-            <span class="glyphicon glyphicon-thumbs-up like-icon" :class="classes"> 300</span>
+            <span class="glyphicon glyphicon-thumbs-up like-icon" :class="classes">&nbsp;{{ likesCount }}</span>
         </button>
         <button class="btn btn-xs btn-default ml-a  " @click="toggle"  >
             <span class="glyphicon glyphicon-thumbs-down like-icon"> 52</span>
@@ -21,8 +21,8 @@
         data() {
             return {
                 active:  this.thread.isLiked,
-                //isLiked:false
-
+                likesCount:this.thread.likesCount,
+                dislikesCount:this.thread.dislikesCount
             }
         },
 
@@ -36,6 +36,7 @@
             endpoint() {
                 return '/thread/' + this.thread.id + '/likes';
             }
+
         },
 
         methods: {
@@ -48,7 +49,7 @@
                     console.log(res)
                     this.active = true;
                     flash('You are successfully favorite this thread','success')
-                    //this.count++;
+                    this.count++;
                 });
 
 
@@ -60,11 +61,12 @@
                     console.log(res)
                     this.active = false;
                     flash('You are successfully un favorite this thread','success')
-                    //this.count--;
+                    this.count--;
                 });
 
 
             }
+
         }
     }
 </script>

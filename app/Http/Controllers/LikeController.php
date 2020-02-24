@@ -17,7 +17,7 @@ class LikeController extends Controller
     }
 
     public function destroy($thread){
-
-        return $thread;
+        $thread = Thread::findOrFail($thread);
+        return $thread->unlike();
     }
 }
