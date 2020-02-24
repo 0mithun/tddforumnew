@@ -75,10 +75,10 @@ trait Likeable
 
 
     public function getLikesCountAttribute(){
-        return $this->likes()->count();
+        return $this->likes()->where('up',1)->count();
     }
     public function getDislikesCountAttribute(){
-        return $this->likes()->count();
+        return $this->likes()->where('down',1)->count();
     }
 
 

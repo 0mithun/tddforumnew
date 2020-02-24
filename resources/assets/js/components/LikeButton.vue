@@ -1,10 +1,10 @@
 <template>
     <div class="btn-group btn-group-xs pull-right" role="group" >
         <button class="btn btn-xs btn-default ml-a  " @click="toggleLike"  >
-            <span class="glyphicon glyphicon-thumbs-up like-icon" :class="classes">&nbsp;{{ likesCount }}</span>
+            <span class="glyphicon glyphicon-thumbs-up like-icon" :class="likeClass">&nbsp;{{ likesCount }}</span>
         </button>
         <button class="btn btn-xs btn-default ml-a  " @click="toggleDislike"  >
-            <span class="glyphicon glyphicon-thumbs-down like-icon"> {{ dislikesCount }}</span>
+            <span class="glyphicon glyphicon-thumbs-down like-icon" :class="dislikeClass">&nbsp;{{ dislikesCount }}</span>
         </button>
     </div>
 </template>
@@ -17,77 +17,62 @@
             }
         },
 
-
         data() {
             return {
-                active:  this.thread.isLiked,
+                //isDesliked:false
+                isLiked:  this.thread.isLiked,
+                isDesliked:  this.thread.isDesliked,
                 likesCount:this.thread.likesCount,
                 dislikesCount:this.thread.dislikesCount
             }
         },
 
         computed: {
-            classes() {
+            likeClass(){
                 return [
-                    this.active ? 'blue-icon' : 'black-icon'
+                    this.isLiked ? 'blue-icon' : 'black-icon'
                 ];
             },
-
-            endpoint() {
-                return '/thread/' + this.thread.id + '/likes';
-            }
-
+            dislikeClass(){
+                return [
+                    this.isDesliked ? 'red-icon' : 'black-icon'
+                ];
+            },
         },
 
         methods: {
-            toggle(type) {
-                this.active ? this.destroy(type) : this.create(type);
-            },
-
             toggleDislike(){
                 axios.post('/thread/' + this.thread.id + '/dislikes').then((res)=>{
-                    console.log(res)
-                    //this.active = true;
-                   // flash('You are successfully favorite this thread','success')
-                    //this.count++;
+                    if(this.isDesliked){
+                        this.isDesliked = false;
+                        this.dislikesCount--;
+
+                    }else{
+                        this.isDesliked = true;
+                        if(this.isLiked){
+                            this.likesCount--;
+                        }
+                        this.dislikesCount++
+
+                    }
+                    this.isLiked=false;
                 });
             },
             toggleLike(){
                 axios.post('/thread/' + this.thread.id + '/likes').then((res)=>{
-                    console.log(res)
-                    //this.active = true;
-                   // flash('You are successfully favorite this thread','success')
-                    //this.count++;
+                    if(this.isLiked){
+                        this.isLiked = false;
+                        this.likesCount--;
+                    }else{
+                        this.isLiked = true;
+                        if(this.isDesliked){
+                            this.dislikesCount--;
+                        }
+                        this.likesCount++
+                    }
+                    this.isDesliked=false;
                 });
             },
-
-            create(type) {
-                axios.post(this.endpoint,{
-                    type
-                }).then((res)=>{
-                    console.log(res)
-                    this.active = true;
-                    flash('You are successfully favorite this thread','success')
-                    this.count++;
-                });
-
-
-
-            },
-
-            destroy(type) {
-                axios.delete(this.endpoint,{
-                    type
-                }).then((res)=>{
-
-                    console.log(res)
-                    this.active = false;
-                    flash('You are successfully un favorite this thread','success')
-                    this.count--;
-                });
-
-
-            }
 
         }
     }

@@ -11227,59 +11227,60 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      active: this.thread.isLiked,
+      //isDesliked:false
+      isLiked: this.thread.isLiked,
+      isDesliked: this.thread.isDesliked,
       likesCount: this.thread.likesCount,
       dislikesCount: this.thread.dislikesCount
     };
   },
   computed: {
-    classes: function classes() {
-      return [this.active ? 'blue-icon' : 'black-icon'];
+    likeClass: function likeClass() {
+      return [this.isLiked ? 'blue-icon' : 'black-icon'];
     },
-    endpoint: function endpoint() {
-      return '/thread/' + this.thread.id + '/likes';
+    dislikeClass: function dislikeClass() {
+      return [this.isDesliked ? 'red-icon' : 'black-icon'];
     }
   },
   methods: {
-    toggle: function toggle(type) {
-      this.active ? this.destroy(type) : this.create(type);
-    },
     toggleDislike: function toggleDislike() {
+      var _this = this;
+
       axios.post('/thread/' + this.thread.id + '/dislikes').then(function (res) {
-        console.log(res); //this.active = true;
-        // flash('You are successfully favorite this thread','success')
-        //this.count++;
+        if (_this.isDesliked) {
+          _this.isDesliked = false;
+          _this.dislikesCount--;
+        } else {
+          _this.isDesliked = true;
+
+          if (_this.isLiked) {
+            _this.likesCount--;
+          }
+
+          _this.dislikesCount++;
+        }
+
+        _this.isLiked = false;
       });
     },
     toggleLike: function toggleLike() {
-      axios.post('/thread/' + this.thread.id + '/likes').then(function (res) {
-        console.log(res); //this.active = true;
-        // flash('You are successfully favorite this thread','success')
-        //this.count++;
-      });
-    },
-    create: function create(type) {
-      var _this = this;
-
-      axios.post(this.endpoint, {
-        type: type
-      }).then(function (res) {
-        console.log(res);
-        _this.active = true;
-        flash('You are successfully favorite this thread', 'success');
-        _this.count++;
-      });
-    },
-    destroy: function destroy(type) {
       var _this2 = this;
 
-      axios["delete"](this.endpoint, {
-        type: type
-      }).then(function (res) {
-        console.log(res);
-        _this2.active = false;
-        flash('You are successfully un favorite this thread', 'success');
-        _this2.count--;
+      axios.post('/thread/' + this.thread.id + '/likes').then(function (res) {
+        if (_this2.isLiked) {
+          _this2.isLiked = false;
+          _this2.likesCount--;
+        } else {
+          _this2.isLiked = true;
+
+          if (_this2.isDesliked) {
+            _this2.dislikesCount--;
+          }
+
+          _this2.likesCount++;
+        }
+
+        _this2.isDesliked = false;
       });
     }
   }
@@ -84534,7 +84535,7 @@ var render = function() {
             "span",
             {
               staticClass: "glyphicon glyphicon-thumbs-up like-icon",
-              class: _vm.classes
+              class: _vm.likeClass
             },
             [_vm._v(" " + _vm._s(_vm.likesCount))]
           )
@@ -84550,8 +84551,11 @@ var render = function() {
         [
           _c(
             "span",
-            { staticClass: "glyphicon glyphicon-thumbs-down like-icon" },
-            [_vm._v(" " + _vm._s(_vm.dislikesCount))]
+            {
+              staticClass: "glyphicon glyphicon-thumbs-down like-icon",
+              class: _vm.dislikeClass
+            },
+            [_vm._v(" " + _vm._s(_vm.dislikesCount))]
           )
         ]
       )
