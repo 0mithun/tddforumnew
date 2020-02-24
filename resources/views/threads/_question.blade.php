@@ -94,7 +94,9 @@
 {{-- Viewing the question. --}}
 <div class="panel panel-default" v-else>
     <div class="panel-heading">
-        <div class="panel-heading" style="display: block;overflow: hidden;"> <div class="pull-left"><h4  v-text="title"></h4> </div> <div class="pull-right"><favorite-thread :thread="{{ $thread }}" v-if="!authorize('owns', thread) && signedIn "></favorite-thread></div> </div>
+        <div class="panel-heading" style="display: block;overflow: hidden;"> <div class="pull-left"><h4  v-text="title"></h4> </div> <div class="pull-right">
+                <favorite-thread :thread="{{ $thread }}" v-if="!authorize('owns', thread) && signedIn "></favorite-thread>
+            </div> </div>
         <div class="media">
             <div class="media-left">
 
@@ -121,7 +123,7 @@
     <div class="panel-body" v-html="body"></div>
 
 
-    <hr>
+
     <div v-if="report" class="panel-body">
         <div class="form-group">
             <label for="report_reason">Reason for report the thread:</label>
@@ -156,9 +158,23 @@
             </div>
             <div class="col-md-12" v-else>
                 <div v-if=signedIn >
-                    <button class="btn btn-xs btn-danger ml-a red-bg pull-right" @click="reportReply" v-if="!report" :disabled=thread.isReported >
-                        <span class="glyphicon glyphicon-ban-circle"></span>
-                    </button>
+                    <div class="col-md-8">
+                    </div>
+                    <div class="col-md-4">
+                        <div class="btn-group btn-group-xs pull-right" role="group" >
+                            <like-button :thread="{{ $thread }}"></like-button>
+{{--                            <button class="btn btn-xs btn-default ml-a  " @click="like" v-if="!report" :disabled=thread.isReported >--}}
+{{--                                <span class="glyphicon glyphicon-thumbs-up like-icon"> 300</span>--}}
+{{--                            </button>--}}
+{{--                            <button class="btn btn-xs btn-default ml-a  " @click="like" v-if="!report" :disabled=thread.isReported >--}}
+{{--                                <span class="glyphicon glyphicon-thumbs-down like-icon"> 52</span>--}}
+{{--                            </button>--}}
+                        </div>
+                        <button class="btn btn-xs btn-danger ml-a red-bg" @click="reportReply" v-if="!report" :disabled=thread.isReported >
+                            <span class="glyphicon glyphicon-ban-circle like-icon"></span>
+                        </button>
+
+                    </div>
                 </div>
 
             </div>

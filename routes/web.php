@@ -48,6 +48,12 @@ Route::post('/thread/{thread}/favorites', 'FavoritesController@threadStore');
 Route::delete('/thread/{thread}/favorites', 'FavoritesController@thraeadDestroy');
 
 
+Route::post('/thread/{thread}/likes', 'LikeController@store');
+Route::delete('/thread/{thread}/likes', 'LikeController@destroy');
+
+
+
+
 
 
 //Route::post('/replies/{reply}/report', 'RepliesController@report');

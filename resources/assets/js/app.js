@@ -34,8 +34,13 @@ Vue.component('tiny-mce', TinyMCE);
 import UnscribeButton from './components/UnscribeButton';
 Vue.component('unscribe-button', UnscribeButton);
 
-import FavoriteThread from './components/FavoriteThread.vue'
+import FavoriteThread from './components/FavoriteThread.vue';
 Vue.component('favorite-thread',FavoriteThread);
+
+import LikeButton from './components/LikeButton.vue';
+Vue.component('like-button', LikeButton);
+
+
 
 window.tinekey = 'l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g';
 
@@ -50,6 +55,6 @@ const app = new Vue({
         Wysiwyg,
         ThreadView,
         Typhaed,
-        UnscribeButton
+        UnscribeButton,
     }
 });

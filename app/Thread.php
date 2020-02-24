@@ -13,7 +13,7 @@ use DB;
 
 class Thread extends Model
 {
-    use RecordsActivity, Searchable, Notifiable, Favoritable;
+    use RecordsActivity, Searchable, Notifiable, Favoritable, Likeable;
 
     /**
      * Don't auto-apply mass assignment protection.
@@ -27,14 +27,14 @@ class Thread extends Model
      *
      * @var array
      */
-    protected $with = ['creator', 'channel'];
+    protected $with = ['creator', 'channel','likes'];
 
     /**
      * The accessors to append to the model's array form.
      *
      * @var array
      */
-    protected $appends = ['isSubscribedTo','isReported','isFavorited'];
+    protected $appends = ['isSubscribedTo','isReported','isFavorited','isLiked'];
 
     /**
      * The attributes that should be cast to native types.
@@ -262,7 +262,32 @@ class Thread extends Model
 
     }
 
-//    public  function favorite(){
-//        return $this->morphOne(Favorite::class,'favorited');
-//    }
+    public function likes()
+    {
+        return $this->morphMany(Likes::class, 'likeable');
+    }
+
+    public function isLiked()
+    {
+        return !!$this->likes->where('user_id', auth()->id())->count();
+    }
+
+    public function getIsLikedAttribute()
+    {
+        return $this->isLiked();
+    }
+
+    public function like()
+    {
+        $attributes = [
+            'user_id' => auth()->id(),
+            'up'    =>  1
+        ];
+
+        if (! $this->likes()->where($attributes)->exists()) {
+            return $this->likes()->create($attributes);
+        }
+    }
+
+
 }

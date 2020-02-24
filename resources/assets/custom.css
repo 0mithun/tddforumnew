@@ -47,6 +47,14 @@ li.list-group-item{
 .grey-icon{
     color:grey;
 }
+.blue-icon{
+    color:green;
+    font-weight: bold;
+}
+.black-icon{
+    color:black;
+    font-weight: bold;
+}
 
 .thread-info {
     margin-top: 10px;
