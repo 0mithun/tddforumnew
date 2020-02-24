@@ -7,18 +7,39 @@ namespace App;
 trait Likeable
 {
 
+    public function likes()
+    {
+        return $this->morphMany(Likes::class, 'likeable');
+    }
+
 
     public function like()
     {
         $attributes = [
             'user_id' => auth()->id(),
-           // 'up' => 1
+            'up' => 1
         ];
 
         if (!$this->likes()->where($attributes)->exists()) {
             return $this->likes()->create($attributes);
         }
     }
+
+
+    public function disLike()
+    {
+        $attributes = [
+            'user_id' => auth()->id(),
+             'down' => 1
+        ];
+
+        if (!$this->likes()->where($attributes)->exists()) {
+            return $this->likes()->create($attributes);
+        }
+    }
+
+
+
 
     public function unlike(){
         $attributes = [
@@ -29,11 +50,6 @@ trait Likeable
         $this->likes()->where($attributes)->delete();
     }
 
-    public function likes()
-    {
-        return $this->morphMany(Likes::class, 'likeable');
-    }
-
     public function getIsLikedAttribute()
     {
         return $this->isLiked();
@@ -41,11 +57,30 @@ trait Likeable
 
     public function isLiked()
     {
-        return !!$this->likes->where('user_id', auth()->id())->count();
+        return !!$this->likes->where('user_id', auth()->id())->where('up',1)->count();
     }
+
+
+    public function getIsDeslikedAttribute(){
+        return $this->isDesliked();
+    }
+
+    public function isDesliked(){
+        return !!$this->likes->where('user_id', auth()->id())->where('down',1)->count();
+    }
+
+
+
+
 
 
     public function getLikesCountAttribute(){
         return $this->likes()->count();
     }
+    public function getDislikesCountAttribute(){
+        return $this->likes()->count();
+    }
+
+
+
 }

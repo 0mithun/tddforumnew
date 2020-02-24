@@ -11241,23 +11241,41 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    toggle: function toggle() {
-      this.active ? this.destroy() : this.create();
+    toggle: function toggle(type) {
+      this.active ? this.destroy(type) : this.create(type);
     },
-    create: function create() {
+    toggleDislike: function toggleDislike() {
+      axios.post('/thread/' + this.thread.id + '/dislikes').then(function (res) {
+        console.log(res); //this.active = true;
+        // flash('You are successfully favorite this thread','success')
+        //this.count++;
+      });
+    },
+    toggleLike: function toggleLike() {
+      axios.post('/thread/' + this.thread.id + '/likes').then(function (res) {
+        console.log(res); //this.active = true;
+        // flash('You are successfully favorite this thread','success')
+        //this.count++;
+      });
+    },
+    create: function create(type) {
       var _this = this;
 
-      axios.post(this.endpoint).then(function (res) {
+      axios.post(this.endpoint, {
+        type: type
+      }).then(function (res) {
         console.log(res);
         _this.active = true;
         flash('You are successfully favorite this thread', 'success');
         _this.count++;
       });
     },
-    destroy: function destroy() {
+    destroy: function destroy(type) {
       var _this2 = this;
 
-      axios["delete"](this.endpoint).then(function (res) {
+      axios["delete"](this.endpoint, {
+        type: type
+      }).then(function (res) {
         console.log(res);
         _this2.active = false;
         flash('You are successfully un favorite this thread', 'success');
@@ -84509,7 +84527,7 @@ var render = function() {
         "button",
         {
           staticClass: "btn btn-xs btn-default ml-a  ",
-          on: { click: _vm.toggle }
+          on: { click: _vm.toggleLike }
         },
         [
           _c(
@@ -84527,13 +84545,13 @@ var render = function() {
         "button",
         {
           staticClass: "btn btn-xs btn-default ml-a  ",
-          on: { click: _vm.toggle }
+          on: { click: _vm.toggleDislike }
         },
         [
           _c(
             "span",
             { staticClass: "glyphicon glyphicon-thumbs-down like-icon" },
-            [_vm._v(" 52")]
+            [_vm._v(" " + _vm._s(_vm.dislikesCount))]
           )
         ]
       )
