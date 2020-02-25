@@ -38,19 +38,17 @@
             </div>
 
             <div v-else v-html="body"></div>
-            <div class="" style="margin-top: 10px">
+            <div class="" style="margin-top: 10px" v-if="signedIn">
                 <div class="col-md-1 no-margin" v-if="nestedReplyCount >0">
                     <button class="btn btn-default btn-xs" @click="showNested = !showNested">
                         <span class="caret"></span>
                     </button>
                 </div>
-                <div class="no-margin " v-else>
+
+
+                <div class="div" v-else>
                     <NestedReply v-if="addNested" :reply="reply"></NestedReply>
-                    <div class="col-md-12 no-margin" >
-                        <div v-if="signedIn">
-                            <button class="btn btn-xs mr-1 btn-default" @click="addNestedReply" v-if="!addNested">Reply</button>
-                        </div>
-                    </div>
+                    <button class="btn btn-xs mr-1 btn-default" @click="addNestedReply" v-if="!addNested">Reply</button>
                 </div>
                 <div class="col-md-11 no-margin" v-if="showNested">
                     <ReplyNested v-for="(nestedReply, index) in nestedReplies" :reply="nestedReply" :key="index"></ReplyNested>
@@ -61,6 +59,8 @@
                         </div>
                     </div>
                 </div>
+
+
             </div>
 
             <div v-if="report" style="margin-top: 19px;">
@@ -166,13 +166,24 @@
             });
             eventBus.$on('cancelAddReply',()=>{
                 this.addNested = false;
+                console.log('cancel')
             });
-            eventBus.$on('addNestedReply',data=>{
 
+            eventBus.$on('addNestedReply',data=>{
+                this.loadNestedReply();
                 this.addNested = false;
-                //this.nestedReplies.push(data);
-                console.log(data)
-            })
+                flash('Your reply has been posted.');
+            });
+
+
+            eventBus.$on('deleteNested',(id)=>{
+                let newData = this.nestedReplies.filter(item=>{
+                    return item.id !=id;
+                });
+                this.nestedReplies = newData;
+                flash('Your reply has been deleted.');
+            });
+
         },
 
 
@@ -198,7 +209,6 @@
                 }));
             },
             reportUser(){
-              //this.userReport = true;
                 axios.post('/api/users/report',{
                     user_id: this.reply.owner.id
                 }).then((res=>{
@@ -221,10 +231,8 @@
             },
 
             destroy() {
-                //delete = ;
                 if(confirm('Are you sure delete this reply')){
                     axios.delete('/replies/' + this.id);
-
                     this.$emit('deleted', this.id);
                 }
 
@@ -232,7 +240,6 @@
 
             markBestReply() {
                 axios.post('/replies/' + this.id + '/best');
-
                 window.events.$emit('best-reply-selected', this.id);
             }
         }

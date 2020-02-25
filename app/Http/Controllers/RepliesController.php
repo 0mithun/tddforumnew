@@ -60,8 +60,11 @@ class RepliesController extends Controller
     }
 
     public  function newReply(Reply $reply){
-        //return $reply;
-           //dd($reply);
+        request()->validate([
+            'body'  =>  'required',
+        ]);
+
+
         Reply::create([
             'body' => request('body'),
             'user_id' => auth()->id(),

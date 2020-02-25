@@ -11350,7 +11350,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     cancelAddReply: function cancelAddReply() {
-      // console.log('cancel add reply')
       eventBus.$emit('cancelAddReply');
     },
     addReply: function addReply() {
@@ -11366,7 +11365,6 @@ __webpack_require__.r(__webpack_exports__);
         _this.body = '';
         _this.completed = true;
         eventBus.$emit('addNestedReply', data);
-        flash('Your reply has been posted.');
       });
     }
   }
@@ -11778,11 +11776,21 @@ __webpack_require__.r(__webpack_exports__);
     });
     eventBus.$on('cancelAddReply', function () {
       _this.addNested = false;
+      console.log('cancel');
     });
     eventBus.$on('addNestedReply', function (data) {
-      _this.addNested = false; //this.nestedReplies.push(data);
+      _this.loadNestedReply();
 
-      console.log(data);
+      _this.addNested = false;
+      flash('Your reply has been posted.');
+    });
+    eventBus.$on('deleteNested', function (id) {
+      var newData = _this.nestedReplies.filter(function (item) {
+        return item.id != id;
+      });
+
+      _this.nestedReplies = newData;
+      flash('Your reply has been deleted.');
     });
   },
   methods: {
@@ -11812,7 +11820,6 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     reportUser: function reportUser() {
-      //this.userReport = true;
       axios.post('/api/users/report', {
         user_id: this.reply.owner.id
       }).then(function (res) {
@@ -11829,7 +11836,6 @@ __webpack_require__.r(__webpack_exports__);
       flash('Updated!');
     },
     destroy: function destroy() {
-      //delete = ;
       if (confirm('Are you sure delete this reply')) {
         axios["delete"]('/replies/' + this.id);
         this.$emit('deleted', this.id);
@@ -12001,25 +12007,9 @@ __webpack_require__.r(__webpack_exports__);
     //this.loadNestedReply();
     window.events.$on('best-reply-selected', function (id) {
       _this.isBest = id === _this.id;
-    }); // eventBus.$on('cancelAddReply',()=>{
-    //     this.addNested = false;
-    // });
-    // eventBus.$on('addNestedReply',data=>{
-    //
-    //     this.addNested = false;
-    //     console.log(data)
-    // })
+    });
   },
   methods: {
-    // loadNestedReply(){
-    //   let url = `/replies/${this.reply.id}/load-reply`;
-    //     axios.get(url).then(({data})=>{
-    //         this.nestedReplies = data
-    //     });
-    // },
-    // addNestedReply(){
-    //     this.addNested = true;
-    // },
     reportReply: function reportReply() {
       this.report = true;
     },
@@ -12054,7 +12044,7 @@ __webpack_require__.r(__webpack_exports__);
       //delete = ;
       if (confirm('Are you sure delete this reply')) {
         axios["delete"]('/replies/' + this.id);
-        this.$emit('deleted', this.id);
+        eventBus.$emit('deleteNested', this.id);
       }
     },
     markBestReply: function markBestReply() {
@@ -84827,11 +84817,7 @@ var render = function() {
             [_vm._v("Canel")]
           )
         ])
-      : _c("p", { staticClass: "text-center" }, [
-          _vm._v("\n        Please "),
-          _c("a", { attrs: { href: "/login" } }, [_vm._v("sign in")]),
-          _vm._v(" to participate in this\n        discussion.\n    ")
-        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
@@ -85195,87 +85181,84 @@ var render = function() {
             ])
           : _c("div", { domProps: { innerHTML: _vm._s(_vm.body) } }),
         _vm._v(" "),
-        _c("div", { staticStyle: { "margin-top": "10px" } }, [
-          _vm.nestedReplyCount > 0
-            ? _c("div", { staticClass: "col-md-1 no-margin" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-default btn-xs",
-                    on: {
-                      click: function($event) {
-                        _vm.showNested = !_vm.showNested
-                      }
-                    }
-                  },
-                  [_c("span", { staticClass: "caret" })]
-                )
-              ])
-            : _c(
-                "div",
-                { staticClass: "no-margin " },
-                [
-                  _vm.addNested
-                    ? _c("NestedReply", { attrs: { reply: _vm.reply } })
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-12 no-margin" }, [
-                    _vm.signedIn
-                      ? _c("div", [
-                          !_vm.addNested
-                            ? _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-xs mr-1 btn-default",
-                                  on: { click: _vm.addNestedReply }
-                                },
-                                [_vm._v("Reply")]
-                              )
-                            : _vm._e()
-                        ])
-                      : _vm._e()
+        _vm.signedIn
+          ? _c("div", { staticStyle: { "margin-top": "10px" } }, [
+              _vm.nestedReplyCount > 0
+                ? _c("div", { staticClass: "col-md-1 no-margin" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-default btn-xs",
+                        on: {
+                          click: function($event) {
+                            _vm.showNested = !_vm.showNested
+                          }
+                        }
+                      },
+                      [_c("span", { staticClass: "caret" })]
+                    )
                   ])
-                ],
-                1
-              ),
-          _vm._v(" "),
-          _vm.showNested
-            ? _c(
-                "div",
-                { staticClass: "col-md-11 no-margin" },
-                [
-                  _vm._l(_vm.nestedReplies, function(nestedReply, index) {
-                    return _c("ReplyNested", {
-                      key: index,
-                      attrs: { reply: nestedReply }
-                    })
-                  }),
-                  _vm._v(" "),
-                  _vm.addNested
-                    ? _c("NestedReply", { attrs: { reply: _vm.reply } })
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-12 no-margin" }, [
-                    _vm.signedIn
-                      ? _c("div", [
-                          !_vm.addNested
-                            ? _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-xs mr-1 btn-default",
-                                  on: { click: _vm.addNestedReply }
-                                },
-                                [_vm._v("Reply")]
-                              )
-                            : _vm._e()
-                        ])
-                      : _vm._e()
-                  ])
-                ],
-                2
-              )
-            : _vm._e()
-        ]),
+                : _c(
+                    "div",
+                    { staticClass: "div" },
+                    [
+                      _vm.addNested
+                        ? _c("NestedReply", { attrs: { reply: _vm.reply } })
+                        : _vm._e(),
+                      _vm._v(" "),
+                      !_vm.addNested
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-xs mr-1 btn-default",
+                              on: { click: _vm.addNestedReply }
+                            },
+                            [_vm._v("Reply")]
+                          )
+                        : _vm._e()
+                    ],
+                    1
+                  ),
+              _vm._v(" "),
+              _vm.showNested
+                ? _c(
+                    "div",
+                    { staticClass: "col-md-11 no-margin" },
+                    [
+                      _vm._l(_vm.nestedReplies, function(nestedReply, index) {
+                        return _c("ReplyNested", {
+                          key: index,
+                          attrs: { reply: nestedReply }
+                        })
+                      }),
+                      _vm._v(" "),
+                      _vm.addNested
+                        ? _c("NestedReply", { attrs: { reply: _vm.reply } })
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-12 no-margin" }, [
+                        _vm.signedIn
+                          ? _c("div", [
+                              !_vm.addNested
+                                ? _c(
+                                    "button",
+                                    {
+                                      staticClass:
+                                        "btn btn-xs mr-1 btn-default",
+                                      on: { click: _vm.addNestedReply }
+                                    },
+                                    [_vm._v("Reply")]
+                                  )
+                                : _vm._e()
+                            ])
+                          : _vm._e()
+                      ])
+                    ],
+                    2
+                  )
+                : _vm._e()
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _vm.report
           ? _c("div", { staticStyle: { "margin-top": "19px" } }, [

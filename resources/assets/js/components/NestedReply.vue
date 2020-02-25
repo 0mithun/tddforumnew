@@ -13,10 +13,10 @@
                     @click="cancelAddReply">Canel</button>
         </div>
 
-        <p class="text-center" v-else>
-            Please <a href="/login">sign in</a> to participate in this
-            discussion.
-        </p>
+<!--        <p class="text-center" v-else>-->
+<!--            Please <a href="/login">sign in</a> to participate in this-->
+<!--            discussion.-->
+<!--        </p>-->
     </div>
 </template>
 
@@ -48,7 +48,6 @@
 
         methods: {
             cancelAddReply(){
-                // console.log('cancel add reply')
                 eventBus.$emit('cancelAddReply');
             },
             addReply() {
@@ -61,7 +60,7 @@
                         this.body = '';
                         this.completed = true;
                         eventBus.$emit('addNestedReply', data);
-                        flash('Your reply has been posted.');
+
                     });
             }
         }

@@ -136,27 +136,11 @@
             window.events.$on('best-reply-selected', id => {
                 this.isBest = (id === this.id);
             });
-            // eventBus.$on('cancelAddReply',()=>{
-            //     this.addNested = false;
-            // });
-            // eventBus.$on('addNestedReply',data=>{
-            //
-            //     this.addNested = false;
-            //     console.log(data)
-            // })
+
         },
 
 
         methods: {
-            // loadNestedReply(){
-            //   let url = `/replies/${this.reply.id}/load-reply`;
-            //     axios.get(url).then(({data})=>{
-            //         this.nestedReplies = data
-            //     });
-            // },
-            // addNestedReply(){
-            //     this.addNested = true;
-            // },
             reportReply(){
                 this.report = true;
             },
@@ -195,8 +179,7 @@
                 //delete = ;
                 if(confirm('Are you sure delete this reply')){
                     axios.delete('/replies/' + this.id);
-
-                    this.$emit('deleted', this.id);
+                    eventBus.$emit('deleteNested', this.id);
                 }
 
             },
