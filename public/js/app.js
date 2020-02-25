@@ -11427,6 +11427,7 @@ __webpack_require__.r(__webpack_exports__);
             name: query
           }, function (usernames) {
             callback(usernames);
+            console.log('Hello');
           });
         }
       }
@@ -11710,6 +11711,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -11869,6 +11897,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery_caret__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(jquery_caret__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var at_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! at.js */ "./node_modules/at.js/dist/js/jquery.atwho.js");
 /* harmony import */ var at_js__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(at_js__WEBPACK_IMPORTED_MODULE_6__);
+//
+//
 //
 //
 //
@@ -84704,7 +84734,7 @@ var render = function() {
   return _c(
     "div",
     {
-      staticClass: "btn-group btn-group-xs pull-right",
+      staticClass: "btn-group btn-group-xs pull-left",
       attrs: { role: "group" }
     },
     [
@@ -84844,7 +84874,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _vm.signedIn
-      ? _c("div", { staticStyle: { "border-top": "1px solid #333" } }, [
+      ? _c("div", [
           _c("h3", [_vm._v("Add New Reply")]),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
@@ -85063,11 +85093,24 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "panel panel-default", attrs: { id: "reply-" + _vm.id } },
+    {
+      staticClass: "panel panel-default panel-no-margin ",
+      attrs: { id: "reply-" + _vm.id }
+    },
     [
       _c("div", { staticClass: "panel-heading reply-heading" }, [
         _c("div", { staticClass: "level" }, [
           _c("h5", { staticClass: "flex" }, [
+            _c("img", {
+              staticClass: "mr-1 avatar-photo",
+              attrs: {
+                src: _vm.reply.owner.profileAvatarPath,
+                alt: "",
+                width: "25",
+                height: "25"
+              }
+            }),
+            _vm._v(" "),
             _c("a", {
               attrs: { href: "/profiles/" + _vm.reply.owner.username },
               domProps: { textContent: _vm._s(_vm.reply.owner.name) }
@@ -85261,64 +85304,75 @@ var render = function() {
           : _vm._e(),
         _vm._v(" "),
         _vm.report
-          ? _c("div", { staticStyle: { "margin-top": "19px" } }, [
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "report_reason" } }, [
-                  _vm._v("Reason for report the reply:")
+          ? _c(
+              "div",
+              {
+                staticStyle: {
+                  "margin-top": "10px",
+                  overflow: "hidden",
+                  display: "block",
+                  width: "100%"
+                }
+              },
+              [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "report_reason" } }, [
+                    _vm._v("Reason for report the reply:")
+                  ]),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.report_reason,
+                        expression: "report_reason"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      name: "report_reason",
+                      id: "report_reason",
+                      cols: "30",
+                      rows: "2"
+                    },
+                    domProps: { value: _vm.report_reason },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.report_reason = $event.target.value
+                      }
+                    }
+                  })
                 ]),
                 _vm._v(" "),
-                _c("textarea", {
-                  directives: [
+                _c("div", { staticClass: "form-group" }, [
+                  _c(
+                    "button",
                     {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.report_reason,
-                      expression: "report_reason"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    name: "report_reason",
-                    id: "report_reason",
-                    cols: "30",
-                    rows: "3"
-                  },
-                  domProps: { value: _vm.report_reason },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
+                      staticClass: "btn btn-xs btn-primary mr-1",
+                      on: { click: _vm.makeReport }
+                    },
+                    [_vm._v("Make Report")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-xs btn-danger mr-1 red-bg",
+                      on: {
+                        click: function($event) {
+                          _vm.report = false
+                        }
                       }
-                      _vm.report_reason = $event.target.value
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-xs btn-primary mr-1",
-                    on: { click: _vm.makeReport }
-                  },
-                  [_vm._v("Make Report")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-xs btn-danger mr-1 red-bg",
-                    on: {
-                      click: function($event) {
-                        _vm.report = false
-                      }
-                    }
-                  },
-                  [_vm._v("Cancel")]
-                )
-              ])
-            ])
+                    },
+                    [_vm._v("Cancel")]
+                  )
+                ])
+              ]
+            )
           : _vm._e()
       ]),
       _vm._v(" "),
@@ -85412,6 +85466,16 @@ var render = function() {
       _c("div", { staticClass: "panel-heading reply-heading" }, [
         _c("div", { staticClass: "level" }, [
           _c("h5", { staticClass: "flex" }, [
+            _c("img", {
+              staticClass: "mr-1 avatar-photo",
+              attrs: {
+                src: _vm.reply.owner.profileAvatarPath,
+                alt: "",
+                width: "25",
+                height: "25"
+              }
+            }),
+            _vm._v(" "),
             _c("a", {
               attrs: { href: "/profiles/" + _vm.reply.owner.username },
               domProps: { textContent: _vm._s(_vm.reply.owner.name) }
@@ -85491,7 +85555,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { name: "body", id: "body", cols: "30", rows: "3" },
+                    attrs: { name: "body", id: "body", cols: "30", rows: "2" },
                     domProps: { value: _vm.body },
                     on: {
                       input: function($event) {
@@ -85526,7 +85590,7 @@ var render = function() {
           : _c("div", { domProps: { innerHTML: _vm._s(_vm.body) } }),
         _vm._v(" "),
         _vm.report
-          ? _c("div", { staticStyle: { "margin-top": "19px" } }, [
+          ? _c("div", { staticStyle: { "margin-top": "10px" } }, [
               _c("div", { staticClass: "form-group" }, [
                 _c("label", { attrs: { for: "report_reason" } }, [
                   _vm._v("Reason for report the reply:")
@@ -85546,7 +85610,7 @@ var render = function() {
                     name: "report_reason",
                     id: "report_reason",
                     cols: "30",
-                    rows: "3"
+                    rows: "2"
                   },
                   domProps: { value: _vm.report_reason },
                   on: {

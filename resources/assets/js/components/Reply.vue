@@ -1,13 +1,40 @@
 <template>
-    <div :id="'reply-'+id"  class="panel panel-default">
+    <div :id="'reply-'+id"  class="panel panel-default panel-no-margin ">
         <div class="panel-heading reply-heading">
             <div class="level">
                 <h5 class="flex">
+                    <img :src="reply.owner.profileAvatarPath"
+                         alt=""
+                         width="25"
+                         height="25"
+                         class="mr-1 avatar-photo">
                     <a :href="'/profiles/' + reply.owner.username"
                         v-text="reply.owner.name">
                     </a>
                     said <span v-text="ago"></span>
                 </h5>
+
+<!--                <div class="media">-->
+<!--                    <div class="media-left">-->
+
+<!--                        <a href="#">-->
+<!--                            <img src="{{ asset($thread->creator->avatar_path) }}"-->
+<!--                                 alt="{{ $thread->creator->name }}"-->
+<!--                                 width="25"-->
+<!--                                 height="25"-->
+<!--                                 class="mr-1 avatar-photo">-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                    <div class="media-body">-->
+<!--                        <h4 class="media-heading thread-info">-->
+<!--                            Posted by: <a href="{{ route('profile', $thread->creator->username) }}">{{ $thread->creator->name }}</a>-->
+<!--                            {{ $thread->created_at->diffForHumans()  }}-->
+<!--                        </h4>-->
+
+
+
+<!--                    </div>-->
+<!--                </div>-->
 
                 <div v-if="signedIn" class="col-md-2">
                     <div class="pull-left" v-if="!authorize('owns', reply)">
@@ -63,10 +90,10 @@
 
             </div>
 
-            <div v-if="report" style="margin-top: 19px;">
+            <div v-if="report" style="margin-top: 10px;overflow: hidden;display:block;width:100%">
                 <div class="form-group">
                     <label for="report_reason">Reason for report the reply:</label>
-                    <textarea name="report_reason" id="report_reason" cols="30" rows="3" v-model="report_reason" class="form-control"></textarea>
+                    <textarea name="report_reason" id="report_reason" cols="30" rows="2" v-model="report_reason" class="form-control"></textarea>
                 </div>
 
                 <div class="form-group">

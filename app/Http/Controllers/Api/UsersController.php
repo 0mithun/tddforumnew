@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Notifications\UserWasReported;
 use App\User;
 
+use DB;
 class UsersController extends Controller
 {
     /**
@@ -17,10 +18,20 @@ class UsersController extends Controller
     public function index()
     {
         $search = request('name');
-
-        return User::where('name', 'LIKE', "%$search%")
-            ->take(5)
-            ->pluck('name');
+//        return [
+//          'hello',
+//          'world'
+//        ];
+//        return User:: where('name', 'LIKE', "%$search%")
+//            ->take(5)
+//            ->pluck('name')->toArray();
+        //full_name
+     return   DB::table("users")
+            ->select("id", DB::raw("CONCAT(first_name, ' ', last_name) as name"))
+//            ->where("students_class_id", $id)
+                ->where('name', 'LIKE', "%$search%")
+            ->pluck("name");
+            ;
     }
 
     public function user(Request $request){

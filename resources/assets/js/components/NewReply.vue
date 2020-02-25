@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="signedIn" style="border-top:1px solid #333">
+        <div v-if="signedIn" >
             <h3>Add New Reply</h3>
             <div class="form-group">
                 <textarea name="body" id="body" cols="30" rows="3" class="form-control" v-model="body"></textarea>
@@ -40,6 +40,7 @@
                     remoteFilter: function(query, callback) {
                         $.getJSON("/api/users", {name: query}, function(usernames) {
                             callback(usernames)
+                            console.log('Hello')
                         });
                     }
                 }

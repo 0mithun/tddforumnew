@@ -1,5 +1,5 @@
 <template>
-    <div class="btn-group btn-group-xs pull-right" role="group" >
+    <div class="btn-group btn-group-xs pull-left" role="group" >
         <button class="btn btn-xs btn-default ml-a  " @click="toggleLike"  >
             <span class="glyphicon glyphicon-thumbs-up like-icon" :class="likeClass">&nbsp;{{ likesCount }}</span>
         </button>

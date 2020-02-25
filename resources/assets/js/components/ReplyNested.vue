@@ -3,6 +3,11 @@
         <div class="panel-heading reply-heading">
             <div class="level">
                 <h5 class="flex">
+                    <img :src="reply.owner.profileAvatarPath"
+                         alt=""
+                         width="25"
+                         height="25"
+                         class="mr-1 avatar-photo">
                     <a :href="'/profiles/' + reply.owner.username"
                         v-text="reply.owner.name">
                     </a>
@@ -21,7 +26,6 @@
                     <div class="pull-right">
                         <favorite :reply="reply" type="xs"></favorite>
                     </div>
-<!--                    <report :reply="reply"></report>-->
                 </div>
             </div>
         </div>
@@ -30,7 +34,7 @@
             <div v-if="editing">
                 <form @submit="update">
                     <div class="form-group">
-                        <textarea name="body" id="body" cols="30" rows="3" class="form-control" v-model="body"></textarea>
+                        <textarea name="body" id="body" cols="30" rows="2" class="form-control" v-model="body"></textarea>
                     </div>
                     <button class="btn btn-xs btn-primary">Update</button>
                     <button class="btn btn-xs btn-link" @click="editing = false" type="button">Cancel</button>
@@ -38,12 +42,10 @@
             </div>
 
             <div v-else v-html="body"></div>
-<!--            <NestedReply v-if="addNested" :reply="reply"></NestedReply>-->
-
-            <div v-if="report" style="margin-top: 19px;">
+            <div v-if="report" style="margin-top: 10px;">
                 <div class="form-group">
                     <label for="report_reason">Reason for report the reply:</label>
-                    <textarea name="report_reason" id="report_reason" cols="30" rows="3" v-model="report_reason" class="form-control"></textarea>
+                    <textarea name="report_reason" id="report_reason" cols="30" rows="2" v-model="report_reason" class="form-control"></textarea>
                 </div>
 
                 <div class="form-group">

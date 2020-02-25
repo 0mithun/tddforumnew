@@ -1,7 +1,9 @@
-
 @extends('layouts.app')
 
 @section('content')
+    @php
+        $user = auth()->user();
+    @endphp
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -25,6 +27,7 @@
                                     <a class="list-group-item" href="{{ route('profile.subscriptions', auth()->user()->username)  }}">My Subscriptions </a>
                                     <a class="list-group-item" href="{{ route('profile.favorites', auth()->user()->username)  }}">My Favorites</a>
                                     <a class="list-group-item" href="{{ route('profile.threads', auth()->user()->username)  }}">My Threads</a>
+                                    <a class="list-group-item" href="{{ route('profile.likes', auth()->user()->username)  }}">My Likes</a>
                                     <a class="list-group-item" href="{{ route('user.edit.password')  }}">Change Password</a>
                                 </div>
                             </div>
@@ -42,7 +45,10 @@
                                         @endif
                                         <div class="row">
                                             <div class="col-md-9">
-                                                <h4>Joined 1 week ago From: City, Country</h4>
+                                                <h4>Joined {{ $user->created_at->diffForHumans()  }}
+                                                    {{ ($user->city !='' || $user->country !='')? 'From:' : '' }}
+                                                     {{ $user->city !=''? $user->city.", ": ''  }} {{ $user->country  }}
+                                                </h4>
                                             </div>
                                             <div class="col-md-3">
                                                 <a class="btn btn-primary" href="{{ route('profile.user.edit', auth()->user()->username) }}" >Edit My Information</a>
@@ -55,7 +61,7 @@
                                     </div>
                                     <div class="panel-body">
                                         <h4>About Me</h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit, ullam. </p>
+                                        {{ $user->about }}
 
                                     </div>
                                 </div>

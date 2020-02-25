@@ -35,6 +35,7 @@
                                         <a class="list-group-item" href="{{ route('profile.subscriptions', auth()->user()->username)  }}">My Subscriptions </a>
                                         <a class="list-group-item" href="{{ route('profile.favorites', auth()->user()->username)  }}">My Favorites</a>
                                         <a class="list-group-item" href="{{ route('profile.threads', auth()->user()->username)  }}">My Threads</a>
+                                        <a class="list-group-item " href="{{ route('profile.likes', auth()->user()->username)  }}">My Likes</a>
                                         <a class="list-group-item active" href="{{ route('user.edit.password')  }}">Change Password</a>
                                     </div>
                                 </div>

@@ -51,5 +51,8 @@
             tinycomments_mode: 'embedded',
             tinycomments_author: 'Author name',
         });
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
     </script>
     @endsection

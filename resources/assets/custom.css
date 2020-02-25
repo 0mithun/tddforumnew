@@ -81,4 +81,8 @@ li.list-group-item{
     padding-right: 0px;
 }
 
+.panel-no-margin{
+    margin-bottom: 5px;
+}
+
 

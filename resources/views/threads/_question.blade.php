@@ -169,10 +169,12 @@
 {{--                            <button class="btn btn-xs btn-default ml-a  " @click="like" v-if="!report" :disabled=thread.isReported >--}}
 {{--                                <span class="glyphicon glyphicon-thumbs-down like-icon"> 52</span>--}}
 {{--                            </button>--}}
+
+                            <button data-toggle="tooltip" title="Report Thread" class="btn btn-xs btn-danger ml-a red-bg pull-right" @click="reportReply" v-if="!report" :disabled=thread.isReported  data-placement="left">
+                                <span class="glyphicon glyphicon-flag"></span>
+                            </button>
                         </div>
-                        <button class="btn btn-xs btn-danger ml-a red-bg" @click="reportReply" v-if="!report" :disabled=thread.isReported >
-                            <span class="glyphicon glyphicon-ban-circle like-icon"></span>
-                        </button>
+
 
                     </div>
                 </div>

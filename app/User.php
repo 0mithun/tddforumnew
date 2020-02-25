@@ -49,7 +49,7 @@ class User extends Authenticatable
         'confirmed' => 'boolean'
     ];
 
-    protected $appends = ['isReported'];
+    protected $appends = ['isReported','profileAvatarPath'];
 
     /**
      * Get the route key name for Laravel.
@@ -173,6 +173,10 @@ class User extends Authenticatable
             return false;
         }
 
+    }
+
+    public function getFullNameAttribute(){
+        return $this->first_name. ' '. $this->last_name;
     }
 
 }

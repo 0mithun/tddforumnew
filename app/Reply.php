@@ -109,10 +109,16 @@ class Reply extends Model
     public function setBodyAttribute($body)
     {
         $line = preg_replace_callback(
-            '/@([\w\-]+)/',
+//            '/@([\w\-]+)/',
+            '/@(?<=@)[a-zA-Z]+\s[a-zA-Z]+/',
+
             function ($matches) {
-//                return strtolower($matches[0]);
-                $user = User::where( 'name', $matches[1])->first();
+                //return strtolower($matches[0]);
+                //return $matches[1];
+                $name = substr($matches[0],1);
+               // return $name;
+
+                 $user = User::where( 'name', $name)->first();
                 if($user){
                     return "<a href=\"/profiles/".$user->username."\">".$matches[0]."</a>";
                 }else{

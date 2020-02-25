@@ -89,6 +89,7 @@ Route::post('/profiles/{user}/update', 'ProfilesController@update')->name('profi
 Route::get('/profiles/{user}/my-subscriptions','ProfilesController@mySubscriptionsShow')->name('profile.subscriptions');
 Route::get('/profiles/{user}/my-favorites','ProfilesController@myFavoritesShow')->name('profile.favorites');
 Route::get('/profiles/{user}/my-threads','ProfilesController@myThreadsShow')->name('profile.threads');
+Route::get('/profiles/{user}/my-likes','ProfilesController@myLikesShow')->name('profile.likes');
 
 
 Route::get('/profiles/{user}/settings','UserSettingsController@index')->name('user.settnigs');

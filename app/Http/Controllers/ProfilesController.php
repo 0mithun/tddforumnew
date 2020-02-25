@@ -211,4 +211,18 @@ class ProfilesController extends Controller
 
         return view('profiles.threads', compact('threads'));
     }
+
+    public function myLikesShow(){
+        $user = auth()->user();
+
+        $likes = DB::table('likes')
+            ->where('user_id', $user->id)
+            ->where('likeable_type','App\Thread')
+            ->get()
+
+        ;
+
+//        dd($favorite);
+        return view('profiles.likes', compact('likes'));
+    }
 }
