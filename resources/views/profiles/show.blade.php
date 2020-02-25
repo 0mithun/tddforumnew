@@ -23,6 +23,13 @@
                             <div class="col-md-3">
                                 <div class="list-group">
                                     <a class="list-group-item active"  href="{{ route('profile', auth()->user()->username)  }}">Profile</a>
+
+{{--                                    For Admin--}}
+                                    <a class="list-group-item"  href="{{ route('admin.tag') }}">Tags</a>
+{{--                                    --}}
+
+
+
                                     <a class="list-group-item " href="{{ route('profile.avatar.page', auth()->user()->username)  }}">Avatar</a>
                                     <a class="list-group-item" href="{{ route('profile.subscriptions', auth()->user()->username)  }}">My Subscriptions </a>
                                     <a class="list-group-item" href="{{ route('profile.favorites', auth()->user()->username)  }}">My Favorites</a>
@@ -54,9 +61,6 @@
                                                 <a class="btn btn-primary" href="{{ route('profile.user.edit', auth()->user()->username) }}" >Edit My Information</a>
                                             </div>
                                         </div>
-
-
-
 
                                     </div>
                                     <div class="panel-body">

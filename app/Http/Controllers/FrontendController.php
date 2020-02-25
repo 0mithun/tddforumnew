@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\ContactToAdmin;
 use App\Rules\Recaptcha;
+use App\Tags;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -44,5 +45,9 @@ class FrontendController extends Controller
 
        Mail::to('admin@anecdotage.com')->send(new ContactToAdmin($data));
         return  'Contact Successfully';
+    }
+
+    public function getTags(){
+        return Tags::all();
     }
 }

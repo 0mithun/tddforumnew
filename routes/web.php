@@ -96,6 +96,13 @@ Route::get('/profiles/{user}/settings','UserSettingsController@index')->name('us
 Route::get('/profiles/{user}/settings/notifications','UserSettingsController@notifications')->name('user.settnigs.notifications');
 Route::get('/profiles/{user}/settings/subscriptions','UserSettingsController@subscriptions')->name('user.settnigs.subscriptions');
 
+Route::get('/admin/tags','AdminController@tags')->name('admin.tag');
+Route::post('/admin/tags/add','AdminController@tagsAdd')->name('admin.tag.create');
+Route::post('/admin/tags/update','AdminController@tagsUpdate')->name('admin.tag.update');
+
+Route::get('/tags','FrontendController@getTags');
+
+
 Route::get('/user/confirm-new-email','ProfilesController@confirmNewEmail')->name('conform.new.email');
 
 Route::get('/users/change-password','ProfilesController@editPassword')->name('user.edit.password');

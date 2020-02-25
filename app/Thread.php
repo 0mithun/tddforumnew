@@ -263,4 +263,9 @@ class Thread extends Model
     }
 
 
+    public function tags(){
+        return $this->belongsToMany(Tags::class,'thread_tag','thread_id','tag_id');
+    }
+
+
 }
