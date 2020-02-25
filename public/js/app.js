@@ -11770,7 +11770,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    $('#body').atwho({
+    $('#bodyedit').atwho({
       at: "@",
       delay: 750,
       callbacks: {
@@ -11822,6 +11822,22 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    bodyChange: function bodyChange() {
+      console.log('editing');
+      $('#bodyedit').atwho({
+        at: "@",
+        delay: 750,
+        callbacks: {
+          remoteFilter: function remoteFilter(query, callback) {
+            $.getJSON("/api/users", {
+              name: query
+            }, function (usernames) {
+              callback(usernames);
+            });
+          }
+        }
+      });
+    },
     loadNestedReply: function loadNestedReply() {
       var _this2 = this;
 
@@ -12040,6 +12056,21 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    bodyEditing: function bodyEditing() {
+      $('#body').atwho({
+        at: "@",
+        delay: 750,
+        callbacks: {
+          remoteFilter: function remoteFilter(query, callback) {
+            $.getJSON("/api/users", {
+              name: query
+            }, function (usernames) {
+              callback(usernames);
+            });
+          }
+        }
+      });
+    },
     reportReply: function reportReply() {
       this.report = true;
     },
@@ -85190,9 +85221,15 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { name: "body", id: "body", cols: "30", rows: "3" },
+                    attrs: {
+                      name: "body",
+                      id: "bodyedit",
+                      cols: "30",
+                      rows: "3"
+                    },
                     domProps: { value: _vm.body },
                     on: {
+                      keyup: _vm.bodyChange,
                       input: function($event) {
                         if ($event.target.composing) {
                           return
@@ -85558,6 +85595,7 @@ var render = function() {
                     attrs: { name: "body", id: "body", cols: "30", rows: "2" },
                     domProps: { value: _vm.body },
                     on: {
+                      keyup: _vm.bodyEditing,
                       input: function($event) {
                         if ($event.target.composing) {
                           return

@@ -57,7 +57,7 @@
             <div v-if="editing">
                 <form @submit="update">
                     <div class="form-group">
-                        <textarea name="body" id="body" cols="30" rows="3" class="form-control" v-model="body"></textarea>
+                        <textarea name="body" id="bodyedit" cols="30" rows="3" class="form-control" v-model="body" @keyup="bodyChange"></textarea>
                     </div>
                     <button class="btn btn-xs btn-primary">Update</button>
                     <button class="btn btn-xs btn-link" @click="editing = false" type="button">Cancel</button>
@@ -160,7 +160,7 @@
             };
         },
         mounted(){
-            $('#body').atwho({
+            $('#bodyedit').atwho({
                 at: "@",
                 delay: 750,
                 callbacks: {
@@ -215,6 +215,20 @@
 
 
         methods: {
+            bodyChange(){
+                console.log('editing')
+                $('#bodyedit').atwho({
+                    at: "@",
+                    delay: 750,
+                    callbacks: {
+                        remoteFilter: function(query, callback) {
+                            $.getJSON("/api/users", {name: query}, function(usernames) {
+                                callback(usernames)
+                            });
+                        }
+                    }
+                });
+            },
             loadNestedReply(){
               let url = `/replies/${this.reply.id}/load-reply`;
                 axios.get(url).then(({data})=>{

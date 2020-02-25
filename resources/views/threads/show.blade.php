@@ -52,7 +52,19 @@
             tinycomments_author: 'Author name',
         });
         $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
+            $('[data-toggle="tooltip"]').tooltip();
+
+            $('#bodyedit').atwho({
+                at: "@",
+                delay: 750,
+                callbacks: {
+                    remoteFilter: function(query, callback) {
+                        $.getJSON("/api/users", {name: query}, function(usernames) {
+                            callback(usernames)
+                        });
+                    }
+                }
+            });
         })
     </script>
     @endsection
