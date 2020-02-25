@@ -41,29 +41,4 @@ class LikeController extends Controller
         }
     }
 
-    public  function store($thread){
-        $type = \request('type');
-        //return $type;
-        $thread = Thread::findOrFail($thread);
-
-
-        if($type == 'like'){
-            if($thread->isLiked()){
-                return $thread->unlike();
-            }else{
-                return $thread->like();
-            }
-
-
-        }
-
-    }
-
-
-    public function destroy($thread){
-        $type = \request('type');
-        return $type;
-        $thread = Thread::findOrFail($thread);
-        return $thread->unlike();
-    }
 }

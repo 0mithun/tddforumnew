@@ -37,6 +37,10 @@ Route::delete('/replies/{reply}', 'RepliesController@destroy')->name('replies.de
 
 Route::post('/replies/{reply}/best', 'BestRepliesController@store')->name('best-replies.store');
 
+Route::post('/replies/{reply}/new-reply','RepliesController@newReply');
+Route::get('/replies/{reply}/load-reply','RepliesController@lodReply');
+
+
 Route::post('/threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionsController@store')->middleware('auth');
 Route::delete('/threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionsController@destroy')->middleware('auth');
 
@@ -47,9 +51,6 @@ Route::delete('/replies/{reply}/favorites', 'FavoritesController@destroy');
 Route::post('/thread/{thread}/favorites', 'FavoritesController@threadStore');
 Route::delete('/thread/{thread}/favorites', 'FavoritesController@thraeadDestroy');
 
-
-//Route::post('/thread/{thread}/likes', 'LikeController@store');
-//Route::delete('/thread/{thread}/likes', 'LikeController@destroy');
 
 Route::post('/thread/{thread}/likes', 'LikeController@like');
 Route::post('/thread/{thread}/dislikes', 'LikeController@dislike');

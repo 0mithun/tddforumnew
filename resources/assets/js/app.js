@@ -44,7 +44,7 @@ Vue.component('like-button', LikeButton);
 
 window.tinekey = 'l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g';
 
-
+window.eventBus = new  Vue();
 const app = new Vue({
     el: '#app',
     components:{

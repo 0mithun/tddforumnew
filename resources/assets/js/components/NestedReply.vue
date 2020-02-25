@@ -1,32 +1,16 @@
 <template>
-    <div>
-        <div v-if="signedIn" style="border-top:1px solid #333">
-            <h3>Add Reply</h3>
+    <div style="margin-top:10px">
+        <div v-if="signedIn">
+            <h5>Add Reply</h5>
             <div class="form-group">
-<!--                <textarea name="nameeee" id="boddd" cols="30" rows="10" class="form-control"></textarea>-->
-                <editor
-                        @onKeyUp="typeReply"
-                        class="at-who"
-                        v-model="body"
-                        api-key="l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g"
-                        :init="{
-                               selector: '#tinyeditor',
-
-                                    plugins: 'code',
-                                    toolbar: 'formatselect fontsizeselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | code',
-                                     menubar: 'tools',
-                                    toolbar_drawer: 'floating',
-                                    tinycomments_mode: 'embedded',
-                                    tinycomments_author: 'Author name'
-                               }"
-                />
+                <textarea name="body" id="body" cols="30" rows="2" class="form-control" v-model="body"></textarea>
             </div>
-
-
             <button type="submit"
-                    class="btn btn-default"
-                    @click="addReply">Post</button>
-            <button class="btn btn-danger" @click="cancel">Cancel</button>
+                    class="btn btn-xs btn-default"
+                    @click="addReply">Reply</button>
+            <button type="submit"
+                    class="btn btn-xs btn-danger"
+                    @click="cancelAddReply">Canel</button>
         </div>
 
         <p class="text-center" v-else>
@@ -39,31 +23,17 @@
 <script>
     import 'jquery.caret';
     import 'at.js';
-    import Editor from '@tinymce/tinymce-vue'
 
     export default {
+        props:['reply'],
         data() {
             return {
                 body: '',
                 completed: false,
-                tinyOptions:{
-                    plugins: 'codesample code',
-                    codesample_languages: [
-                        {text: 'HTML/XML', value: 'markup'},
-                        {text: 'CSS', value: 'css'},
-                    ],
-                    toolbar: 'codesample code',
-                }
             };
         },
-        components:{
-            Editor,
-        },
-
         mounted() {
-            let body =$('.mce-content-body ').text()
-            console.log(body)
-            $('#boddd').atwho({
+            $('#body').atwho({
                 at: "@",
                 delay: 750,
                 callbacks: {
@@ -77,24 +47,21 @@
         },
 
         methods: {
-            cancel(){
-                window.events.$emit('cancelNested');
-            },
-            typeReply(e){
-                console.log(e)
+            cancelAddReply(){
+                // console.log('cancel add reply')
+                eventBus.$emit('cancelAddReply');
             },
             addReply() {
-                axios.post(location.pathname + '/replies', { body: this.body })
+                let url = `/replies/${this.reply.id}/new-reply`;
+                axios.post(url, { body: this.body })
                     .catch(error => {
                         flash(error.response.data, 'danger');
                     })
                     .then(({data}) => {
                         this.body = '';
                         this.completed = true;
-
+                        eventBus.$emit('addNestedReply', data);
                         flash('Your reply has been posted.');
-
-                        this.$emit('created', data);
                     });
             }
         }

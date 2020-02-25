@@ -1,5 +1,5 @@
 <template>
-    <div :id="'reply-'+id"  class="panel panel-default">
+    <div :id="'reply-'+id"  class="panel panel-default nested-reply">
         <div class="panel-heading reply-heading">
             <div class="level">
                 <h5 class="flex">
@@ -12,14 +12,14 @@
                 <div v-if="signedIn" class="col-md-2">
                     <div class="pull-left" v-if="!authorize('owns', reply)">
                         <div class="dropdown">
-                            <button class="btn btn-light btn-sm  dropdown-toggle" type="button" data-toggle="dropdown" :disabled=reply.owner.isReported><span class="caret"></span></button>
+                            <button class="btn btn-light btn-xs  dropdown-toggle" type="button" data-toggle="dropdown" :disabled=reply.owner.isReported><span class="caret"></span></button>
                             <ul class="dropdown-menu dropdown-menu-right">
                                 <li><a href="#" @click="reportUser" >Report User  <span class="text-danger glyphicon glyphicon-flag"></span> </a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="pull-right">
-                        <favorite :reply="reply" type="sm"></favorite>
+                        <favorite :reply="reply" type="xs"></favorite>
                     </div>
 <!--                    <report :reply="reply"></report>-->
                 </div>
@@ -38,30 +38,7 @@
             </div>
 
             <div v-else v-html="body"></div>
-            <div class="" style="margin-top: 10px">
-                <div class="col-md-1 no-margin" v-if="nestedReplyCount >0">
-                    <button class="btn btn-default btn-xs" @click="showNested = !showNested">
-                        <span class="caret"></span>
-                    </button>
-                </div>
-                <div class="no-margin " v-else>
-                    <NestedReply v-if="addNested" :reply="reply"></NestedReply>
-                    <div class="col-md-12 no-margin" >
-                        <div v-if="signedIn">
-                            <button class="btn btn-xs mr-1 btn-default" @click="addNestedReply" v-if="!addNested">Reply</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-11 no-margin" v-if="showNested">
-                    <ReplyNested v-for="(nestedReply, index) in nestedReplies" :reply="nestedReply" :key="index"></ReplyNested>
-                    <NestedReply v-if="addNested" :reply="reply"></NestedReply>
-                    <div class="col-md-12 no-margin" >
-                        <div v-if="signedIn">
-                            <button class="btn btn-xs mr-1 btn-default" @click="addNestedReply" v-if="!addNested">Reply</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!--            <NestedReply v-if="addNested" :reply="reply"></NestedReply>-->
 
             <div v-if="report" style="margin-top: 19px;">
                 <div class="form-group">
@@ -76,18 +53,18 @@
             </div>
         </div>
 
-        <div class="panel-footer level reply-footer reply-footer" >
+        <div class="panel-footer level reply-footer" >
             <div class="col-md-12" v-if="authorize('owns', reply) || authorize('owns', reply.thread)">
                 <div v-if="authorize('owns', reply)">
                     <button class="btn btn-xs mr-1" @click="editing = true" v-if="! editing">Edit</button>
                     <button class="btn btn-xs btn-danger red-bg mr-1" @click="destroy">Delete</button>
                 </div>
-
             </div>
 <!--            <div class="col-md-12" v-else>-->
 <!--                <div v-if="signedIn">-->
 <!--                    <button class="btn btn-xs mr-1 btn-default" @click="addNestedReply" v-if="!addNested">Reply</button>-->
 <!--                </div>-->
+
 <!--            </div>-->
 
 <!--            <div  class="col-md-12" v-if="!authorize('owns', reply)">-->
@@ -108,7 +85,6 @@
     import moment from 'moment';
     import Editor from '@tinymce/tinymce-vue'
     import NestedReply from './NestedReply'
-    import ReplyNested from  './ReplyNested.vue'
 
     import 'jquery.caret';
     import 'at.js';
@@ -116,7 +92,7 @@
     export default {
         props: ['reply'],
 
-        components: { Favorite, Editor, Report, NestedReply,ReplyNested},
+        components: { Favorite, Editor, Report, NestedReply},
 
         data() {
             return {
@@ -128,8 +104,7 @@
                 report_reason: '',
                 report_user_reason: '',
                 addNested: false,
-                nestedReplies: [],
-                showNested: false,
+                nestedReplies: []
             };
         },
         mounted(){
@@ -148,9 +123,6 @@
 
 
         computed: {
-            nestedReplyCount(){
-              return this.nestedReplies.length;
-            },
             ago() {
                 return  moment(this.reply.created_at, 'YYYY-MM-DD HH:mm:ss').fromNow() + '...';
             },
@@ -160,32 +132,31 @@
         },
 
         created () {
-            this.loadNestedReply();
+            //this.loadNestedReply();
             window.events.$on('best-reply-selected', id => {
                 this.isBest = (id === this.id);
             });
-            eventBus.$on('cancelAddReply',()=>{
-                this.addNested = false;
-            });
-            eventBus.$on('addNestedReply',data=>{
-
-                this.addNested = false;
-                //this.nestedReplies.push(data);
-                console.log(data)
-            })
+            // eventBus.$on('cancelAddReply',()=>{
+            //     this.addNested = false;
+            // });
+            // eventBus.$on('addNestedReply',data=>{
+            //
+            //     this.addNested = false;
+            //     console.log(data)
+            // })
         },
 
 
         methods: {
-            loadNestedReply(){
-              let url = `/replies/${this.reply.id}/load-reply`;
-                axios.get(url).then(({data})=>{
-                    this.nestedReplies = data
-                });
-            },
-            addNestedReply(){
-                this.addNested = true;
-            },
+            // loadNestedReply(){
+            //   let url = `/replies/${this.reply.id}/load-reply`;
+            //     axios.get(url).then(({data})=>{
+            //         this.nestedReplies = data
+            //     });
+            // },
+            // addNestedReply(){
+            //     this.addNested = true;
+            // },
             reportReply(){
                 this.report = true;
             },

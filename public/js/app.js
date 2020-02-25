@@ -11017,7 +11017,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['reply'],
+  props: ['reply', 'type'],
   data: function data() {
     return {
       count: this.reply.favoritesCount,
@@ -11026,7 +11026,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     classes: function classes() {
-      return ['btn', this.active ? 'btn-primary' : 'btn-default'];
+      return ['btn', this.active ? 'btn-primary' : 'btn-default', this.type == 'xs' ? 'btn-xs' : '', this.type == 'sm' ? 'btn-sm' : ''];
     },
     endpoint: function endpoint() {
       return '/replies/' + this.reply.id + '/favorites';
@@ -11301,7 +11301,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery_caret__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery_caret__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var at_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! at.js */ "./node_modules/at.js/dist/js/jquery.atwho.js");
 /* harmony import */ var at_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(at_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _tinymce_tinymce_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @tinymce/tinymce-vue */ "./node_modules/@tinymce/tinymce-vue/lib/es2015/main/ts/index.js");
 //
 //
 //
@@ -11324,50 +11323,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['reply'],
   data: function data() {
     return {
       body: '',
-      completed: false,
-      tinyOptions: {
-        plugins: 'codesample code',
-        codesample_languages: [{
-          text: 'HTML/XML',
-          value: 'markup'
-        }, {
-          text: 'CSS',
-          value: 'css'
-        }],
-        toolbar: 'codesample code'
-      }
+      completed: false
     };
   },
-  components: {
-    Editor: _tinymce_tinymce_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
-  },
   mounted: function mounted() {
-    var body = $('.mce-content-body ').text();
-    console.log(body);
-    $('#boddd').atwho({
+    $('#body').atwho({
       at: "@",
       delay: 750,
       callbacks: {
@@ -11382,16 +11349,15 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
-    cancel: function cancel() {
-      window.events.$emit('cancelNested');
-    },
-    typeReply: function typeReply(e) {
-      console.log(e);
+    cancelAddReply: function cancelAddReply() {
+      // console.log('cancel add reply')
+      eventBus.$emit('cancelAddReply');
     },
     addReply: function addReply() {
       var _this = this;
 
-      axios.post(location.pathname + '/replies', {
+      var url = "/replies/".concat(this.reply.id, "/new-reply");
+      axios.post(url, {
         body: this.body
       })["catch"](function (error) {
         flash(error.response.data, 'danger');
@@ -11399,9 +11365,8 @@ __webpack_require__.r(__webpack_exports__);
         var data = _ref.data;
         _this.body = '';
         _this.completed = true;
+        eventBus.$emit('addNestedReply', data);
         flash('Your reply has been posted.');
-
-        _this.$emit('created', data);
       });
     }
   }
@@ -11444,22 +11409,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -11467,27 +11416,11 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       body: '',
-      completed: false,
-      tinyOptions: {
-        plugins: 'codesample code',
-        codesample_languages: [{
-          text: 'HTML/XML',
-          value: 'markup'
-        }, {
-          text: 'CSS',
-          value: 'css'
-        }],
-        toolbar: 'codesample code'
-      }
+      completed: false
     };
   },
-  components: {
-    Editor: _tinymce_tinymce_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
-  },
   mounted: function mounted() {
-    var body = $('.mce-content-body ').text();
-    console.log(body);
-    $('#boddd').atwho({
+    $('#body').atwho({
       at: "@",
       delay: 750,
       callbacks: {
@@ -11502,9 +11435,6 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
-    typeReply: function typeReply(e) {
-      console.log(e);
-    },
     addReply: function addReply() {
       var _this = this;
 
@@ -11673,6 +11603,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _tinymce_tinymce_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @tinymce/tinymce-vue */ "./node_modules/@tinymce/tinymce-vue/lib/es2015/main/ts/index.js");
 /* harmony import */ var _NestedReply__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./NestedReply */ "./resources/assets/js/components/NestedReply.vue");
+/* harmony import */ var _ReplyNested_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ReplyNested.vue */ "./resources/assets/js/components/ReplyNested.vue");
+/* harmony import */ var jquery_caret__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! jquery.caret */ "./node_modules/jquery.caret/dist/jquery.caret.js");
+/* harmony import */ var jquery_caret__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(jquery_caret__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var at_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! at.js */ "./node_modules/at.js/dist/js/jquery.atwho.js");
+/* harmony import */ var at_js__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(at_js__WEBPACK_IMPORTED_MODULE_7__);
 //
 //
 //
@@ -11777,11 +11712,240 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['reply'],
+  components: {
+    Favorite: _Favorite_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    Editor: _tinymce_tinymce_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    Report: _Report__WEBPACK_IMPORTED_MODULE_1__["default"],
+    NestedReply: _NestedReply__WEBPACK_IMPORTED_MODULE_4__["default"],
+    ReplyNested: _ReplyNested_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
+  },
+  data: function data() {
+    return {
+      editing: false,
+      id: this.reply.id,
+      body: this.reply.body,
+      isBest: this.reply.isBest,
+      report: false,
+      report_reason: '',
+      report_user_reason: '',
+      addNested: false,
+      nestedReplies: [],
+      showNested: false
+    };
+  },
+  mounted: function mounted() {
+    $('#body').atwho({
+      at: "@",
+      delay: 750,
+      callbacks: {
+        remoteFilter: function remoteFilter(query, callback) {
+          $.getJSON("/api/users", {
+            name: query
+          }, function (usernames) {
+            callback(usernames);
+          });
+        }
+      }
+    });
+  },
+  computed: {
+    nestedReplyCount: function nestedReplyCount() {
+      return this.nestedReplies.length;
+    },
+    ago: function ago() {
+      return moment__WEBPACK_IMPORTED_MODULE_2___default()(this.reply.created_at, 'YYYY-MM-DD HH:mm:ss').fromNow() + '...';
+    },
+    signedIn: function signedIn() {
+      return window.App.user ? true : false;
+    }
+  },
+  created: function created() {
+    var _this = this;
+
+    this.loadNestedReply();
+    window.events.$on('best-reply-selected', function (id) {
+      _this.isBest = id === _this.id;
+    });
+    eventBus.$on('cancelAddReply', function () {
+      _this.addNested = false;
+    });
+    eventBus.$on('addNestedReply', function (data) {
+      _this.addNested = false; //this.nestedReplies.push(data);
+
+      console.log(data);
+    });
+  },
+  methods: {
+    loadNestedReply: function loadNestedReply() {
+      var _this2 = this;
+
+      var url = "/replies/".concat(this.reply.id, "/load-reply");
+      axios.get(url).then(function (_ref) {
+        var data = _ref.data;
+        _this2.nestedReplies = data;
+      });
+    },
+    addNestedReply: function addNestedReply() {
+      this.addNested = true;
+    },
+    reportReply: function reportReply() {
+      this.report = true;
+    },
+    makeReport: function makeReport() {
+      var _this3 = this;
+
+      axios.post('/replies/' + this.id + '/report', {
+        reason: this.report_reason
+      }).then(function (res) {
+        _this3.report = false;
+        flash('Your have successfully report to this reply', 'success');
+      });
+    },
+    reportUser: function reportUser() {
+      //this.userReport = true;
+      axios.post('/api/users/report', {
+        user_id: this.reply.owner.id
+      }).then(function (res) {
+        flash('Your have successfully report to this user', 'success');
+      });
+    },
+    update: function update() {
+      axios.patch('/replies/' + this.id, {
+        body: this.body
+      })["catch"](function (error) {
+        flash(error.response.data, 'danger');
+      });
+      this.editing = false;
+      flash('Updated!');
+    },
+    destroy: function destroy() {
+      //delete = ;
+      if (confirm('Are you sure delete this reply')) {
+        axios["delete"]('/replies/' + this.id);
+        this.$emit('deleted', this.id);
+      }
+    },
+    markBestReply: function markBestReply() {
+      axios.post('/replies/' + this.id + '/best');
+      window.events.$emit('best-reply-selected', this.id);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/ReplyNested.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/ReplyNested.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Favorite_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Favorite.vue */ "./resources/assets/js/components/Favorite.vue");
+/* harmony import */ var _Report__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Report */ "./resources/assets/js/components/Report.vue");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _tinymce_tinymce_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @tinymce/tinymce-vue */ "./node_modules/@tinymce/tinymce-vue/lib/es2015/main/ts/index.js");
+/* harmony import */ var _NestedReply__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./NestedReply */ "./resources/assets/js/components/NestedReply.vue");
+/* harmony import */ var jquery_caret__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! jquery.caret */ "./node_modules/jquery.caret/dist/jquery.caret.js");
+/* harmony import */ var jquery_caret__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(jquery_caret__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var at_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! at.js */ "./node_modules/at.js/dist/js/jquery.atwho.js");
+/* harmony import */ var at_js__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(at_js__WEBPACK_IMPORTED_MODULE_6__);
 //
 //
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 
@@ -11804,8 +11968,24 @@ __webpack_require__.r(__webpack_exports__);
       report: false,
       report_reason: '',
       report_user_reason: '',
-      addNested: false
+      addNested: false,
+      nestedReplies: []
     };
+  },
+  mounted: function mounted() {
+    $('#body').atwho({
+      at: "@",
+      delay: 750,
+      callbacks: {
+        remoteFilter: function remoteFilter(query, callback) {
+          $.getJSON("/api/users", {
+            name: query
+          }, function (usernames) {
+            callback(usernames);
+          });
+        }
+      }
+    });
   },
   computed: {
     ago: function ago() {
@@ -11818,17 +11998,28 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
+    //this.loadNestedReply();
     window.events.$on('best-reply-selected', function (id) {
       _this.isBest = id === _this.id;
-    });
-    window.events.$on('cancelNested', function () {
-      _this.addNested = false;
-    });
+    }); // eventBus.$on('cancelAddReply',()=>{
+    //     this.addNested = false;
+    // });
+    // eventBus.$on('addNestedReply',data=>{
+    //
+    //     this.addNested = false;
+    //     console.log(data)
+    // })
   },
   methods: {
-    addNestedReply: function addNestedReply() {
-      this.addNested = true;
-    },
+    // loadNestedReply(){
+    //   let url = `/replies/${this.reply.id}/load-reply`;
+    //     axios.get(url).then(({data})=>{
+    //         this.nestedReplies = data
+    //     });
+    // },
+    // addNestedReply(){
+    //     this.addNested = true;
+    // },
     reportReply: function reportReply() {
       this.report = true;
     },
@@ -11860,8 +12051,11 @@ __webpack_require__.r(__webpack_exports__);
       flash('Updated!');
     },
     destroy: function destroy() {
-      axios["delete"]('/replies/' + this.id);
-      this.$emit('deleted', this.id);
+      //delete = ;
+      if (confirm('Are you sure delete this reply')) {
+        axios["delete"]('/replies/' + this.id);
+        this.$emit('deleted', this.id);
+      }
     },
     markBestReply: function markBestReply() {
       axios.post('/replies/' + this.id + '/best');
@@ -84584,64 +84778,59 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { staticStyle: { "margin-top": "10px" } }, [
     _vm.signedIn
-      ? _c("div", { staticStyle: { "border-top": "1px solid #333" } }, [
-          _c("h3", [_vm._v("Add Reply")]),
+      ? _c("div", [
+          _c("h5", [_vm._v("Add Reply")]),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "form-group" },
-            [
-              _c("editor", {
-                staticClass: "at-who",
-                attrs: {
-                  "api-key": "l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g",
-                  init: {
-                    selector: "#tinyeditor",
-
-                    plugins: "code",
-                    toolbar:
-                      "formatselect fontsizeselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | code",
-                    menubar: "tools",
-                    toolbar_drawer: "floating",
-                    tinycomments_mode: "embedded",
-                    tinycomments_author: "Author name"
-                  }
-                },
-                on: { onKeyUp: _vm.typeReply },
-                model: {
+          _c("div", { staticClass: "form-group" }, [
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
                   value: _vm.body,
-                  callback: function($$v) {
-                    _vm.body = $$v
-                  },
                   expression: "body"
                 }
-              })
-            ],
-            1
+              ],
+              staticClass: "form-control",
+              attrs: { name: "body", id: "body", cols: "30", rows: "2" },
+              domProps: { value: _vm.body },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.body = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-xs btn-default",
+              attrs: { type: "submit" },
+              on: { click: _vm.addReply }
+            },
+            [_vm._v("Reply")]
           ),
           _vm._v(" "),
           _c(
             "button",
             {
-              staticClass: "btn btn-default",
+              staticClass: "btn btn-xs btn-danger",
               attrs: { type: "submit" },
-              on: { click: _vm.addReply }
+              on: { click: _vm.cancelAddReply }
             },
-            [_vm._v("Post")]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            { staticClass: "btn btn-danger", on: { click: _vm.cancel } },
-            [_vm._v("Cancel")]
+            [_vm._v("Canel")]
           )
         ])
       : _c("p", { staticClass: "text-center" }, [
-          _vm._v("\n            Please "),
+          _vm._v("\n        Please "),
           _c("a", { attrs: { href: "/login" } }, [_vm._v("sign in")]),
-          _vm._v(" to participate in this\n            discussion.\n        ")
+          _vm._v(" to participate in this\n        discussion.\n    ")
         ])
   ])
 }
@@ -84672,38 +84861,29 @@ var render = function() {
       ? _c("div", { staticStyle: { "border-top": "1px solid #333" } }, [
           _c("h3", [_vm._v("Add New Reply")]),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "form-group" },
-            [
-              _c("editor", {
-                staticClass: "at-who",
-                attrs: {
-                  "api-key": "l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g",
-                  init: {
-                    selector: "#tinyeditor",
-
-                    plugins: "code",
-                    toolbar:
-                      "formatselect fontsizeselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | code",
-                    menubar: "tools",
-                    toolbar_drawer: "floating",
-                    tinycomments_mode: "embedded",
-                    tinycomments_author: "Author name"
-                  }
-                },
-                on: { onKeyUp: _vm.typeReply },
-                model: {
+          _c("div", { staticClass: "form-group" }, [
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
                   value: _vm.body,
-                  callback: function($$v) {
-                    _vm.body = $$v
-                  },
                   expression: "body"
                 }
-              })
-            ],
-            1
-          ),
+              ],
+              staticClass: "form-control",
+              attrs: { name: "body", id: "body", cols: "30", rows: "3" },
+              domProps: { value: _vm.body },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.body = $event.target.value
+                }
+              }
+            })
+          ]),
           _vm._v(" "),
           _c(
             "button",
@@ -84716,9 +84896,9 @@ var render = function() {
           )
         ])
       : _c("p", { staticClass: "text-center" }, [
-          _vm._v("\n            Please "),
+          _vm._v("\n        Please "),
           _c("a", { attrs: { href: "/login" } }, [_vm._v("sign in")]),
-          _vm._v(" to participate in this\n            discussion.\n        ")
+          _vm._v(" to participate in this\n        discussion.\n    ")
         ])
   ])
 }
@@ -84899,7 +85079,7 @@ var render = function() {
     "div",
     { staticClass: "panel panel-default", attrs: { id: "reply-" + _vm.id } },
     [
-      _c("div", { staticClass: "panel-heading" }, [
+      _c("div", { staticClass: "panel-heading reply-heading" }, [
         _c("div", { staticClass: "level" }, [
           _c("h5", { staticClass: "flex" }, [
             _c("a", {
@@ -84918,7 +85098,8 @@ var render = function() {
                         _c(
                           "button",
                           {
-                            staticClass: "btn btn-light  dropdown-toggle",
+                            staticClass:
+                              "btn btn-light btn-sm  dropdown-toggle",
                             attrs: {
                               type: "button",
                               "data-toggle": "dropdown",
@@ -84957,7 +85138,7 @@ var render = function() {
                 _c(
                   "div",
                   { staticClass: "pull-right" },
-                  [_c("favorite", { attrs: { reply: _vm.reply } })],
+                  [_c("favorite", { attrs: { reply: _vm.reply, type: "sm" } })],
                   1
                 )
               ])
@@ -84965,146 +85146,465 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "panel-body" },
-        [
-          _vm.editing
-            ? _c("div", [
-                _c("form", { on: { submit: _vm.update } }, [
-                  _c(
-                    "div",
-                    { staticClass: "form-group" },
-                    [
-                      _c(
-                        "select",
-                        {
-                          attrs: {
-                            name: "body",
-                            cllass: "form-control",
-                            id: "tinyeditor"
-                          }
-                        },
-                        [_vm._v("hello")]
-                      ),
-                      _vm._v(" "),
-                      _c("editor", {
-                        attrs: {
-                          "api-key":
-                            "l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g",
-                          init: {
-                            selector: "#tinyeditor",
-                            plugins: "code",
-                            toolbar:
-                              "formatselect fontsizeselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | code",
-                            menubar: "tools",
-                            toolbar_drawer: "floating",
-                            tinycomments_mode: "embedded",
-                            tinycomments_author: "Author name"
-                          }
-                        },
-                        model: {
-                          value: _vm.body,
-                          callback: function($$v) {
-                            _vm.body = $$v
-                          },
-                          expression: "body"
-                        }
-                      })
+      _c("div", { staticClass: "panel-body reply-body" }, [
+        _vm.editing
+          ? _c("div", [
+              _c("form", { on: { submit: _vm.update } }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.body,
+                        expression: "body"
+                      }
                     ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("button", { staticClass: "btn btn-xs btn-primary" }, [
-                    _vm._v("Update")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-xs btn-link",
-                      attrs: { type: "button" },
-                      on: {
-                        click: function($event) {
-                          _vm.editing = false
+                    staticClass: "form-control",
+                    attrs: { name: "body", id: "body", cols: "30", rows: "3" },
+                    domProps: { value: _vm.body },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
                         }
+                        _vm.body = $event.target.value
                       }
-                    },
-                    [_vm._v("Cancel")]
-                  )
-                ])
-              ])
-            : _c("div", { domProps: { innerHTML: _vm._s(_vm.body) } }),
-          _vm._v(" "),
-          _vm.addNested ? _c("NestedReply") : _vm._e(),
-          _vm._v(" "),
-          _vm.report
-            ? _c("div", [
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("button", { staticClass: "btn btn-xs btn-primary" }, [
+                  _vm._v("Update")
+                ]),
+                _vm._v(" "),
                 _c(
-                  "div",
-                  { staticClass: "form-group" },
-                  [
-                    _c("label", { attrs: { for: "report_reason" } }, [
-                      _vm._v("Reason for report the reply:")
-                    ]),
-                    _vm._v(" "),
-                    _c("editor", {
-                      attrs: {
-                        "api-key":
-                          "l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g",
-                        init: {
-                          selector: "#report_reason",
-                          plugins: "code",
-                          toolbar:
-                            "formatselect fontsizeselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | code",
-                          menubar: "tools",
-                          toolbar_drawer: "floating",
-                          tinycomments_mode: "embedded",
-                          tinycomments_author: "Author name"
-                        }
-                      },
-                      model: {
-                        value: _vm.report_reason,
-                        callback: function($$v) {
-                          _vm.report_reason = $$v
-                        },
-                        expression: "report_reason"
+                  "button",
+                  {
+                    staticClass: "btn btn-xs btn-link",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        _vm.editing = false
                       }
+                    }
+                  },
+                  [_vm._v("Cancel")]
+                )
+              ])
+            ])
+          : _c("div", { domProps: { innerHTML: _vm._s(_vm.body) } }),
+        _vm._v(" "),
+        _c("div", { staticStyle: { "margin-top": "10px" } }, [
+          _vm.nestedReplyCount > 0
+            ? _c("div", { staticClass: "col-md-1 no-margin" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-default btn-xs",
+                    on: {
+                      click: function($event) {
+                        _vm.showNested = !_vm.showNested
+                      }
+                    }
+                  },
+                  [_c("span", { staticClass: "caret" })]
+                )
+              ])
+            : _c(
+                "div",
+                { staticClass: "no-margin " },
+                [
+                  _vm.addNested
+                    ? _c("NestedReply", { attrs: { reply: _vm.reply } })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-12 no-margin" }, [
+                    _vm.signedIn
+                      ? _c("div", [
+                          !_vm.addNested
+                            ? _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-xs mr-1 btn-default",
+                                  on: { click: _vm.addNestedReply }
+                                },
+                                [_vm._v("Reply")]
+                              )
+                            : _vm._e()
+                        ])
+                      : _vm._e()
+                  ])
+                ],
+                1
+              ),
+          _vm._v(" "),
+          _vm.showNested
+            ? _c(
+                "div",
+                { staticClass: "col-md-11 no-margin" },
+                [
+                  _vm._l(_vm.nestedReplies, function(nestedReply, index) {
+                    return _c("ReplyNested", {
+                      key: index,
+                      attrs: { reply: nestedReply }
                     })
+                  }),
+                  _vm._v(" "),
+                  _vm.addNested
+                    ? _c("NestedReply", { attrs: { reply: _vm.reply } })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-12 no-margin" }, [
+                    _vm.signedIn
+                      ? _c("div", [
+                          !_vm.addNested
+                            ? _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-xs mr-1 btn-default",
+                                  on: { click: _vm.addNestedReply }
+                                },
+                                [_vm._v("Reply")]
+                              )
+                            : _vm._e()
+                        ])
+                      : _vm._e()
+                  ])
+                ],
+                2
+              )
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _vm.report
+          ? _c("div", { staticStyle: { "margin-top": "19px" } }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "report_reason" } }, [
+                  _vm._v("Reason for report the reply:")
+                ]),
+                _vm._v(" "),
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.report_reason,
+                      expression: "report_reason"
+                    }
                   ],
-                  1
+                  staticClass: "form-control",
+                  attrs: {
+                    name: "report_reason",
+                    id: "report_reason",
+                    cols: "30",
+                    rows: "3"
+                  },
+                  domProps: { value: _vm.report_reason },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.report_reason = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-xs btn-primary mr-1",
+                    on: { click: _vm.makeReport }
+                  },
+                  [_vm._v("Make Report")]
                 ),
                 _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-xs btn-primary mr-1",
-                      on: { click: _vm.makeReport }
-                    },
-                    [_vm._v("Make Report")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-xs btn-danger mr-1 red-bg",
-                      on: {
-                        click: function($event) {
-                          _vm.report = false
-                        }
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-xs btn-danger mr-1 red-bg",
+                    on: {
+                      click: function($event) {
+                        _vm.report = false
                       }
-                    },
-                    [_vm._v("Cancel")]
-                  )
-                ])
+                    }
+                  },
+                  [_vm._v("Cancel")]
+                )
+              ])
+            ])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "panel-footer level reply-footer reply-footer" },
+        [
+          _vm.authorize("owns", _vm.reply) ||
+          _vm.authorize("owns", _vm.reply.thread)
+            ? _c("div", { staticClass: "col-md-12" }, [
+                _vm.authorize("owns", _vm.reply)
+                  ? _c("div", [
+                      !_vm.editing
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-xs mr-1",
+                              on: {
+                                click: function($event) {
+                                  _vm.editing = true
+                                }
+                              }
+                            },
+                            [_vm._v("Edit")]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-xs btn-danger red-bg mr-1",
+                          on: { click: _vm.destroy }
+                        },
+                        [_vm._v("Delete")]
+                      )
+                    ])
+                  : _vm._e()
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.signedIn
+            ? _c("div", { staticClass: "col-md-12" }, [
+                !_vm.report
+                  ? _c(
+                      "button",
+                      {
+                        staticClass:
+                          "btn btn-xs btn-danger ml-a red-bg pull-right",
+                        attrs: { disabled: _vm.reply.isReported },
+                        on: { click: _vm.reportReply }
+                      },
+                      [_c("span", { staticClass: "glyphicon glyphicon-flag" })]
+                    )
+                  : _vm._e()
               ])
             : _vm._e()
-        ],
-        1
-      ),
+        ]
+      )
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/ReplyNested.vue?vue&type=template&id=321958cc&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/ReplyNested.vue?vue&type=template&id=321958cc& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "panel panel-default nested-reply",
+      attrs: { id: "reply-" + _vm.id }
+    },
+    [
+      _c("div", { staticClass: "panel-heading reply-heading" }, [
+        _c("div", { staticClass: "level" }, [
+          _c("h5", { staticClass: "flex" }, [
+            _c("a", {
+              attrs: { href: "/profiles/" + _vm.reply.owner.username },
+              domProps: { textContent: _vm._s(_vm.reply.owner.name) }
+            }),
+            _vm._v("\n                    said "),
+            _c("span", { domProps: { textContent: _vm._s(_vm.ago) } })
+          ]),
+          _vm._v(" "),
+          _vm.signedIn
+            ? _c("div", { staticClass: "col-md-2" }, [
+                !_vm.authorize("owns", _vm.reply)
+                  ? _c("div", { staticClass: "pull-left" }, [
+                      _c("div", { staticClass: "dropdown" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass:
+                              "btn btn-light btn-xs  dropdown-toggle",
+                            attrs: {
+                              type: "button",
+                              "data-toggle": "dropdown",
+                              disabled: _vm.reply.owner.isReported
+                            }
+                          },
+                          [_c("span", { staticClass: "caret" })]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "ul",
+                          { staticClass: "dropdown-menu dropdown-menu-right" },
+                          [
+                            _c("li", [
+                              _c(
+                                "a",
+                                {
+                                  attrs: { href: "#" },
+                                  on: { click: _vm.reportUser }
+                                },
+                                [
+                                  _vm._v("Report User  "),
+                                  _c("span", {
+                                    staticClass:
+                                      "text-danger glyphicon glyphicon-flag"
+                                  })
+                                ]
+                              )
+                            ])
+                          ]
+                        )
+                      ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "pull-right" },
+                  [_c("favorite", { attrs: { reply: _vm.reply, type: "xs" } })],
+                  1
+                )
+              ])
+            : _vm._e()
+        ])
+      ]),
       _vm._v(" "),
-      _c("div", { staticClass: "panel-footer level" }, [
+      _c("div", { staticClass: "panel-body reply-body" }, [
+        _vm.editing
+          ? _c("div", [
+              _c("form", { on: { submit: _vm.update } }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.body,
+                        expression: "body"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { name: "body", id: "body", cols: "30", rows: "3" },
+                    domProps: { value: _vm.body },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.body = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("button", { staticClass: "btn btn-xs btn-primary" }, [
+                  _vm._v("Update")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-xs btn-link",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        _vm.editing = false
+                      }
+                    }
+                  },
+                  [_vm._v("Cancel")]
+                )
+              ])
+            ])
+          : _c("div", { domProps: { innerHTML: _vm._s(_vm.body) } }),
+        _vm._v(" "),
+        _vm.report
+          ? _c("div", { staticStyle: { "margin-top": "19px" } }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "report_reason" } }, [
+                  _vm._v("Reason for report the reply:")
+                ]),
+                _vm._v(" "),
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.report_reason,
+                      expression: "report_reason"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    name: "report_reason",
+                    id: "report_reason",
+                    cols: "30",
+                    rows: "3"
+                  },
+                  domProps: { value: _vm.report_reason },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.report_reason = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-xs btn-primary mr-1",
+                    on: { click: _vm.makeReport }
+                  },
+                  [_vm._v("Make Report")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-xs btn-danger mr-1 red-bg",
+                    on: {
+                      click: function($event) {
+                        _vm.report = false
+                      }
+                    }
+                  },
+                  [_vm._v("Cancel")]
+                )
+              ])
+            ])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "panel-footer level reply-footer" }, [
         _vm.authorize("owns", _vm.reply) ||
         _vm.authorize("owns", _vm.reply.thread)
           ? _c("div", { staticClass: "col-md-12" }, [
@@ -85136,22 +85636,7 @@ var render = function() {
                   ])
                 : _vm._e()
             ])
-          : _c("div", { staticClass: "col-md-12" }, [
-              _vm.signedIn
-                ? _c("div", [
-                    !_vm.addNested
-                      ? _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-xs mr-1 btn-default",
-                            on: { click: _vm.addNestedReply }
-                          },
-                          [_vm._v("Reply")]
-                        )
-                      : _vm._e()
-                  ])
-                : _vm._e()
-            ]),
+          : _vm._e(),
         _vm._v(" "),
         _vm.signedIn
           ? _c("div", { staticClass: "col-md-12" }, [
@@ -97671,6 +98156,7 @@ Vue.component('favorite-thread', _components_FavoriteThread_vue__WEBPACK_IMPORTE
 
 Vue.component('like-button', _components_LikeButton_vue__WEBPACK_IMPORTED_MODULE_10__["default"]);
 window.tinekey = 'l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g';
+window.eventBus = new Vue();
 var app = new Vue({
   el: '#app',
   components: {
@@ -98553,6 +99039,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Reply_vue_vue_type_template_id_2d8b1643___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Reply_vue_vue_type_template_id_2d8b1643___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/ReplyNested.vue":
+/*!********************************************************!*\
+  !*** ./resources/assets/js/components/ReplyNested.vue ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ReplyNested_vue_vue_type_template_id_321958cc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ReplyNested.vue?vue&type=template&id=321958cc& */ "./resources/assets/js/components/ReplyNested.vue?vue&type=template&id=321958cc&");
+/* harmony import */ var _ReplyNested_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ReplyNested.vue?vue&type=script&lang=js& */ "./resources/assets/js/components/ReplyNested.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ReplyNested_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ReplyNested_vue_vue_type_template_id_321958cc___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ReplyNested_vue_vue_type_template_id_321958cc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/assets/js/components/ReplyNested.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/ReplyNested.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/assets/js/components/ReplyNested.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ReplyNested_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ReplyNested.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/ReplyNested.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ReplyNested_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/ReplyNested.vue?vue&type=template&id=321958cc&":
+/*!***************************************************************************************!*\
+  !*** ./resources/assets/js/components/ReplyNested.vue?vue&type=template&id=321958cc& ***!
+  \***************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReplyNested_vue_vue_type_template_id_321958cc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ReplyNested.vue?vue&type=template&id=321958cc& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/ReplyNested.vue?vue&type=template&id=321958cc&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReplyNested_vue_vue_type_template_id_321958cc___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReplyNested_vue_vue_type_template_id_321958cc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

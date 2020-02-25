@@ -29,7 +29,7 @@ class RepliesController extends Controller
      */
     public function index($channelId, Thread $thread)
     {
-        return $thread->replies()->paginate(20);
+        return $thread->replies()->where('parent_id', NULL)->paginate(20);
     }
 
     /**
@@ -42,6 +42,7 @@ class RepliesController extends Controller
      */
     public function store($channelId, Thread $thread, CreatePostRequest $form)
     {
+
         if ($thread->locked) {
             return response('Thread is locked', 422);
         }
@@ -55,6 +56,25 @@ class RepliesController extends Controller
             'user_id' => auth()->id()
         ])->load('owner');
 
+
+    }
+
+    public  function newReply(Reply $reply){
+        //return $reply;
+           //dd($reply);
+        Reply::create([
+            'body' => request('body'),
+            'user_id' => auth()->id(),
+            'thread_id' =>  $reply->thread_id,
+            'parent_id' =>  $reply->id
+        ]);
+        return 'reply add hoise';
+    }
+
+    public function lodReply(Reply $reply){
+        $nestedReply = Reply::where('parent_id', $reply->id)->get();
+
+       return response()->json($nestedReply);
 
     }
 

@@ -31,7 +31,7 @@ class Reply extends Model
      *
      * @var array
      */
-    protected $appends = ['favoritesCount', 'isFavorited', 'isBest','isReported'];
+    protected $appends = ['favoritesCount', 'isFavorited', 'isBest','isReported','replyCount'];
 
     /**
      * Boot the reply instance.
@@ -188,5 +188,15 @@ class Reply extends Model
             return false;
         }
 
+    }
+
+    public function getReplyCountAttribute(){
+        return $this->replyCount();
+    }
+    public function replyCount(){
+        $reply = DB::table('replies')
+            ->where('parent_id', $this->id)->get()->count()
+            //->get();
+        ;
     }
 }
