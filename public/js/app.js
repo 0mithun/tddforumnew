@@ -12637,6 +12637,13 @@ __webpack_require__.r(__webpack_exports__);
       this.formData.append('image_path', this.selectFile);
     },
     appendData: function appendData() {
+      var tagId = [];
+      var index = 0;
+      this.tags.map(function (value) {
+        tagId.push(value.id); // index++;
+      });
+      tagId = JSON.stringify(tagId); //tagId =  Object.assign({}, tagId);
+
       this.formData.append('title', this.form.title);
       this.formData.append('channel_id', this.form.channel_id);
       this.formData.append('body', this.form.body);
@@ -12644,15 +12651,18 @@ __webpack_require__.r(__webpack_exports__);
       this.formData.append('source', this.form.source);
       this.formData.append('location', this.form.location);
       this.formData.append('main_subject', this.form.main_subject);
+      this.formData.append('tags', tagId);
     },
     update: function update() {
       var _this4 = this;
 
       this.appendData();
       var uri = "/threads/".concat(this.thread.channel.slug, "/").concat(this.thread.slug);
-      axios.post(uri, this.formData).then(function () {
+      axios.post(uri, this.formData).then(function (res) {
+        console.log(res);
         _this4.editing = false;
-        _this4.channel_id = _this4.form.channel_id, _this4.title = _this4.form.title;
+        _this4.channel_id = _this4.form.channel_id;
+        _this4.title = _this4.form.title;
         _this4.body = _this4.form.body;
         _this4.is_famous = _this4.form.source;
         _this4.location = _this4.form.location;
@@ -12661,6 +12671,7 @@ __webpack_require__.r(__webpack_exports__);
         _this4.source = _this4.form.source;
         _this4.image_path = _this4.form.image_path;
         _this4.allow_image = _this4.form.allow_image;
+        _this4.tags = _this4.form.tags;
         flash('Your thread has been updated.');
       });
     },
@@ -12674,7 +12685,8 @@ __webpack_require__.r(__webpack_exports__);
         is_famous: this.thread.is_famous,
         main_subject: this.thread.main_subject,
         image_path: null,
-        allow_image: false
+        allow_image: false,
+        tags: this.thread.tags
       };
       this.editing = false;
     }

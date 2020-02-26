@@ -118,7 +118,7 @@ class ThreadsController extends Controller
 
         $tags = \request('tags');
 
-        $thread->tags()->attach($tags);
+        $thread->tags()->sync($tags);
 
         if (request()->wantsJson()) {
             return response($thread, 201);
@@ -160,6 +160,7 @@ class ThreadsController extends Controller
      */
     public function update($channel, Thread $thread)
     {
+
         $this->authorize('update', $thread);
 
        if(request()->hasFile('image_path')){
@@ -167,6 +168,7 @@ class ThreadsController extends Controller
         }else{
             $rule = '';
         }
+
         request()->validate([
             'title' => 'required',
             'body' => 'required',
@@ -192,6 +194,12 @@ class ThreadsController extends Controller
         }
 
         $thread->update($data);
+
+
+        if(\request()->has('tags')){
+            $tags = json_decode(\request('tags'));
+            $thread->tags()->sync($tags);
+        }
 
         return $thread;
     }

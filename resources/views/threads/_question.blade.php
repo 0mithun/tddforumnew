@@ -17,7 +17,7 @@
             <input type="text" id="title" class="form-control" v-model="form.title">
         </div>
 
-        <v-select v-model="tags" :options="allTags" label="name" multiple></v-select>
+        <v-select  v-model="tags" :options="allTags" label="name" multiple></v-select>
 
 
 {{--        <div class="form-group {{ $errors->has('tags') ? ' has-error' : '' }}">--}}

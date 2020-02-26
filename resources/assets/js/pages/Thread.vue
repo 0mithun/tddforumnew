@@ -119,6 +119,18 @@
                 this.formData.append('image_path', this.selectFile);
             },
             appendData(){
+                let tagId = [];
+
+                let index = 0;
+                this.tags.map(function (value) {
+                   tagId.push(value.id);
+                   // index++;
+                });
+
+                tagId = JSON.stringify(tagId);
+
+                //tagId =  Object.assign({}, tagId);
+
                 this.formData.append('title', this.form.title);
                 this.formData.append('channel_id', this.form.channel_id);
                 this.formData.append('body', this.form.body);
@@ -126,15 +138,19 @@
                 this.formData.append('source', this.form.source);
                 this.formData.append('location', this.form.location);
                 this.formData.append('main_subject', this.form.main_subject);
+                this.formData.append('tags',tagId)
             },
             update () {
                 this.appendData();
                 let uri = `/threads/${this.thread.channel.slug}/${this.thread.slug}`;
 
 
-                axios.post(uri, this.formData).then(() => {
+                axios.post(uri, this.formData).then((res) => {
+                    console.log(res);
+
+
                     this.editing = false;
-                    this.channel_id = this.form.channel_id,
+                    this.channel_id = this.form.channel_id;
                     this.title = this.form.title;
                     this.body = this.form.body;
                     this.is_famous = this.form.source;
@@ -144,10 +160,11 @@
                     this.source = this.form.source;
                     this.image_path = this.form.image_path;
                     this.allow_image = this.form.allow_image;
+                    this.tags = this.form.tags;
 
 
                     flash('Your thread has been updated.');
-                })
+                });
             },
 
             resetForm () {
@@ -161,6 +178,7 @@
                     main_subject: this.thread.main_subject,
                     image_path: null,
                     allow_image: false,
+                    tags: this.thread.tags
                 };
 
                 this.editing = false;
