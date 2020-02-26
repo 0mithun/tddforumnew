@@ -7,7 +7,7 @@ use App\Rules\Recaptcha;
 use App\Tags;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-
+use DB;
 
 class FrontendController extends Controller
 {
@@ -49,5 +49,30 @@ class FrontendController extends Controller
 
     public function getTags(){
         return Tags::all();
+    }
+
+
+    public function tagLoad(Request $request){
+
+        $term =  \request('q');
+
+        if(empty($term)){
+            return response()->json([]);
+        }
+        $tags = Tags::search($term)->limit(5)->get();
+
+        $formatted_tags = [];
+
+        foreach ($tags as $tag) {
+            $formatted_tags[] = ['id' => $tag->id, 'text' => $tag->name];
+        }
+
+        return \Response::json($formatted_tags);
+
+    }
+
+    public function allTags(){
+        $tags = Tags::all();
+        return response()->json($tags);
     }
 }

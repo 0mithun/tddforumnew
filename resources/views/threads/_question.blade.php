@@ -16,6 +16,24 @@
             <label for="title" class="control-label">Title:</label>
             <input type="text" id="title" class="form-control" v-model="form.title">
         </div>
+
+        <v-select v-model="tags" :options="allTags" label="name" multiple></v-select>
+
+
+{{--        <div class="form-group {{ $errors->has('tags') ? ' has-error' : '' }}">--}}
+{{--            <label for="tags" class="control-label">Tags: </label>--}}
+{{--            <select class="form-control  " id="tags" name="tags[]" multiple="multiple">--}}
+{{--                @foreach($allTags as $tag)--}}
+{{--                    <option value="{{ $tag->id  }}">{{ $tag->name }}</option>--}}
+{{--                @endforeach--}}
+{{--            </select>--}}
+{{--            @if ($errors->has('tags'))--}}
+{{--                <span class="help-block ">--}}
+{{--                     <strong class="">{{ $errors->first('tags') }}</strong>--}}
+{{--                </span>--}}
+{{--            @endif--}}
+{{--        </div>--}}
+
         <div class="form-group">
             <label for="body" class="control-label">Body:</label>
             <editor
@@ -73,7 +91,7 @@
 
     <div class="panel-footer">
         <div class="level">
-            <button class="btn btn-xs level-item" @click="editing = true" v-show="! editing">Edit</button>
+            <button class="btn btn-xs level-item" @click="startEdit" v-show="! editing">Edit</button>
             <button class="btn btn-primary btn-xs level-item" @click="update">Update</button>
             <button class="btn btn-xs level-item" @click="resetForm">Cancel</button>
 
@@ -113,11 +131,16 @@
                     Posted by: <a href="{{ route('profile', $thread->creator->username) }}">{{ $thread->creator->name }}</a>
                     {{ $thread->created_at->diffForHumans()  }}
                 </h4>
+                <div>
+                    @foreach($thread->tags as $tag)
+                        <span> <a href="{{ route('tags.threads.list', $tag->name)  }}">{{ $tag->name  }}</a> </span>
+                    @endforeach
 
 
-
+                </div>
             </div>
         </div>
+
     </div>
 
     <div class="panel-body" v-html="body"></div>
@@ -154,7 +177,7 @@
 
         <div class="row">
             <div class=" col-md-12"  v-if="authorize('owns', thread)">
-                <button class="btn btn-xs" @click="editing = true">Edit</button>
+                <button class="btn btn-xs" @click="startEdit">Edit</button>
             </div>
             <div class="col-md-12" v-else>
                 <div v-if=signedIn >

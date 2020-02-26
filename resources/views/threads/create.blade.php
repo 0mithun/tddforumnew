@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section ('head')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
     <script src='https://www.google.com/recaptcha/api.js'></script>
 
 @endsection
@@ -37,6 +39,20 @@
                                 @if ($errors->has('title'))
                                     <span class="help-block ">
                                         <strong class="">{{ $errors->first('title') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group {{ $errors->has('tags') ? ' has-error' : '' }}">
+                                <label for="tags" class="control-label">Tags: </label>
+                                <select class="form-control  " id="tags" name="tags[]" multiple="multiple">
+                                    @foreach($tags as $tag)
+                                    <option value="{{ $tag->id  }}">{{ $tag->name }}</option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('tags'))
+                                    <span class="help-block ">
+                                        <strong class="">{{ $errors->first('tags') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -112,6 +128,7 @@
 
 @section('footer_script')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 
     <script>
         tinymce.init({
@@ -170,6 +187,14 @@
                         }
                     })
                 }
+            });
+
+
+            $(document).ready(function() {
+                $('#tags').select2({
+                    placeholder: 'Select tags',
+                    cache:true
+                });
             });
         });
     </script>

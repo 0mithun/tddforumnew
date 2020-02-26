@@ -3,6 +3,10 @@
     import SubscribeButton from '../components/SubscribeButton.vue';
     import Editor from '@tinymce/tinymce-vue'
 
+    // import $ from 'jquery';
+    import 'select2';
+    import 'select2/dist/css/select2.css';
+
     export default {
         props: ['thread'],
 
@@ -25,13 +29,22 @@
                 formData: new FormData,
                 form: {},
                 editing: false,
+                tags:this.thread.tags,
 
                 model: '',
                 states: [],
                 report: false,
-                report_reason: ''
+                report_reason: '',
+                allTags:null
 
             };
+        },
+        mounted(){
+           // console.log('Hello');
+            $('#tags').select2({
+                placeholder: 'Select tags',
+                cache:true
+            });
         },
         computed:{
             signedIn(){
@@ -42,10 +55,25 @@
         created () {
             this.resetForm();
             this.channelTypeHead();
+            this.getAllTags();
         },
 
 
         methods: {
+            startEdit(){
+                console.log('hello world');
+              this.editing = true;
+                $('#tags').select2({
+                    placeholder: 'Select tags',
+                    cache:true
+                });
+            },
+            getAllTags(){
+                axios.post('/tags/all-tags').then((res=>{
+                    console.log(res.data)
+                    this.allTags = res.data
+                }));
+            },
             reportReply(){
                 this.report = true;
             },

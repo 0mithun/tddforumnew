@@ -2,6 +2,7 @@
 
 @section('head')
     <link rel="stylesheet" href="/css/vendor/jquery.atwho.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 @endsection
 
 @section('content')
@@ -42,6 +43,7 @@
     </thread-view>
 @endsection
 @section('footer_script')
+
     <script>
         tinymce.init({
             selector: '#tinyeditor',
@@ -65,6 +67,12 @@
                     }
                 }
             });
+
+            $('#tags').select2({
+                placeholder: 'Select tags',
+                cache:true
+            });
         })
     </script>
+    <script src="//cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     @endsection

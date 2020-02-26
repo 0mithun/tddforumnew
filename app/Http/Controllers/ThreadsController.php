@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Channel;
+    use App\Channel;
 use App\Filters\ThreadFilters;
 use App\Notifications\ThreadWasReported;
 use App\Rules\Recaptcha;
+use App\Tags;
 use App\Thread;
 use App\Trending;
 use function GuzzleHttp\Promise\all;
@@ -50,7 +51,8 @@ class ThreadsController extends Controller
      */
     public function create()
     {
-        return view('threads.create');
+        $tags = Tags::orderBy('name','ASC')->get();
+        return view('threads.create',compact('tags'));
     }
 
     /**
@@ -61,6 +63,7 @@ class ThreadsController extends Controller
      */
     public function store(Recaptcha $recaptcha)
     {
+        //dd(\request('tags'));
         if(request()->hasFile('image_path')){
             $rule = 'image|max:1024';
         }else{
@@ -69,6 +72,7 @@ class ThreadsController extends Controller
 
 
         request()->validate([
+            'tags'  =>  'required|array|min:1',
             'title' => 'required|spamfree',
             'body' => 'required|spamfree',
             'channel_id' => 'required|exists:channels,id',
@@ -80,6 +84,9 @@ class ThreadsController extends Controller
             'channel_id.exists'    => 'Invalid channel',
             'g-recaptcha-response.required' =>  'Please solve the captcha'
         ]);
+
+
+
         $thread = Thread::create([
             'user_id' => auth()->id(),
             'channel_id' => request('channel_id'),
@@ -88,9 +95,11 @@ class ThreadsController extends Controller
             'location'  =>  request('location'),
             'source'  =>  request('source'),
             'main_subject'  =>  request('main_subject'),
-            'is_famous'  =>  request('is_famous'),
+            'is_famous'  =>  request('is_famous',0),
 
         ]);
+
+
 
         $file_path = '';
         if (request()->hasFile('image_path')) {
@@ -107,6 +116,9 @@ class ThreadsController extends Controller
 
         $thread = $thread->fresh();
 
+        $tags = \request('tags');
+
+        $thread->tags()->attach($tags);
 
         if (request()->wantsJson()) {
             return response($thread, 201);
@@ -134,7 +146,10 @@ class ThreadsController extends Controller
 
         $thread->increment('visits');
 
-        return view('threads.show', compact('thread'));
+
+        $allTags = Tags::all();
+
+        return view('threads.show', compact('thread','allTags'));
     }
 
     /**
@@ -227,5 +242,15 @@ class ThreadsController extends Controller
         $thread->notify(new ThreadWasReported($thread, $reason));
 //        $thread = Thread::where('id', $id)->get();
         return $thread;
+    }
+
+    public function loadByTag($tag, Trending $trending){
+        //return $tag;
+        $tag = Tags::where('name', \request('tag'))->first();
+
+        $threads = $tag->threads;
+        $trending = $trending->get();
+        return view('threads.threeadsbytag',compact('threads', 'trending'));
+
     }
 }

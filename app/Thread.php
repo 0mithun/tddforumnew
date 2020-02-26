@@ -27,7 +27,7 @@ class Thread extends Model
      *
      * @var array
      */
-    protected $with = ['creator', 'channel','likes'];
+    protected $with = ['creator', 'channel','likes','tags'];
 
     /**
      * The accessors to append to the model's array form.

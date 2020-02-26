@@ -101,6 +101,14 @@ Route::post('/admin/tags/add','AdminController@tagsAdd')->name('admin.tag.create
 Route::post('/admin/tags/update','AdminController@tagsUpdate')->name('admin.tag.update');
 
 Route::get('/tags','FrontendController@getTags');
+Route::post('/tags/load','FrontendController@tagLoad')->name('tags.load');
+Route::post('/tags/all-tags','FrontendController@allTags');
+
+
+
+Route::get("/tags/{tag}/threads",'ThreadsController@loadByTag')->name('tags.threads.list');
+
+
 
 
 Route::get('/user/confirm-new-email','ProfilesController@confirmNewEmail')->name('conform.new.email');
