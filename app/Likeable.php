@@ -21,7 +21,9 @@ trait Likeable
         ];
 
         if (!$this->likes()->where($attributes)->exists()) {
+            $this->increment('like_count');
             return $this->likes()->create($attributes);
+
         }
     }
 
@@ -34,8 +36,10 @@ trait Likeable
         ];
 
         if (!$this->likes()->where($attributes)->exists()) {
+            $this->increment('dislike_count');
             return $this->likes()->create($attributes);
         }
+
     }
 
 

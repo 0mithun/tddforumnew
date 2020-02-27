@@ -34,7 +34,7 @@ class Thread extends Model
      *
      * @var array
      */
-    protected $appends = ['isSubscribedTo','isReported','isFavorited','isLiked','likesCount', 'isDesliked','dislikesCount'];
+    protected $appends = ['isSubscribedTo','isReported','isFavorited','isLiked','likesCount', 'isDesliked','dislikesCount','excerpt'];
 
     /**
      * The attributes that should be cast to native types.
@@ -267,5 +267,15 @@ class Thread extends Model
         return $this->belongsToMany(Tags::class,'thread_tag','thread_id','tag_id');
     }
 
+
+    public function getExcerptAttribute(){
+//        return substr(strip_tags($this->body),80);
+        $body = strip_tags($this->body);
+        $body = preg_replace('/\s+/', ' ', $this->body);
+
+//        $body = trim($this->body);
+        return substr(strip_tags($body),0,250);
+
+    }
 
 }

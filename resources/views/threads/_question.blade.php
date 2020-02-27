@@ -18,22 +18,6 @@
         </div>
 
         <v-select  v-model="tags" :options="allTags" label="name" multiple></v-select>
-
-
-{{--        <div class="form-group {{ $errors->has('tags') ? ' has-error' : '' }}">--}}
-{{--            <label for="tags" class="control-label">Tags: </label>--}}
-{{--            <select class="form-control  " id="tags" name="tags[]" multiple="multiple">--}}
-{{--                @foreach($allTags as $tag)--}}
-{{--                    <option value="{{ $tag->id  }}">{{ $tag->name }}</option>--}}
-{{--                @endforeach--}}
-{{--            </select>--}}
-{{--            @if ($errors->has('tags'))--}}
-{{--                <span class="help-block ">--}}
-{{--                     <strong class="">{{ $errors->first('tags') }}</strong>--}}
-{{--                </span>--}}
-{{--            @endif--}}
-{{--        </div>--}}
-
         <div class="form-group">
             <label for="body" class="control-label">Body:</label>
             <editor
@@ -150,20 +134,7 @@
     <div v-if="report" class="panel-body">
         <div class="form-group">
             <label for="report_reason">Reason for report the thread:</label>
-
-            <editor
-                    v-model="report_reason"
-                    api-key="l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g"
-                    :init="{
-                                   selector: '#report_reason',
-                                        plugins: 'code',
-                                        toolbar: 'formatselect fontsizeselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | code',
-                                         menubar: 'tools',
-                                        toolbar_drawer: 'floating',
-                                        tinycomments_mode: 'embedded',
-                                        tinycomments_author: 'Author name'
-                                   }"
-            />
+            <textarea name="report_reason" id="report_reason"  v-model="report_reason" cols="30" rows="2" class="form-control"></textarea>
         </div>
 
         <div class="form-group">
@@ -197,8 +168,6 @@
                                 <span class="glyphicon glyphicon-flag"></span>
                             </button>
                         </div>
-
-
                     </div>
                 </div>
 

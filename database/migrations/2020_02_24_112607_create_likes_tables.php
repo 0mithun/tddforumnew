@@ -20,7 +20,6 @@ class CreateLikesTables extends Migration
             $table->unsignedInteger('down')->nullable();
             $table->unsignedInteger('likeable_id');
             $table->string('likeable_type');
-
             $table->unique(['user_id','likeable_id','likeable_type']);
 
             $table->timestamps();
@@ -34,6 +33,6 @@ class CreateLikesTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('likes_tables');
+        Schema::dropIfExists('likes');
     }
 }

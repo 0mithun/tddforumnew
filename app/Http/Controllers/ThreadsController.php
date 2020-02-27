@@ -261,4 +261,5 @@ class ThreadsController extends Controller
         return view('threads.threeadsbytag',compact('threads', 'trending'));
 
     }
+
 }

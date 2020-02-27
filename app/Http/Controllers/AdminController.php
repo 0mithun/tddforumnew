@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class AdminController extends Controller
 {
     public function tags(){
-        return view('pages.tags');
+        return view('pages.admin.tags');
     }
 
     public function tagsAdd(){
@@ -38,4 +38,30 @@ class AdminController extends Controller
             'name'  =>  $name
         ]);
     }
+
+    public function privacyPolicy(){
+        return view('pages.admin.privacypolicy');
+    }
+
+    public function tos(){
+        return view('pages.admin.tos');
+    }
+
+    public function faq(){
+        return view('pages.admin.faq');
+    }
+
+
+    public function tosUpdate(){
+
+    }
+
+    public function privacyPolicyUpdate(){
+
+    }
+
+    public function faqUpdate(){
+
+    }
+
 }

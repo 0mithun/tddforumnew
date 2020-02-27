@@ -96,17 +96,43 @@ Route::get('/profiles/{user}/settings','UserSettingsController@index')->name('us
 Route::get('/profiles/{user}/settings/notifications','UserSettingsController@notifications')->name('user.settnigs.notifications');
 Route::get('/profiles/{user}/settings/subscriptions','UserSettingsController@subscriptions')->name('user.settnigs.subscriptions');
 
+
+
+/*
+ * Admin Route
+ *
+ * */
 Route::get('/admin/tags','AdminController@tags')->name('admin.tag');
 Route::post('/admin/tags/add','AdminController@tagsAdd')->name('admin.tag.create');
 Route::post('/admin/tags/update','AdminController@tagsUpdate')->name('admin.tag.update');
 
+Route::get('/admin/tos','AdminController@tos')->name('admin.tos');
+Route::get('/admin/privacy-policy','AdminController@privacyPolicy')->name('admin.privacypolicy');
+Route::get('/admin/faq','AdminController@faq')->name('admin.faq');
+
+
+Route::post('/admin/tos','AdminController@tosUpdate')->name('admin.tos.update');
+Route::post('/admin/privacy-policy','AdminController@privacyPolicyUpdate')->name('admin.privacypolicy.update');
+Route::post('/admin/faq','AdminController@faqUpdate')->name('admin.faq.update');
+
+
+
+
 Route::get('/tags','FrontendController@getTags');
 Route::post('/tags/load','FrontendController@tagLoad')->name('tags.load');
 Route::post('/tags/all-tags','FrontendController@allTags');
-
-
-
 Route::get("/tags/{tag}/threads",'ThreadsController@loadByTag')->name('tags.threads.list');
+
+
+
+Route::get("threads/most-likes",'ThreadsController@loadByLikes')->name('likes.threads.list');
+
+
+Route::get("/threads/most-views",'ThreadsController@loadByViews')->name('views.threads.list');
+Route::get("/threads/most-recents",'ThreadsController@loadByRecents')->name('recents.threads.list');
+Route::get("/threads/top-rated",'ThreadsController@loadByTopRated')->name('toprated.threads.list');
+Route::get("/threads/best-of-week",'ThreadsController@loadByBestOfWeek')->name('bestofweek.threads.list');
+Route::get("/threads/my-favorites",'ThreadsController@loadByMyFavorites')->name('myfavorites.threads.list');
 
 
 
@@ -118,12 +144,7 @@ Route::post('/user/update-password','ProfilesController@updatePassword')->name('
 
 
 
-
-
-
-
 Route::get('/register/confirm', 'Auth\RegisterConfirmationController@index')->name('register.confirm');
-
 Route::get('api/users', 'Api\UsersController@index');
 Route::post('api/users/{user}/avatar', 'Api\UserAvatarController@store')->middleware('auth')->name('avatar');
 
@@ -136,7 +157,5 @@ Route::get('/contact','FrontendController@contact')->name('contact');
 Route::get('/privacy-policy','FrontendController@privacyPolicy')->name('privacypolicy');
 Route::get('/tos','FrontendController@tos')->name('tos');
 Route::get('/faq','FrontendController@faq')->name('faq');
-
-
 Route::post('contact','FrontendController@contactAdmin')->name('contactadmin');
 

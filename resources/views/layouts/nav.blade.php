@@ -26,12 +26,16 @@
 
                     <ul class="dropdown-menu">
                         <li><a href="/threads">All Threads</a></li>
-
                         @if (auth()->check())
                             <li><a href="/threads?by={{ auth()->user()->username }}">My Threads</a></li>
+                            <li><a href="/threads?favorites=1">My Favorites</a></li>
                         @endif
-
-                        <li><a href="/threads?popular=1">Popular Threads</a></li>
+                        <li><a href="/threads?popular=1">Most Commented</a></li>
+                        <li><a href="/threads?viewed=1">Most Viewed</a></li>
+                        <li><a href="/threads?recents=1">Most Recent</a></li>
+                        <li><a href="/threads?liked=1">Most Liked</a></li>
+                        <li><a href="/threads?rated=1">Top Rated</a></li>
+                        <li><a href="/threads?bestofweek=1">Best Of The Week</a></li>
                         <li><a href="/threads?unanswered=1">Unanswered Threads</a></li>
                     </ul>
                 </li>
@@ -57,8 +61,7 @@
                 <!-- Authentication Links -->
                 <li><a href="{{ route('contact') }}">Contact</a></li>
                 <li><a href="{{ route('privacypolicy') }}">Privacy Policy</a></li>
-                <li><a href="{{ route('tos') }}">Terms of Service</a></li>
-                <li><a href="{{ route('faq') }}">Faq</a></li>
+
                 @if (Auth::guest())
                     <li><a href="{{ route('login') }}">Login</a></li>
                     <li><a href="{{ route('register') }}">Register</a></li>

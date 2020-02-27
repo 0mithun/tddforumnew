@@ -16,9 +16,11 @@ class LikeController extends Controller
     public function like($thread){
         $thread = Thread::findOrFail($thread);
         if($thread->isLiked()){
+            $thread->decrement('like_count');
             return $thread->unlike();
         }else{
             if($thread->isDesliked()){
+                $thread->decrement('dislike_count');
                 $thread->unlike();
                 return $thread->like();
             }
@@ -28,12 +30,15 @@ class LikeController extends Controller
     }
 
     public function dislike($thread){
+
         $thread = Thread::findOrFail($thread);
 
         if($thread->isDesliked()){
+            $thread->decrement('dislike_count');
             return $thread->unlike();
         }else{
             if($thread->isLiked()){
+                $thread->decrement('like_count');
                 $thread->unlike();
                 return $thread->disLike();
             }

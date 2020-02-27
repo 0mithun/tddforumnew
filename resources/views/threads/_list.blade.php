@@ -2,10 +2,9 @@
     <div class="panel panel-default">
 
         <div class="panel-heading">
-            <div class="panel-heading">
+            <div class="panel-heading" style="padding-left: 0px;">
 
-                <h4>
-                    <a href="{{ $thread->path() }}">
+                    <a href="{{ $thread->path() }}" style="font-size: 20px;">
                         @if (auth()->check() && $thread->hasUpdatesFor(auth()->user()))
                             <strong>
                                 {{ $thread->title }}
@@ -14,10 +13,9 @@
                             {{ $thread->title }}
                         @endif
                     </a>
-                </h4>
 
             </div>
-            <div class="media">
+            <div class="media" style="margin-top: 0px;">
                 <div class="media-left">
                     <a href="#">
                         <img src="{{ asset($thread->creator->avatar_path) }}"
@@ -65,7 +63,7 @@
 {{--        </div>--}}
 
         <div class="panel-body">
-            <div class="body">{!! $thread->body !!}</div>
+            <div class="body">{!! $thread->excerpt !!}</div>
         </div>
 
         <div class="panel-footer">

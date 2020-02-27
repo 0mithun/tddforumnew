@@ -12448,6 +12448,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -12457,13 +12464,13 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    axios.get('/profiles/' + window.App.user.name + '/notifications').then(function (response) {
+    axios.get('/profiles/' + window.App.user.username + '/notifications').then(function (response) {
       return _this.notifications = response.data;
     });
   },
   methods: {
     markAsRead: function markAsRead(notification) {
-      axios["delete"]('/profiles/' + window.App.user.name + '/notifications/' + notification.id);
+      axios["delete"]('/profiles/' + window.App.user.username + '/notifications/' + notification.id);
     }
   }
 });
@@ -92468,18 +92475,39 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.notifications.length
-    ? _c("li", { staticClass: "dropdown" }, [
-        _vm._m(0),
+  return _c("li", { staticClass: "dropdown" }, [
+    _c(
+      "a",
+      {
+        staticClass: "dropdown-toggle",
+        attrs: { href: "#", "data-toggle": "dropdown" }
+      },
+      [
+        _c("span", { staticClass: "glyphicon glyphicon-bell" }),
         _vm._v(" "),
         _c(
+          "span",
+          {
+            staticStyle: {
+              color: "red",
+              "font-weight": "bold",
+              "font-size": "16px"
+            }
+          },
+          [_vm._v(_vm._s(_vm.notifications.length))]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _vm.notifications.length
+      ? _c(
           "ul",
           { staticClass: "dropdown-menu" },
           _vm._l(_vm.notifications, function(notification) {
             return _c("li", [
               _c("a", {
                 attrs: { href: notification.data.link },
-                domProps: { textContent: _vm._s(notification.data.message) },
+                domProps: { textContent: _vm._s(notification.data.data) },
                 on: {
                   click: function($event) {
                     return _vm.markAsRead(notification)
@@ -92490,22 +92518,17 @@ var render = function() {
           }),
           0
         )
-      ])
-    : _vm._e()
+      : _c("ul", { staticClass: "dropdown-menu" }, [_vm._m(0)])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      {
-        staticClass: "dropdown-toggle",
-        attrs: { href: "#", "data-toggle": "dropdown" }
-      },
-      [_c("span", { staticClass: "glyphicon glyphicon-bell" })]
-    )
+    return _c("li", [
+      _c("a", { attrs: { href: "#" } }, [_vm._v("No Notification")])
+    ])
   }
 ]
 render._withStripped = true

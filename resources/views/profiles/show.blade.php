@@ -26,6 +26,9 @@
 
 {{--                                    For Admin--}}
                                     <a class="list-group-item"  href="{{ route('admin.tag') }}">Tags</a>
+                                    <a class="list-group-item"  href="{{ route('admin.privacypolicy') }}">Privacy Policy</a>
+                                    <a class="list-group-item"  href="{{ route('admin.tos') }}">Terms Of Service</a>
+                                    <a class="list-group-item"  href="{{ route('admin.faq') }}">Faq</a>
 {{--                                    --}}
 
 
