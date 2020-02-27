@@ -9,14 +9,23 @@ class UserSettingsController extends Controller
 
 
     public  function index(){
-        return view('profiles.settings.index');
+        $settings = auth()->user()->usersetting;
+        return view('profiles.settings.notifications',compact('settings'));
     }
 
-    public  function notifications(){
-        return view('profiles.settings.notifications');
+    public function update(Request $request){
+
+        auth()->user()->usersetting()->delete();
+        auth()->user()->usersetting()->create($request->all());
+
+        session()->flash('successmessage','Notification settings update successfully');
+        return redirect()->route('user.settnigs', auth()->user()->username);
+        //dd($request->all());
     }
 
-    public  function subscriptions(){
-        return view('profiles.settings.subscriptions');
-    }
+//    public  function notifications(){
+//        return view('profiles.settings.notifications');
+//    }
+
+
 }

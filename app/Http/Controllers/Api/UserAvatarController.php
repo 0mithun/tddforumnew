@@ -29,7 +29,9 @@ class UserAvatarController extends Controller
 
 
             if(file_exists($avatar_path)){
-                unlink($avatar_path);
+                if(!$avatar_path == 'images/avatars/default.png'){
+                    unlink($avatar_path);
+                }
 
                 auth()->user()->update([
                     'avatar_path' => $path

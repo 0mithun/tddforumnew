@@ -115,5 +115,7 @@ $factory->define(App\Admin::class, function ($faker) {
         'username' => 'efbb6d7afb6d71' ,
         'password' =>  '89ef77196e6267',
         'mail_encryption' =>  'tls',
+        'copyright'     =>  'Copyright&copy;anecdotage.com',
+        'timezone'      =>  'America/New_York'
     ];
 });

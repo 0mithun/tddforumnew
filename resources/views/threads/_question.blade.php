@@ -112,7 +112,7 @@
             </div>
             <div class="media-body">
                 <h4 class="media-heading thread-info">
-                    Posted by: <a href="{{ route('profile', $thread->creator->username) }}">{{ $thread->creator->name }}</a>
+                    Posted by: <a href="/threads?by={{ $thread->creator->username  }}">{{ $thread->creator->name }}</a>
                     {{ $thread->created_at->diffForHumans()  }}
                 </h4>
                 <div>

@@ -64,7 +64,7 @@ class ThreadFilters extends Filters
     public function liked(){
         $user = auth()->user();
         $likes = DB::table('likes')
-            ->where('user_id', $user->id)
+//            ->where('user_id', $user->id)
             ->where('up',1)
             ->where('likeable_type','App\Thread')
             ->get()
@@ -90,11 +90,13 @@ class ThreadFilters extends Filters
         foreach ($threads as $thread){
             $like = $thread->like_count;
             $dislike = $thread->dislike_count;
-            if($like>$dislike){
+
+            $formula = $like>$dislike+1;
+            if($formula){
                 $filterThread[] = $thread->id;
             }
         }
-        return $this->builder->whereIn('id', $filterThread)->orderBy('created_at','desc');
+        return $this->builder->whereIn('id', $filterThread)->orderBy('like_count','desc');
     }
 
     public function bestofweek(){

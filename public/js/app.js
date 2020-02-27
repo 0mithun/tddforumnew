@@ -92507,7 +92507,7 @@ var render = function() {
             return _c("li", [
               _c("a", {
                 attrs: { href: notification.data.link },
-                domProps: { textContent: _vm._s(notification.data.data) },
+                domProps: { textContent: _vm._s(notification.data.message) },
                 on: {
                   click: function($event) {
                     return _vm.markAsRead(notification)

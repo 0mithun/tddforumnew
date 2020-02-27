@@ -61,6 +61,30 @@ class User extends Authenticatable
         return 'username';
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+
+//        static::deleting(function ($thread) {
+//            $thread->replies->each->delete();
+//        });
+
+        static::created(function ($user) {
+            $user->usersetting()->create([
+                'mention_notify_anecdotage'                     =>  1,
+                'mention_notify_email'                          =>  0,
+                'mention_notify_facebook'                       =>  0,
+                'new_thread_posted_notify_anecdotage'           =>  1,
+                'new_thread_posted_notify_email'                =>  0,
+                'new_thread_posted_notify_facebook'             =>  0,
+                'receive_daily_random_thread_notify_anecdotage' =>  1,
+                'receive_daily_random_thread_notify_email'      =>  0,
+                'receive_daily_random_thread_notify_email'      =>  0,
+            ]);
+        });
+    }
+
+
     /**
      * Fetch all threads that were created by the user.
      *
@@ -178,5 +202,9 @@ class User extends Authenticatable
     public function getFullNameAttribute(){
         return $this->first_name. ' '. $this->last_name;
     }
+
+   public function usersetting(){
+        return $this->hasOne(Usersetting::class);
+   }
 
 }

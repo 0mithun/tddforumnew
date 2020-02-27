@@ -93,8 +93,10 @@ Route::get('/profiles/{user}/my-likes','ProfilesController@myLikesShow')->name('
 
 
 Route::get('/profiles/{user}/settings','UserSettingsController@index')->name('user.settnigs');
-Route::get('/profiles/{user}/settings/notifications','UserSettingsController@notifications')->name('user.settnigs.notifications');
-Route::get('/profiles/{user}/settings/subscriptions','UserSettingsController@subscriptions')->name('user.settnigs.subscriptions');
+Route::post('/profiles/{user}/settings','UserSettingsController@update')->name('user.settnigs.update');
+
+//Route::get('/profiles/{user}/settings/notifications','UserSettingsController@notifications')->name('user.settnigs.notifications');
+//Route::get('/profiles/{user}/settings/subscriptions','UserSettingsController@subscriptions')->name('user.settnigs.subscriptions');
 
 
 

@@ -86,8 +86,14 @@ class Reply extends Model
      */
     public function mentionedUsers()
     {
-        preg_match_all('/@([\w\-]+)/', $this->body, $matches);
+//        preg_match_all('/@([\w\-]+)/', $this->body, $matches);
 
+
+            preg_match_all('/@(?<=@)[a-zA-Z]+\s[a-zA-Z]+/', $this->body, $matches);
+            $name = substr($matches[0],1);
+
+            return $name;
+        //dd($matches);
         return $matches[1];
     }
 

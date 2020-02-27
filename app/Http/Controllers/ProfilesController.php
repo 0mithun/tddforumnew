@@ -6,6 +6,7 @@ use App\Activity;
 use App\Mail\ConfirmNewEmail;
 use App\Thread;
 use App\User;
+use App\Usersetting;
 use Illuminate\Http\Request;
 
 use Carbon\Carbon;
@@ -149,8 +150,13 @@ class ProfilesController extends Controller
     }
 
     public  function settings(){
+
         return view('profiles.settings');
     }
+
+
+
+
 
     public function avatarChange($user){
         request()->validate([
@@ -165,7 +171,10 @@ class ProfilesController extends Controller
 
 
             if(file_exists($avatar_path)){
-                unlink($avatar_path);
+                if(!$avatar_path == 'images/avatars/default.png'){
+                    unlink($avatar_path);
+                }
+
 
                 auth()->user()->update([
                     'avatar_path' => $path

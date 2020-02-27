@@ -24,6 +24,8 @@ class CreateAdminSettingsTable extends Migration
             $table->text('username')->nullable();
             $table->text('password')->nullable();
             $table->text('mail_encryption')->nullable();
+            $table->string('copyright')->nullable();
+            $table->string('timezone')->default('America/New_York');
             $table->timestamps();
         });
     }
