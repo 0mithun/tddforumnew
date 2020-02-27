@@ -11,6 +11,10 @@
 |
 */
 
+
+
+
+
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
@@ -96,5 +100,20 @@ $factory->define(\Illuminate\Notifications\DatabaseNotification::class, function
         },
         'notifiable_type' => 'App\User',
         'data' => ['foo' => 'bar']
+    ];
+});
+
+
+$factory->define(App\Admin::class, function ($faker) {
+    return [
+        'faq'   => $faker->paragraph,
+        'tos'   =>  $faker->paragraph,
+        'privacypolicy' =>  $faker->paragraph,
+        'mail_driver' =>  'smtp',
+        'mail_host' =>  'smtp.mailtrap.io',
+        'mail_port' =>  '2525',
+        'username' => 'efbb6d7afb6d71' ,
+        'password' =>  '89ef77196e6267',
+        'mail_encryption' =>  'tls',
     ];
 });

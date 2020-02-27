@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Admin;
 use App\Tags;
 use App\Thread;
 use Illuminate\Http\Request;
+use DB;
 
 class AdminController extends Controller
 {
@@ -40,27 +42,61 @@ class AdminController extends Controller
     }
 
     public function privacyPolicy(){
-        return view('pages.admin.privacypolicy');
+        $adminInfo = Admin::first();
+        return view('pages.admin.privacypolicy',compact('adminInfo'));
     }
 
     public function tos(){
-        return view('pages.admin.tos');
+        $adminInfo = Admin::first();
+        return view('pages.admin.tos', compact('adminInfo'));
     }
 
     public function faq(){
-        return view('pages.admin.faq');
+        $adminInfo = Admin::first();
+        return view('pages.admin.faq',compact('adminInfo'));
     }
 
 
     public function tosUpdate(){
+        \request()->validate([
+            'body'   =>  'required'
+        ]);
 
+        $admin = Admin::first();
+
+        $admin->tos = \request('body');
+        $admin->save();
+
+        session()->flash('successmessage','Tos Information Update Successfully');
+        return redirect()->back();
     }
 
     public function privacyPolicyUpdate(){
+        \request()->validate([
+            'body'   =>  'required'
+        ]);
 
+        $admin = Admin::first();
+
+        $admin->privacypolicy = \request('body');
+        $admin->save();
+
+        session()->flash('successmessage','Tos Information Update Successfully');
+        return redirect()->back();
     }
 
     public function faqUpdate(){
+        \request()->validate([
+            'body'   =>  'required'
+        ]);
+
+        $admin = Admin::first();
+
+        $admin->faq = \request('body');
+        $admin->save();
+
+        session()->flash('successmessage','Faq Information Update Successfully');
+        return redirect()->back();
 
     }
 
