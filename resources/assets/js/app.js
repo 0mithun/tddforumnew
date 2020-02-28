@@ -49,7 +49,18 @@ Vue.component('v-select', vSelect)
 import 'vue-select/dist/vue-select.css';
 
 
+
 window.tinekey = 'l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g';
+
+import * as uiv from 'uiv'
+
+Vue.use(uiv)
+
+import { Alert } from 'uiv'
+
+import ChannelHead from './components/ChannelHead.vue'
+Vue.component('channel-head', ChannelHead)
+
 
 window.eventBus = new  Vue();
 const app = new Vue({
@@ -63,5 +74,6 @@ const app = new Vue({
         ThreadView,
         Typhaed,
         UnscribeButton,
+        Alert
     }
 });

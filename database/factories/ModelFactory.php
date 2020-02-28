@@ -50,6 +50,8 @@ $factory->state(App\User::class, 'administrator', function () {
 });
 
 
+
+
 $factory->define(App\Thread::class, function ($faker) {
     $title = $faker->sentence;
 
@@ -58,7 +60,7 @@ $factory->define(App\Thread::class, function ($faker) {
             return factory('App\User')->create()->id;
         },
         'channel_id' => function () {
-            return factory('App\Channel')->create()->id;
+            return random_int(1,10);
         },
         'title' => $title,
         'body'  => $faker->paragraph,
@@ -68,6 +70,14 @@ $factory->define(App\Thread::class, function ($faker) {
         'image_path'    =>  'https://source.unsplash.com/random'
     ];
 });
+
+$factory->define(App\Tags::class, function ($faker) {
+
+    return [
+        'name' => $faker->unique()->word,
+    ];
+});
+
 
 $factory->define(App\Channel::class, function ($faker) {
     $name = $faker->word;
@@ -116,7 +126,7 @@ $factory->define(App\Admin::class, function ($faker) {
         'username' => 'efbb6d7afb6d71' ,
         'password' =>  '89ef77196e6267',
         'mail_encryption' =>  'tls',
-        'copyright'     =>  'Copyright&copy;anecdotage.com',
+        'copyright'     =>  'Copyright &copy; anecdotage.com',
         'timezone'      =>  'America/New_York'
     ];
 });

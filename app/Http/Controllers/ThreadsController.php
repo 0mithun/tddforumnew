@@ -63,7 +63,6 @@ class ThreadsController extends Controller
      */
     public function store(Recaptcha $recaptcha)
     {
-        //dd(\request('tags'));
         if(request()->hasFile('image_path')){
             $rule = 'image|max:1024';
         }else{
@@ -160,8 +159,7 @@ class ThreadsController extends Controller
      */
     public function update($channel, Thread $thread)
     {
-
-        $this->authorize('update', $thread);
+       $this->authorize('update', $thread);
 
        if(request()->hasFile('image_path')){
             $rule = 'image|max:1024';
@@ -171,6 +169,7 @@ class ThreadsController extends Controller
 
         request()->validate([
             'title' => 'required',
+            'channel_id' => 'required',
             'body' => 'required',
             'image_path'    => $rule
 
@@ -178,13 +177,18 @@ class ThreadsController extends Controller
 
         $data = [
             'title' => request('title'),
-            'channel_id'    => request('channel_id'),
+            //'channel_id'    => request('channel_id'),
             'body' => request('body'),
             'location'  =>  request('location'),
             'source'  =>  request('source'),
             'main_subject'  =>  request('main_subject'),
             'is_famous'  =>  (request('is_famous') == 'true')  ? 1 : 0,
         ];
+
+        if(\request('channel_id') != 'undefined'){
+            $data[ 'channel_id']    = request('channel_id');
+        }
+
 
         if (request()->hasFile('image_path')) {
             $extension = request()->file('image_path')->getClientOriginalExtension();
@@ -248,12 +252,10 @@ class ThreadsController extends Controller
         $thread = Thread::findOrFail($id);
 
         $thread->notify(new ThreadWasReported($thread, $reason));
-//        $thread = Thread::where('id', $id)->get();
         return $thread;
     }
 
     public function loadByTag($tag, Trending $trending){
-        //return $tag;
         $tag = Tags::where('name', \request('tag'))->first();
 
         $threads = $tag->threads;

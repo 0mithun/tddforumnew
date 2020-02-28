@@ -8,7 +8,11 @@
     </div>
 
     <div class="panel-body">
-
+        <div class="form-group " >
+            <label for="input">Channel:</label>
+            <input id="input" class="form-control" type="text" placeholder="Enter channel name" v-model="defaultChannel" >
+            <typeahead v-model="typeChannelId" target="#input" :data="channels" item-key="name" force-select/>
+         </div>
 
 
 
@@ -17,7 +21,12 @@
             <input type="text" id="title" class="form-control" v-model="form.title">
         </div>
 
-        <v-select  v-model="tags" :options="allTags" label="name" multiple></v-select>
+        <div class="form-group">
+            <label for="tags" class="control-label">
+               Tags
+            </label>
+            <v-select  v-model="tags" :options="allTags" label="name" multiple></v-select>
+        </div>
         <div class="form-group">
             <label for="body" class="control-label">Body:</label>
             <editor
@@ -75,8 +84,8 @@
 
     <div class="panel-footer">
         <div class="level">
-            <button class="btn btn-xs level-item" @click="startEdit" v-show="! editing">Edit</button>
-            <button class="btn btn-primary btn-xs level-item" @click="update">Update</button>
+            <button class="btn btn-xs level-item" v-show="! editing">Edit</button>
+            <button class="btn btn-primary btn-xs level-item" @click="update" :disabled="checkValidation">Update</button>
             <button class="btn btn-xs level-item" @click="resetForm">Cancel</button>
 
             @can ('update', $thread)
@@ -119,8 +128,6 @@
                     @foreach($thread->tags as $tag)
                         <span> <a href="{{ route('tags.threads.list', $tag->name)  }}">{{ $tag->name  }}</a> </span>
                     @endforeach
-
-
                 </div>
             </div>
         </div>

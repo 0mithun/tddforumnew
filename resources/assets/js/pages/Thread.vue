@@ -4,13 +4,16 @@
     import Editor from '@tinymce/tinymce-vue'
 
     // import $ from 'jquery';
-    import 'select2';
-    import 'select2/dist/css/select2.css';
+    //import 'select2';
+    // import 'select2/dist/css/select2.css';
+    import {Typeahead} from 'uiv'
+    import { Alert } from 'uiv'
+    // import ChannelHead from '../components/ChannelHead'
 
     export default {
         props: ['thread'],
 
-        components: {Replies, SubscribeButton, Editor,  },
+        components: {Replies, SubscribeButton, Editor,Typeahead },
 
         data () {
             return {
@@ -35,42 +38,55 @@
                 states: [],
                 report: false,
                 report_reason: '',
-                allTags:null
+                allTags:null,
+                defaultChannel: this.thread.channel.name,
+
+                //Typehad
+                channels:null,
+                typeChannelId: '',
+                target:null,
+                channels:null,
 
             };
         },
         mounted(){
-           // console.log('Hello');
-            $('#tags').select2({
-                placeholder: 'Select tags',
-                cache:true
-            });
+
         },
         computed:{
             signedIn(){
                 return  (window.App.user)? true : false;
             },
+            checkValidation(){
+                if(this.form.title == '' || this.form.body == '' || (this.tags.length == 0) || this.defaultChannel ==''){
+                    return true;
+                }
+                return false;
+            },
         },
 
         created () {
             this.resetForm();
-            this.channelTypeHead();
             this.getAllTags();
+            this.fetchChannel();
         },
 
 
         methods: {
+
+            fetchChannel(){
+                let url  = '/channel/search';
+                axios.post('/channel/search')
+                    .then((res=>{
+                        console.log(res)
+                        this.channels = res.data
+                    }));
+            },
+
             startEdit(){
-                console.log('hello world');
               this.editing = true;
-                $('#tags').select2({
-                    placeholder: 'Select tags',
-                    cache:true
-                });
             },
             getAllTags(){
                 axios.post('/tags/all-tags').then((res=>{
-                    console.log(res.data)
                     this.allTags = res.data
                 }));
             },
@@ -114,7 +130,6 @@
             },
             onFileSelected(event){
                 this.selectFile = event.target.files[0];
-                console.log(this.selectFile);
 
                 this.formData.append('image_path', this.selectFile);
             },
@@ -129,6 +144,10 @@
 
                 tagId = JSON.stringify(tagId);
 
+                let channel_id = this.typeChannelId.id;
+
+
+
                 //tagId =  Object.assign({}, tagId);
 
                 this.formData.append('title', this.form.title);
@@ -138,7 +157,8 @@
                 this.formData.append('source', this.form.source);
                 this.formData.append('location', this.form.location);
                 this.formData.append('main_subject', this.form.main_subject);
-                this.formData.append('tags',tagId)
+                this.formData.append('tags',tagId);
+                this.formData.append('channel_id', channel_id);
             },
             update () {
                 this.appendData();
@@ -146,8 +166,7 @@
 
 
                 axios.post(uri, this.formData).then((res) => {
-                    console.log(res);
-
+                    //console.log(res);
 
                     this.editing = false;
                     this.channel_id = this.form.channel_id;
@@ -161,9 +180,10 @@
                     this.image_path = this.form.image_path;
                     this.allow_image = this.form.allow_image;
                     this.tags = this.form.tags;
+                    this.typeChannelId = ''
 
 
-                    flash('Your thread has been updated.');
+                   flash('Your thread has been updated.');
                 });
             },
 
@@ -178,7 +198,8 @@
                     main_subject: this.thread.main_subject,
                     image_path: null,
                     allow_image: false,
-                    tags: this.thread.tags
+                    tags: this.thread.tags,
+                    typeChannelId: ''
                 };
 
                 this.editing = false;
