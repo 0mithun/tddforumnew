@@ -18,16 +18,55 @@ require('./bootstrap');
  import UserNotifications from './components/UserNotifications';
  import AvatarForm from './components/AvatarForm';
  import Wysiwyg from './components/Wysiwyg';
- import ThreadView from './pages/Thread.vue';
 
+
+
+ import ThreadView from './pages/Thread.vue';
 import Typhaed from './components/Typehead.vue';
 
+<<<<<<< HEAD
 import  TineEditor from './components/TinyEditor'
+=======
+import TinyMCE from 'tinymce-vue-2';
+
+
+Vue.component('tiny-mce', TinyMCE);
+
+
+
+import UnscribeButton from './components/UnscribeButton';
+Vue.component('unscribe-button', UnscribeButton);
+
+import FavoriteThread from './components/FavoriteThread.vue';
+Vue.component('favorite-thread',FavoriteThread);
+
+import LikeButton from './components/LikeButton.vue';
+Vue.component('like-button', LikeButton);
+
+import NewTag from './components/NewTag.vue'
+Vue.component('new-tag', NewTag);
+
+import vSelect from 'vue-select'
+
+Vue.component('v-select', vSelect)
+import 'vue-select/dist/vue-select.css';
+
+>>>>>>> dev
 
 
 window.tinekey = 'l1vdc832pqx5u7o6t5umdpxns0sak10bu9mrtb0m1qbspk9g';
 
+import * as uiv from 'uiv'
 
+Vue.use(uiv)
+
+import { Alert } from 'uiv'
+
+import ChannelHead from './components/ChannelHead.vue'
+Vue.component('channel-head', ChannelHead)
+
+
+window.eventBus = new  Vue();
 const app = new Vue({
     el: '#app',
     components:{
@@ -38,6 +77,11 @@ const app = new Vue({
         Wysiwyg,
         ThreadView,
         Typhaed,
+<<<<<<< HEAD
         TineEditor
+=======
+        UnscribeButton,
+        Alert
+>>>>>>> dev
     }
 });

@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use DB;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -16,10 +18,15 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
-        'avatar_path'
+        'date_of_birth',
+        'avatar_path',
+        'city',
+        'country',
+        'about'
     ];
 
     /**
@@ -42,6 +49,8 @@ class User extends Authenticatable
         'confirmed' => 'boolean'
     ];
 
+    protected $appends = ['isReported','profileAvatarPath'];
+
     /**
      * Get the route key name for Laravel.
      *
@@ -49,8 +58,32 @@ class User extends Authenticatable
      */
     public function getRouteKeyName()
     {
-        return 'name';
+        return 'username';
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+//        static::deleting(function ($thread) {
+//            $thread->replies->each->delete();
+//        });
+
+        static::created(function ($user) {
+            $user->usersetting()->create([
+                'mention_notify_anecdotage'                     =>  1,
+                'mention_notify_email'                          =>  0,
+                'mention_notify_facebook'                       =>  0,
+                'new_thread_posted_notify_anecdotage'           =>  1,
+                'new_thread_posted_notify_email'                =>  0,
+                'new_thread_posted_notify_facebook'             =>  0,
+                'receive_daily_random_thread_notify_anecdotage' =>  1,
+                'receive_daily_random_thread_notify_email'      =>  0,
+                'receive_daily_random_thread_notify_email'      =>  0,
+            ]);
+        });
+    }
+
 
     /**
      * Fetch all threads that were created by the user.
@@ -100,8 +133,17 @@ class User extends Authenticatable
      */
     public function isAdmin()
     {
-        return in_array($this->name, ['JohnDoe', 'JaneDoe']);
+        return auth()->id() == 1;
     }
+
+    public function getIsAdminAttribute(){
+        return $this->isAdmin();
+    }
+
+    public function getNameAttribute(){
+        return ucfirst($this->first_name) ." ".ucfirst($this->last_name);
+    }
+
 
     /**
      * Record that the user has read the given thread.
@@ -143,4 +185,30 @@ class User extends Authenticatable
     {
         return sprintf("users.%s.visits.%s", $this->id, $thread->id);
     }
+
+
+    public function getIsReportedAttribute()
+    {
+        $report = DB::table('reports')
+            ->where('user_id', auth()->id())
+            ->where('reported_id', $this->id)
+            ->where('reported_type','App\User')
+            ->first();
+        ;
+        if($report){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+    public function getFullNameAttribute(){
+        return $this->first_name. ' '. $this->last_name;
+    }
+
+   public function usersetting(){
+        return $this->hasOne(Usersetting::class);
+   }
+
 }

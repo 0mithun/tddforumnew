@@ -6,11 +6,14 @@ use App\Events\ThreadReceivedNewReply;
 use App\Filters\ThreadFilters;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Scout\Searchable;
+
+use DB;
 
 class Thread extends Model
 {
-    use RecordsActivity, Searchable;
+    use RecordsActivity, Searchable, Notifiable, Favoritable, Likeable;
 
     /**
      * Don't auto-apply mass assignment protection.
@@ -24,14 +27,14 @@ class Thread extends Model
      *
      * @var array
      */
-    protected $with = ['creator', 'channel'];
+    protected $with = ['creator', 'channel','likes','tags'];
 
     /**
      * The accessors to append to the model's array form.
      *
      * @var array
      */
-    protected $appends = ['isSubscribedTo'];
+    protected $appends = ['isSubscribedTo','isReported','isFavorited','isLiked','likesCount', 'isDesliked','dislikesCount','excerpt'];
 
     /**
      * The attributes that should be cast to native types.
@@ -241,4 +244,38 @@ class Thread extends Model
     {
         return $this->toArray() + ['path' => $this->path()];
     }
+
+
+    public function getIsReportedAttribute()
+    {
+        $report = DB::table('reports')
+            ->where('user_id', auth()->id())
+            ->where('reported_id', $this->id)
+            ->where('reported_type','App\Thread')
+            ->first();
+        ;
+        if($report){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+
+    public function tags(){
+        return $this->belongsToMany(Tags::class,'thread_tag','thread_id','tag_id');
+    }
+
+
+    public function getExcerptAttribute(){
+//        return substr(strip_tags($this->body),80);
+        $body = strip_tags($this->body);
+        $body = preg_replace('/\s+/', ' ', $this->body);
+
+//        $body = trim($this->body);
+        return substr(strip_tags($body),0,250);
+
+    }
+
 }

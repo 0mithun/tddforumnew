@@ -12,7 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/0.11.1/trix.css">
 
     <!-- Scripts -->
@@ -33,16 +33,49 @@
         .ml-a { margin-left: auto; }
         [v-cloak] { display: none; }
         .ais-highlight > em { background: yellow; font-style: normal; }
+        #footer{
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #484848;
+            color: #ffffff;
+            height: 50px;
+            padding: 15px;
+        }
+        
+        .footer-content{
+
+        }
+        .footer-menu{
+            margin: 0px;
+            padding: 0px;
+            list-style:none;
+        }
+        .footer-menu li{
+            float: left;
+            display: inline-block;
+        }
+        .footer-menu li a{
+            display: block;
+            padding: 0px 10px;
+            color: #ffffff;
+        }
+
+        .navbar {
+            margin-bottom: 5px;
+        }
     </style>
 
     @yield('head')
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
 </head>
 <body>
 <div id="app">
     @include ('layouts.nav')
 
     @yield('content')
-
+    @include('layouts.footer')
     <flash message="{{ session('flash') }}"></flash>
 </div>
 

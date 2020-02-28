@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Reply;
+use App\Thread;
 
 class FavoritesController extends Controller
 {
@@ -33,4 +34,15 @@ class FavoritesController extends Controller
     {
         $reply->unfavorite();
     }
+
+
+    public  function threadStore($thread){
+        $thread = Thread::findOrFail($thread);
+        $thread->favorite();
+    }
+     public  function thraeadDestroy( $thread){
+         $thread = Thread::findOrFail($thread);
+         $thread->unfavorite();
+    }
+
 }

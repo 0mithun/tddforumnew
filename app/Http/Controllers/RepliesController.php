@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreatePostRequest;
+use App\Notifications\ReplywasReported;
+use App\Notifications\ThreadWasUpdated;
+use App\Notifications\YouWereMentioned;
 use App\Reply;
 use App\Thread;
+use App\User;
+use Illuminate\Support\Facades\App;
 
 class RepliesController extends Controller
 {
@@ -13,7 +18,7 @@ class RepliesController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => 'index']);
+        $this->middleware('auth', ['except' => ['index','lodReply']]);
     }
 
     /**
@@ -24,7 +29,7 @@ class RepliesController extends Controller
      */
     public function index($channelId, Thread $thread)
     {
-        return $thread->replies()->paginate(20);
+        return $thread->replies()->where('parent_id', NULL)->paginate(20);
     }
 
     /**
@@ -37,14 +42,39 @@ class RepliesController extends Controller
      */
     public function store($channelId, Thread $thread, CreatePostRequest $form)
     {
+
         if ($thread->locked) {
             return response('Thread is locked', 422);
         }
 
-        return $thread->addReply([
+        return  $thread->addReply([
             'body' => request('body'),
             'user_id' => auth()->id()
         ])->load('owner');
+
+
+    }
+
+    public  function newReply(Reply $reply){
+        request()->validate([
+            'body'  =>  'required',
+        ]);
+
+
+        Reply::create([
+            'body' => request('body'),
+            'user_id' => auth()->id(),
+            'thread_id' =>  $reply->thread_id,
+            'parent_id' =>  $reply->id
+        ]);
+        return 'reply add hoise';
+    }
+
+    public function lodReply(Reply $reply){
+        $nestedReply = Reply::where('parent_id', $reply->id)->get();
+
+       return response()->json($nestedReply);
+
     }
 
     /**
@@ -76,5 +106,14 @@ class RepliesController extends Controller
         }
 
         return back();
+    }
+
+    public function report(Reply $reply){
+//        return $reply->body;
+        $user = User::find(5);
+        $reason = request('reason');
+        $user->notify(new ReplywasReported($reply, $reason));
+
+        return 'Thread Succssfully reported';
     }
 }

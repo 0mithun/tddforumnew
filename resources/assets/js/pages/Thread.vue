@@ -2,11 +2,26 @@
     import Replies from '../components/Replies.vue';
     import SubscribeButton from '../components/SubscribeButton.vue';
     import Editor from '@tinymce/tinymce-vue'
+<<<<<<< HEAD
     import Typhaed from '../components/Typehead.vue';
     export default {
         props: ['thread'],
 
         components: {Replies, SubscribeButton,  Editor, Typhaed },
+=======
+
+    // import $ from 'jquery';
+    //import 'select2';
+    // import 'select2/dist/css/select2.css';
+    import {Typeahead} from 'uiv'
+    import { Alert } from 'uiv'
+    // import ChannelHead from '../components/ChannelHead'
+
+    export default {
+        props: ['thread'],
+
+        components: {Replies, SubscribeButton, Editor,Typeahead },
+>>>>>>> dev
 
         data () {
             return {
@@ -25,12 +40,49 @@
                 formData: new FormData,
                 form: {},
                 editing: false,
+<<<<<<< HEAD
+=======
+                tags:this.thread.tags,
+
+                model: '',
+                states: [],
+                report: false,
+                report_reason: '',
+                allTags:null,
+                defaultChannel: this.thread.channel.name,
+
+                //Typehad
+                channels:null,
+                typeChannelId: '',
+                target:null,
+                channels:null,
+
+>>>>>>> dev
             };
+        },
+        mounted(){
+
+        },
+        computed:{
+            signedIn(){
+                return  (window.App.user)? true : false;
+            },
+            checkValidation(){
+                if(this.form.title == '' || this.form.body == '' || (this.tags.length == 0) || this.defaultChannel ==''){
+                    return true;
+                }
+                return false;
+            },
         },
 
         created () {
             this.resetForm();
+<<<<<<< HEAD
 
+=======
+            this.getAllTags();
+            this.fetchChannel();
+>>>>>>> dev
         },
         mounted(){
 
@@ -38,6 +90,51 @@
 
         },
         methods: {
+<<<<<<< HEAD
+=======
+
+            fetchChannel(){
+                let url  = '/channel/search';
+                axios.post('/channel/search')
+                    .then((res=>{
+                        console.log(res)
+                        this.channels = res.data
+                    }));
+            },
+
+            startEdit(){
+              this.editing = true;
+            },
+            getAllTags(){
+                axios.post('/tags/all-tags').then((res=>{
+                    this.allTags = res.data
+                }));
+            },
+            reportReply(){
+                this.report = true;
+            },
+            makeReport(){
+                axios.post('/threads/report',{
+                    id: this.thread.id,
+                    reason:this.report_reason,
+                }).then((res=>{
+                    flash('Your have successfully report to this Thread','success')
+                    this.report =false;
+                    this.thread.isReportd = true;
+
+                }));
+            },
+            channelTypeHead(){
+                this.states = [];
+                axios.post('/channel/search', {
+                    channel_name: this.channel_name
+                }).then((res)=>{
+                    res.data.forEach((channel)=>{
+                        this.states.push(channel)
+                    })
+                });
+            },
+>>>>>>> dev
             toggleLock () {
                 let uri = `/locked-threads/${this.thread.slug}`;
 
@@ -54,11 +151,26 @@
             },
             onFileSelected(event){
                 this.selectFile = event.target.files[0];
-                console.log(this.selectFile);
 
                 this.formData.append('image_path', this.selectFile);
             },
             appendData(){
+                let tagId = [];
+
+                let index = 0;
+                this.tags.map(function (value) {
+                   tagId.push(value.id);
+                   // index++;
+                });
+
+                tagId = JSON.stringify(tagId);
+
+                let channel_id = this.typeChannelId.id;
+
+
+
+                //tagId =  Object.assign({}, tagId);
+
                 this.formData.append('title', this.form.title);
                 this.formData.append('channel_id', this.form.channel_id);
                 this.formData.append('body', this.form.body);
@@ -66,15 +178,19 @@
                 this.formData.append('source', this.form.source);
                 this.formData.append('location', this.form.location);
                 this.formData.append('main_subject', this.form.main_subject);
+                this.formData.append('tags',tagId);
+                this.formData.append('channel_id', channel_id);
             },
             update () {
                 this.appendData();
                 let uri = `/threads/${this.thread.channel.slug}/${this.thread.slug}`;
 
 
-                axios.post(uri, this.formData).then(() => {
+                axios.post(uri, this.formData).then((res) => {
+                    //console.log(res);
+
                     this.editing = false;
-                    this.channel_id = this.form.channel_id,
+                    this.channel_id = this.form.channel_id;
                     this.title = this.form.title;
                     this.body = this.form.body;
                     this.is_famous = this.form.source;
@@ -84,10 +200,12 @@
                     this.source = this.form.source;
                     this.image_path = this.form.image_path;
                     this.allow_image = this.form.allow_image;
+                    this.tags = this.form.tags;
+                    this.typeChannelId = ''
 
 
-                    flash('Your thread has been updated.');
-                })
+                   flash('Your thread has been updated.');
+                });
             },
 
             resetForm () {
@@ -101,6 +219,8 @@
                     main_subject: this.thread.main_subject,
                     image_path: null,
                     allow_image: false,
+                    tags: this.thread.tags,
+                    typeChannelId: ''
                 };
 
                 this.editing = false;

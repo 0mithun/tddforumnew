@@ -1,7 +1,9 @@
 +<template>
     <div>
-        <div v-if="signedIn">
+        <div v-if="signedIn" >
+            <h3>Add New Reply</h3>
             <div class="form-group">
+<<<<<<< HEAD
                 <editor
                         v-model="body"
 
@@ -15,7 +17,11 @@
                             tinycomments_author: 'Author name'
                        }"
                 />
+=======
+                <textarea name="body" id="body" cols="30" rows="3" class="form-control" v-model="body"></textarea>
+>>>>>>> dev
             </div>
+
 
             <button type="submit"
                     class="btn btn-default"
@@ -32,19 +38,25 @@
 <script>
     import 'jquery.caret';
     import 'at.js';
+<<<<<<< HEAD
 
+=======
+    import Editor from '@tinymce/tinymce-vue'
+>>>>>>> dev
 
-    import  TinyEditor from './TinyEditor'
     export default {
         data() {
             return {
                 body: '',
-                completed: false
+                completed: false,
             };
         },
+<<<<<<< HEAD
         components:{
             TinyEditor
         },
+=======
+>>>>>>> dev
 
         mounted() {
             $('#body').atwho({
@@ -54,6 +66,7 @@
                     remoteFilter: function(query, callback) {
                         $.getJSON("/api/users", {name: query}, function(usernames) {
                             callback(usernames)
+                            console.log('Hello')
                         });
                     }
                 }

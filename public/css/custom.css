@@ -33,3 +33,56 @@ li.list-group-item{
 .dropdown-menu li a:hover{
     background: #3097d1;
 }
+
+.red-bg{
+    background:#bf1d1d;
+}
+.favorite-icon{
+    font-size: 25px;
+    cursor: pointer;
+}
+.red-icon{
+    color:red;
+}
+.grey-icon{
+    color:grey;
+}
+.blue-icon{
+    color:green;
+    font-weight: bold;
+}
+.black-icon{
+    color:black;
+    font-weight: bold;
+}
+
+.thread-info {
+    margin-top: 10px;
+    /* margin-bottom: 5px; */
+}
+
+.reply-footer{
+    padding:0px;
+}
+
+.reply-heading{
+    padding:0px 5px;
+}
+
+.reply-body{
+    padding:5px;
+}
+
+.panel.nested-reply{
+    margin-bottom: 5px;
+}
+.no-margin{
+    padding-left:0px;
+    padding-right: 0px;
+}
+
+.panel-no-margin{
+    margin-bottom: 5px;
+}
+
+

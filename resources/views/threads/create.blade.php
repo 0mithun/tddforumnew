@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section ('head')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
     <script src='https://www.google.com/recaptcha/api.js'></script>
 
 @endsection
@@ -9,7 +11,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
                     <div class="panel-heading">Post a New Anecdote</div>
 
@@ -37,6 +39,20 @@
                                 @if ($errors->has('title'))
                                     <span class="help-block ">
                                         <strong class="">{{ $errors->first('title') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group {{ $errors->has('tags') ? ' has-error' : '' }}">
+                                <label for="tags" class="control-label">Tags: </label>
+                                <select class="form-control  " id="tags" name="tags[]" multiple="multiple">
+                                    @foreach($tags as $tag)
+                                    <option value="{{ $tag->id  }}">{{ $tag->name }}</option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('tags'))
+                                    <span class="help-block ">
+                                        <strong class="">{{ $errors->first('tags') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -87,7 +103,6 @@
 
                             </div>
 
-
                             <div class="form-group  {{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }} recaptcha" style="margin-bottom: 40px">
                                 <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site')  }}">
 
@@ -113,12 +128,16 @@
 
 @section('footer_script')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 
     <script>
         tinymce.init({
             selector: '#tinyeditor',
-            plugins: 'a11ychecker advcode casechange formatpainter linkchecker lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
-            toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
+            plugins: 'code',
+            toolbar: 'formatselect fontsizeselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | code',
+            menubar: 'tools',
+
+
             toolbar_drawer: 'floating',
             tinycomments_mode: 'embedded',
             tinycomments_author: 'Author name',
@@ -171,6 +190,16 @@
                 }
             });
 
+<<<<<<< HEAD
+=======
+
+            $(document).ready(function() {
+                $('#tags').select2({
+                    placeholder: 'Select tags',
+                    cache:true
+                });
+            });
+>>>>>>> dev
         });
     </script>
 

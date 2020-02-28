@@ -4,10 +4,13 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+
+use DB;
 
 class Reply extends Model
 {
-    use Favoritable, RecordsActivity;
+    use Favoritable, RecordsActivity, Notifiable;
 
     /**
      * Don't auto-apply mass assignment protection.
@@ -28,7 +31,7 @@ class Reply extends Model
      *
      * @var array
      */
-    protected $appends = ['favoritesCount', 'isFavorited', 'isBest'];
+    protected $appends = ['favoritesCount', 'isFavorited', 'isBest','isReported','replyCount','ownerThreadUrl'];
 
     /**
      * Boot the reply instance.
@@ -83,8 +86,14 @@ class Reply extends Model
      */
     public function mentionedUsers()
     {
-        preg_match_all('/@([\w\-]+)/', $this->body, $matches);
+//        preg_match_all('/@([\w\-]+)/', $this->body, $matches);
 
+
+            preg_match_all('/@(?<=@)[a-zA-Z]+\s[a-zA-Z]+/', $this->body, $matches);
+            $name = substr($matches[0],1);
+
+            return $name;
+        //dd($matches);
         return $matches[1];
     }
 
@@ -105,11 +114,39 @@ class Reply extends Model
      */
     public function setBodyAttribute($body)
     {
-        $this->attributes['body'] = preg_replace(
-            '/@([\w\-]+)/',
-            '<a href="/profiles/$1">$0</a>',
+        $line = preg_replace_callback(
+//            '/@([\w\-]+)/',
+            '/@(?<=@)[a-zA-Z]+\s[a-zA-Z]+/',
+
+            function ($matches) {
+                //return strtolower($matches[0]);
+                //return $matches[1];
+                $name = substr($matches[0],1);
+               // return $name;
+
+                 $user = User::where( 'name', $name)->first();
+                if($user){
+                    return "<a href=\"/profiles/".$user->username."\">".$matches[0]."</a>";
+                }else{
+                    return $matches[0];
+                }
+
+
+            },
             $body
         );
+
+        $this->attributes['body'] = $line;
+
+        //Currently Working
+
+//        $replace =
+//            preg_replace(
+//            '/@([\w\-]+)/',
+//            '<a href="/profiles/$1">$0</a>',
+//            $body
+//        );
+//        $this->attributes['body'] = $replace;
     }
 
     /**
@@ -142,5 +179,40 @@ class Reply extends Model
     public function getBodyAttribute($body)
     {
         return \Purify::clean($body);
+    }
+
+//    public function favorites()
+//    {
+//        return $this->morphMany(Favorite::class, 'favorited');
+//    }
+
+    public function getIsReportedAttribute()
+    {
+        $report = DB::table('reports')
+            ->where('user_id', auth()->id())
+            ->where('reported_id', $this->id)
+            ->where('reported_type','App\Reply')
+            ->first();
+        ;
+        if($report){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+    public function getReplyCountAttribute(){
+        return $this->replyCount();
+    }
+    public function replyCount(){
+        $reply = DB::table('replies')
+            ->where('parent_id', $this->id)->get()->count()
+            //->get();
+        ;
+    }
+
+    public function getOwnerThreadUrlAttribute(){
+        return url('threads?by='.$this->owner->username);
     }
 }

@@ -22,4 +22,10 @@ class SpamFree
             return false;
         }
     }
+
+
+    public function messages()
+    {
+        return "Reply contains spam";
+    }
 }

@@ -7,7 +7,7 @@
 
 <script>
     export default {
-        props: ['reply'],
+        props: ['reply','type'],
 
         data() {
             return {
@@ -20,7 +20,9 @@
             classes() {
                 return [
                     'btn',
-                    this.active ? 'btn-primary' : 'btn-default'
+                    this.active ? 'btn-primary' : 'btn-default',
+                    this.type == 'xs'? 'btn-xs' : '',
+                    this.type =='sm'? 'btn-sm' : ''
                 ];
             },
 

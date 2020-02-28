@@ -1,5 +1,6 @@
 <template>
     <div>
+
         <div v-for="(reply, index) in items" :key="reply.id">
             <reply :reply="reply" @deleted="remove(index)"></reply>
         </div>
