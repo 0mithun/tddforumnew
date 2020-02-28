@@ -3,6 +3,7 @@
     import SubscribeButton from '../components/SubscribeButton.vue';
     import Editor from '@tinymce/tinymce-vue'
 <<<<<<< HEAD
+<<<<<<< HEAD
     import Typhaed from '../components/Typehead.vue';
     export default {
         props: ['thread'],
@@ -13,9 +14,10 @@
     // import $ from 'jquery';
     //import 'select2';
     // import 'select2/dist/css/select2.css';
+=======
+>>>>>>> dev
     import {Typeahead} from 'uiv'
-    import { Alert } from 'uiv'
-    // import ChannelHead from '../components/ChannelHead'
+
 
     export default {
         props: ['thread'],
@@ -97,7 +99,6 @@
                 let url  = '/channel/search';
                 axios.post('/channel/search')
                     .then((res=>{
-                        console.log(res)
                         this.channels = res.data
                     }));
             },
