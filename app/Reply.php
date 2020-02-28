@@ -31,7 +31,7 @@ class Reply extends Model
      *
      * @var array
      */
-    protected $appends = ['favoritesCount', 'isFavorited', 'isBest','isReported','replyCount'];
+    protected $appends = ['favoritesCount', 'isFavorited', 'isBest','isReported','replyCount','ownerThreadUrl'];
 
     /**
      * Boot the reply instance.
@@ -210,5 +210,9 @@ class Reply extends Model
             ->where('parent_id', $this->id)->get()->count()
             //->get();
         ;
+    }
+
+    public function getOwnerThreadUrlAttribute(){
+        return url('threads?by='.$this->owner->username);
     }
 }

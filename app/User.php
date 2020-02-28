@@ -133,7 +133,11 @@ class User extends Authenticatable
      */
     public function isAdmin()
     {
-        return in_array($this->name, ['JohnDoe', 'JaneDoe']);
+        return auth()->id() == 1;
+    }
+
+    public function getIsAdminAttribute(){
+        return $this->isAdmin();
     }
 
     public function getNameAttribute(){

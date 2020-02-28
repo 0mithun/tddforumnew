@@ -31,6 +31,18 @@
                                 <div class="col-md-3">
                                     <div class="list-group">
                                         <a class="list-group-item active"  href="{{ route('profile', auth()->user()->username)  }}">Profile</a>
+                                        @if($user->isAdmin)
+                                            {{--                                    For Admin--}}
+                                            <a class="list-group-item"  href="{{ route('admin.setesettings') }}">Site Settings</a>
+                                            <a class="list-group-item"  href="{{ route('admin.tag') }}">Tags</a>
+                                            <a class="list-group-item"  href="{{ route('admin.privacypolicy') }}">Privacy Policy</a>
+                                            <a class="list-group-item"  href="{{ route('admin.tos') }}">Terms Of Service</a>
+                                            <a class="list-group-item"  href="{{ route('admin.faq') }}">Faq</a>
+                                            {{--                                    --}}
+                                        @endif
+
+
+
                                         <a class="list-group-item " href="{{ route('profile.avatar.page', auth()->user()->username)  }}">Avatar</a>
                                         <a class="list-group-item" href="">My Favorites</a>
                                         <a class="list-group-item" href="">My Likes</a>

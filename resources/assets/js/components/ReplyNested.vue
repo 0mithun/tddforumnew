@@ -8,7 +8,7 @@
                          width="25"
                          height="25"
                          class="mr-1 avatar-photo">
-                    <a :href="'/profiles/' + reply.owner.username"
+                    <a :href="reply.ownerThreadUrl"
                         v-text="reply.owner.name">
                     </a>
                     said <span v-text="ago"></span>

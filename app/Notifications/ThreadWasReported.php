@@ -63,7 +63,11 @@ class ThreadWasReported extends Notification
     {
         $user = auth()->user();
         return [
-            'data' => "User " . $user->username . " ".  " reported thread with id = " . $this->thread->id . " because: " . $this->reason,
+//            'data' => "User " . $user->username . " ".  " reported thread with id = " . $this->thread->id . " because: " . $this->reason,
+            'message' => "User " . $user->username . " ".  " reported thread with id = " . $this->thread->id . " because: " . $this->reason,
+            'link' => $this->thread->path()
         ];
+
+
     }
 }

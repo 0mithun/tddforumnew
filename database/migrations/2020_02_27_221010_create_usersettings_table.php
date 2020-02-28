@@ -16,7 +16,7 @@ class CreateUsersettingsTable extends Migration
         Schema::create('usersettings', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
-            $table->boolean('mention_notify_anecdotage')->default(1);
+            $table->boolean('mention_notify_anecdotage')->default(0);
             $table->boolean('mention_notify_email')->default(0);
             $table->boolean('mention_notify_facebook')->default(0);
 

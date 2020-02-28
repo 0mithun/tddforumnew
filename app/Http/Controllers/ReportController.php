@@ -25,7 +25,7 @@ class ReportController extends Controller
         request()->validate([
             'reason'    =>  'required'
         ]);
-        $user = User::find(5);
+        $user = User::find(1);
 
         DB::table('reports')->insert([
             'user_id'           =>  auth()->id(),
@@ -43,12 +43,13 @@ class ReportController extends Controller
     public  function  user(){
         $reason = \request('reason');
         $user_id = \request('user_id');
-        $user = User::findOrFail($user_id);
+        $user = User::find(1);
 
+//        $user = User::find(1);
         DB::table('reports')->insert([
             'user_id'           =>  auth()->id(),
             'reported_id'       =>  $user_id,
-            'reported_type'     =>  get_class($user)
+            'reported_type'     =>  'App\User'
         ]);
 
 
@@ -72,7 +73,8 @@ class ReportController extends Controller
             'reported_type'     =>  get_class($thread)
         ]);
 
-        $thread->notify(new ThreadWasReported($thread, $reason));
+        $user = User::find(1);
+        $user->notify(new ThreadWasReported($thread, $reason));
     }
 
 }

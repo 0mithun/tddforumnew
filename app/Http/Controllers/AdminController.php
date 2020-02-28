@@ -100,4 +100,31 @@ class AdminController extends Controller
 
     }
 
+
+    public function siteSettings(){
+        $admin = Admin::first();
+        return view('pages.admin.sitesettings', compact('admin'));
+    }
+
+    public function siteSettingsUpdate(){
+        \request()->validate([
+            'app_name'   =>  'required',
+            'mail_driver'   =>  'required',
+            'mail_host'   =>  'required',
+            'mail_port'   =>  'required',
+            'username'   =>  'required',
+            'password'   =>  'required',
+            'mail_encryption'   =>  'required',
+            'copyright'   =>  'required',
+            'timezone'   =>  'required',
+        ]);
+
+        $admin = Admin::first();
+
+        $admin->update(request()->all());
+
+        session()->flash('successmessage','Admin Settings Update Successfully');
+
+        return redirect()->route('admin.setesettings');
+    }
 }

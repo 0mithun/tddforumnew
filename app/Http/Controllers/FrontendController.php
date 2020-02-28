@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Admin;
 use App\Mail\ContactToAdmin;
 use App\Rules\Recaptcha;
 use App\Tags;
@@ -18,15 +19,18 @@ class FrontendController extends Controller
     }
 
     public function tos(){
-        return view('pages.tos');
+        $admin = Admin::first();
+        return view('pages.tos', compact('admin'));
     }
 
     public function faq(){
-        return view('pages.faq');
+        $admin = Admin::first();
+        return view('pages.faq', compact('admin'));
     }
 
     public  function privacyPolicy(){
-        return view('pages.privacypolicy');
+        $admin = Admin::first();
+        return view('pages.privacypolicy', compact('admin'));
     }
 
     public  function  contactAdmin(Recaptcha $recaptcha){
@@ -44,7 +48,7 @@ class FrontendController extends Controller
         $data =  request()->only(['from','subject','body']);
 
        Mail::to('admin@anecdotage.com')->send(new ContactToAdmin($data));
-        return  'Contact Successfully';
+        return  redirect('/');
     }
 
     public function getTags(){

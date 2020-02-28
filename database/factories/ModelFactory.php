@@ -106,6 +106,7 @@ $factory->define(\Illuminate\Notifications\DatabaseNotification::class, function
 
 $factory->define(App\Admin::class, function ($faker) {
     return [
+        'app_name'   => 'Anecdotage',
         'faq'   => $faker->paragraph,
         'tos'   =>  $faker->paragraph,
         'privacypolicy' =>  $faker->paragraph,

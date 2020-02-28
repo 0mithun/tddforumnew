@@ -8,7 +8,7 @@
                          width="25"
                          height="25"
                          class="mr-1 avatar-photo">
-                    <a :href="'/profiles/' + reply.owner.username"
+                    <a :href="reply.ownerThreadUrl"
                         v-text="reply.owner.name">
                     </a>
                     said <span v-text="ago"></span>
@@ -65,17 +65,21 @@
             </div>
 
             <div v-else v-html="body"></div>
-            <div class="" style="margin-top: 10px" v-if="signedIn">
+
+
+            <div class="" style="margin-top: 10px" >
                 <div class="col-md-1 no-margin" v-if="nestedReplyCount >0">
                     <button class="btn btn-default btn-xs" @click="showNested = !showNested">
                         <span class="caret"></span>
                     </button>
                 </div>
 
-
                 <div class="div" v-else>
                     <NestedReply v-if="addNested" :reply="reply"></NestedReply>
-                    <button class="btn btn-xs mr-1 btn-default" @click="addNestedReply" v-if="!addNested">Reply</button>
+                    <div v-if="signedIn">
+
+                        <button class="btn btn-xs mr-1 btn-default" @click="addNestedReply" v-if="!addNested">Reply</button>
+                    </div>
                 </div>
                 <div class="col-md-11 no-margin" v-if="showNested">
                     <ReplyNested v-for="(nestedReply, index) in nestedReplies" :reply="nestedReply" :key="index"></ReplyNested>
@@ -232,6 +236,7 @@
             loadNestedReply(){
               let url = `/replies/${this.reply.id}/load-reply`;
                 axios.get(url).then(({data})=>{
+                    // console.log(data)
                     this.nestedReplies = data
                 });
             },

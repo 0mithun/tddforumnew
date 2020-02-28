@@ -15,6 +15,7 @@ class UserSettingsController extends Controller
 
     public function update(Request $request){
 
+        //return $request->all();
         auth()->user()->usersetting()->delete();
         auth()->user()->usersetting()->create($request->all());
 

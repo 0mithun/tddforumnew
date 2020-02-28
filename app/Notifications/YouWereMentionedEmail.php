@@ -7,21 +7,24 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ReplywasReported extends Notification
+class YouWereMentionedEmail extends Notification
 {
-    use Queueable;
+    //use Queueable;
 
-    protected $reply;
-    protected $reason;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($reply, $reason)
+    protected $reply;
+
+    /**
+     * YouWereMentionedEmail constructor.
+     * @param $reply
+     */
+    public function __construct($reply)
     {
         $this->reply = $reply;
-        $this->reason = $reason;
     }
 
     /**
@@ -32,7 +35,7 @@ class ReplywasReported extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['mail'];
     }
 
     /**
@@ -44,9 +47,10 @@ class ReplywasReported extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
+                    ->line($this->reply->owner->name . ' mentioned you in ' . $this->reply->thread->title)
+                    ->action('Visit reply', url($this->reply->path()) )
                     ->line('Thank you for using our application!');
+
     }
 
     /**
@@ -57,15 +61,8 @@ class ReplywasReported extends Notification
      */
     public function toArray($notifiable)
     {
-        $user = auth()->user();
         return [
-            //'reply_id'  =>  $this->reply->id,
-//            'data' => "User " .$user->username .  " reported a reply by " . $this->reply->owner->username.' because: '.$this->reason
-
-            'message' => "User " .$user->username .  " reported a reply by " . $this->reply->owner->username.' because: '.$this->reason,
-            'link' => $this->reply->path()
+            //
         ];
-
-
     }
 }

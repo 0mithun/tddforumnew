@@ -11862,6 +11862,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -11968,6 +11972,7 @@ __webpack_require__.r(__webpack_exports__);
       var url = "/replies/".concat(this.reply.id, "/load-reply");
       axios.get(url).then(function (_ref) {
         var data = _ref.data;
+        // console.log(data)
         _this2.nestedReplies = data;
       });
     },
@@ -91667,7 +91672,7 @@ var render = function() {
             }),
             _vm._v(" "),
             _c("a", {
-              attrs: { href: "/profiles/" + _vm.reply.owner.username },
+              attrs: { href: _vm.reply.ownerThreadUrl },
               domProps: { textContent: _vm._s(_vm.reply.owner.name) }
             }),
             _vm._v("\n                    said "),
@@ -91785,84 +91790,85 @@ var render = function() {
             ])
           : _c("div", { domProps: { innerHTML: _vm._s(_vm.body) } }),
         _vm._v(" "),
-        _vm.signedIn
-          ? _c("div", { staticStyle: { "margin-top": "10px" } }, [
-              _vm.nestedReplyCount > 0
-                ? _c("div", { staticClass: "col-md-1 no-margin" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-default btn-xs",
-                        on: {
-                          click: function($event) {
-                            _vm.showNested = !_vm.showNested
-                          }
-                        }
-                      },
-                      [_c("span", { staticClass: "caret" })]
-                    )
-                  ])
-                : _c(
-                    "div",
-                    { staticClass: "div" },
-                    [
-                      _vm.addNested
-                        ? _c("NestedReply", { attrs: { reply: _vm.reply } })
-                        : _vm._e(),
-                      _vm._v(" "),
-                      !_vm.addNested
-                        ? _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-xs mr-1 btn-default",
-                              on: { click: _vm.addNestedReply }
-                            },
-                            [_vm._v("Reply")]
-                          )
-                        : _vm._e()
-                    ],
-                    1
-                  ),
-              _vm._v(" "),
-              _vm.showNested
-                ? _c(
-                    "div",
-                    { staticClass: "col-md-11 no-margin" },
-                    [
-                      _vm._l(_vm.nestedReplies, function(nestedReply, index) {
-                        return _c("ReplyNested", {
-                          key: index,
-                          attrs: { reply: nestedReply }
-                        })
-                      }),
-                      _vm._v(" "),
-                      _vm.addNested
-                        ? _c("NestedReply", { attrs: { reply: _vm.reply } })
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-12 no-margin" }, [
-                        _vm.signedIn
-                          ? _c("div", [
-                              !_vm.addNested
-                                ? _c(
-                                    "button",
-                                    {
-                                      staticClass:
-                                        "btn btn-xs mr-1 btn-default",
-                                      on: { click: _vm.addNestedReply }
-                                    },
-                                    [_vm._v("Reply")]
-                                  )
-                                : _vm._e()
-                            ])
+        _c("div", { staticStyle: { "margin-top": "10px" } }, [
+          _vm.nestedReplyCount > 0
+            ? _c("div", { staticClass: "col-md-1 no-margin" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-default btn-xs",
+                    on: {
+                      click: function($event) {
+                        _vm.showNested = !_vm.showNested
+                      }
+                    }
+                  },
+                  [_c("span", { staticClass: "caret" })]
+                )
+              ])
+            : _c(
+                "div",
+                { staticClass: "div" },
+                [
+                  _vm.addNested
+                    ? _c("NestedReply", { attrs: { reply: _vm.reply } })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.signedIn
+                    ? _c("div", [
+                        !_vm.addNested
+                          ? _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-xs mr-1 btn-default",
+                                on: { click: _vm.addNestedReply }
+                              },
+                              [_vm._v("Reply")]
+                            )
                           : _vm._e()
                       ])
-                    ],
-                    2
-                  )
-                : _vm._e()
-            ])
-          : _vm._e(),
+                    : _vm._e()
+                ],
+                1
+              ),
+          _vm._v(" "),
+          _vm.showNested
+            ? _c(
+                "div",
+                { staticClass: "col-md-11 no-margin" },
+                [
+                  _vm._l(_vm.nestedReplies, function(nestedReply, index) {
+                    return _c("ReplyNested", {
+                      key: index,
+                      attrs: { reply: nestedReply }
+                    })
+                  }),
+                  _vm._v(" "),
+                  _vm.addNested
+                    ? _c("NestedReply", { attrs: { reply: _vm.reply } })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-12 no-margin" }, [
+                    _vm.signedIn
+                      ? _c("div", [
+                          !_vm.addNested
+                            ? _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-xs mr-1 btn-default",
+                                  on: { click: _vm.addNestedReply }
+                                },
+                                [_vm._v("Reply")]
+                              )
+                            : _vm._e()
+                        ])
+                      : _vm._e()
+                  ])
+                ],
+                2
+              )
+            : _vm._e()
+        ]),
         _vm._v(" "),
         _vm.report
           ? _c(
@@ -92038,7 +92044,7 @@ var render = function() {
             }),
             _vm._v(" "),
             _c("a", {
-              attrs: { href: "/profiles/" + _vm.reply.owner.username },
+              attrs: { href: _vm.reply.ownerThreadUrl },
               domProps: { textContent: _vm._s(_vm.reply.owner.name) }
             }),
             _vm._v("\n                    said "),

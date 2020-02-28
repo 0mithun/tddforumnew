@@ -15,6 +15,7 @@ class CreateAdminSettingsTable extends Migration
     {
         Schema::create('admins', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('app_name')->default(' Anecdotage');
             $table->text('faq')->nullable();
             $table->text('tos')->nullable();
             $table->string('privacypolicy')->nullable();

@@ -58,7 +58,10 @@ class UserWasReported extends Notification
     {
         $user = auth()->user();
         return [
-           'data' => "User " . $user->username . " ". " reported user " . $this->reported_user->username
+//           'data' => "User " . $user->username . " ". " reported user " . $this->reported_user->username
+            'message' => "User " . $user->username . " ". " reported user " . $this->reported_user->username,
+            'link' => url('/threads?by='.$this->reported_user->username)
         ];
+
     }
 }
